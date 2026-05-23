@@ -1,0 +1,260 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px 40px;
+  position: relative;
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.hero-text {
+  animation: slideInLeft 1s ease-out;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.highlight {
+  background: linear-gradient(135deg, #00d4ff, #ff006e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 20px;
+  min-height: 30px;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  margin-bottom: 40px;
+  line-height: 1.8;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.social-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(0, 212, 255, 0.1);
+  color: var(--primary);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.social-icon:hover {
+  background: rgba(0, 212, 255, 0.2);
+  border-color: var(--primary);
+  transform: translateY(-5px);
+}
+
+.social-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Hero Visual */
+.hero-visual {
+  position: relative;
+  height: 500px;
+  animation: slideInRight 1s ease-out;
+}
+
+.animated-background {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 110, 0.1));
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  animation: morph 8s ease-in-out infinite;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes morph {
+  0%, 100% {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  }
+  50% {
+    border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+  }
+}
+
+.floating-card {
+  position: absolute;
+  background: rgba(26, 31, 58, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.floating-card:hover {
+  border-color: rgba(0, 212, 255, 0.6);
+  box-shadow: 0 12px 40px rgba(0, 212, 255, 0.2);
+}
+
+.card-icon {
+  font-size: 2rem;
+}
+
+.card-1 {
+  width: 120px;
+  top: 20px;
+  left: 30px;
+  animation: float 4s ease-in-out infinite;
+}
+
+.card-2 {
+  width: 120px;
+  top: 200px;
+  right: 50px;
+  animation: float 5s ease-in-out infinite reverse;
+}
+
+.card-3 {
+  width: 120px;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: bounce 2s infinite;
+}
+
+.mouse {
+  width: 26px;
+  height: 40px;
+  border: 2px solid var(--primary);
+  border-radius: 13px;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.mouse::before {
+  content: '';
+  width: 2px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 2px;
+  margin-top: 8px;
+  animation: scrollWheel 1.5s ease-in-out infinite;
+}
+
+@keyframes scrollWheel {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    padding: 60px 20px 20px;
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-buttons a {
+    width: 100%;
+  }
+
+  .hero-visual {
+    height: 300px;
+  }
+
+  .animated-background {
+    width: 250px;
+    height: 250px;
+  }
+}
