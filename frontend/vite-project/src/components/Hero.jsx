@@ -35,6 +35,13 @@ function Hero() {
           <div className="hero-buttons">
             <a href="#projects" className="btn-primary">Explore Projects</a>
             <a href="#contact" className="btn-secondary">Start a Conversation</a>
+            <a
+              href="/cv/manoj-katuwal-cv.pdf"
+              download
+              className="btn-secondary cv-button"
+            >
+              Download CV
+            </a>
           </div>
 
           <div className="social-links">

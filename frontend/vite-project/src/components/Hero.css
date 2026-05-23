@@ -52,8 +52,27 @@
 
 .hero-buttons {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
   margin-bottom: 40px;
+}
+
+.cv-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.cv-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+  transform: translateX(-120%);
+  transition: transform 0.5s ease;
+}
+
+.cv-button:hover::before {
+  transform: translateX(120%);
 }
 
 .social-links {

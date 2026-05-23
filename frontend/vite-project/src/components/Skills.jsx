@@ -6,21 +6,25 @@ function Skills() {
     {
       title: 'Frontend',
       icon: '⚛️',
+      accent: 'cyan',
       skills: ['React', 'JavaScript', 'HTML/CSS', 'Vite', 'Responsive Design']
     },
     {
       title: 'Backend',
       icon: '🛠️',
+      accent: 'pink',
       skills: ['Node.js', 'Express', 'MySQL', 'REST API', 'Authentication']
     },
     {
       title: 'Tools',
       icon: '🧰',
+      accent: 'violet',
       skills: ['Git', 'VS Code', 'Postman', 'MySQL Workbench', 'npm']
     },
     {
       title: 'Soft Skills',
       icon: '✨',
+      accent: 'gold',
       skills: ['Problem Solving', 'Communication', 'Teamwork', 'Creativity', 'Adaptability']
     }
   ];
@@ -58,9 +62,14 @@ function Skills() {
 
       <div className="skills-container">
         {skillCategories.map((category, index) => (
-          <div key={index} className="skill-category" style={{ animationDelay: `${index * 0.1}s` }}>
+          <div
+            key={index}
+            className={`skill-category accent-${category.accent}`}
+            style={{ animationDelay: `${index * 0.1}s` }}
+          >
             <div className="skill-category-header">
-              <h3 className="category-title">{category.icon} {category.title}</h3>
+              <div className="skill-icon-badge">{category.icon}</div>
+              <h3 className="category-title">{category.title}</h3>
             </div>
             <div className="skills-list">
               {category.skills.map((skill, i) => (

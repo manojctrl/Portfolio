@@ -54,17 +54,60 @@
 .skill-category {
   background: rgba(26, 31, 58, 0.6);
   border: 1px solid rgba(0, 212, 255, 0.2);
-  border-radius: 15px;
-  padding: 30px;
+  border-radius: 20px;
+  padding: 28px;
   transition: all 0.4s ease;
   animation: slideInUp 0.8s ease-out forwards;
   opacity: 0;
   transform: translateY(30px);
   backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-category::after {
+  content: '';
+  position: absolute;
+  inset: auto -30% -40% auto;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+.skill-category.accent-cyan {
+  box-shadow: inset 0 0 0 1px rgba(0, 212, 255, 0.2);
+}
+
+.skill-category.accent-pink {
+  box-shadow: inset 0 0 0 1px rgba(255, 0, 110, 0.25);
+}
+
+.skill-category.accent-violet {
+  box-shadow: inset 0 0 0 1px rgba(164, 102, 255, 0.25);
+}
+
+.skill-category.accent-gold {
+  box-shadow: inset 0 0 0 1px rgba(255, 210, 102, 0.28);
 }
 
 .skill-category-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
   margin-bottom: 20px;
+}
+
+.skill-icon-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.18), rgba(255, 0, 110, 0.12));
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 @keyframes slideInUp {
