@@ -39,7 +39,7 @@ function Projects() {
           <p>Loading amazing projects...</p>
         </div>
       ) : projects.length === 0 ? (
-        <div className="no-projects-card">
+        <div className="no-projects-card glass-panel">
           <p className="no-projects-title">Projects are syncing from the backend.</p>
           <p className="no-projects-copy">
             Once your project data is added, it will appear here automatically with a polished card layout.
@@ -49,7 +49,7 @@ function Projects() {
       ) : (
         <div className="projects-grid">
           {projects.map((project, index) => (
-            <div key={project.id} className="project-card" style={{ animationDelay: `${index * 0.1}s` }}>
+            <div key={project.id} className="project-card glass-panel" style={{ animationDelay: `${index * 0.1}s` }}>
               {project.image && (
                 <div className="project-image">
                   <img src={project.image} alt={project.title} />
