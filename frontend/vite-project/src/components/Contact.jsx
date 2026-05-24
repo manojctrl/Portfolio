@@ -71,7 +71,7 @@ function Contact() {
               </span>
               <div>
                 <h4>Email</h4>
-                <p>manoj@example.com</p>
+                <p>katwalmanoj67@gmail.com</p>
               </div>
             </a>
 
@@ -83,7 +83,7 @@ function Contact() {
               </span>
               <div>
                 <h4>Phone</h4>
-                <p>+977-9800000000</p>
+                <p>+977-9804064003</p>
               </div>
             </a>
 
@@ -96,7 +96,7 @@ function Contact() {
               </span>
               <div>
                 <h4>Location</h4>
-                <p>Kathmandu, Nepal</p>
+                <p>Dharan, Nepal</p>
               </div>
             </a>
           </div>
