@@ -1,39 +1,109 @@
 import React from 'react';
 import './Footer.css';
 
+const GithubIcon = ({ size = 16 }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
+
 function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="footer">
-      <div className="footer-content">
-        <div className="footer-section">
-          <h4>Manoj Katuwal</h4>
-          <p>Full-Stack Developer | Creative Problem Solver</p>
+    <footer className="footer-hud">
+      <div className="footer-scan-line"></div>
+
+      <div className="footer-content-grid">
+        {/* Branding */}
+        <div className="footer-brand-col">
+          <div className="footer-logo">
+            <span className="footer-bracket">[</span>
+            <span className="footer-logo-text">MANOJ_SYS</span>
+            <span className="footer-bracket">]</span>
+          </div>
+          <p className="footer-tagline">
+            Full Stack Developer · Dharan, Nepal 🇳🇵<br />
+            Building systems from scratch, one commit at a time.
+          </p>
+          <div className="footer-socials">
+            <a href="https://github.com/manojctrl" target="_blank" rel="noreferrer" className="footer-social-link">
+              <GithubIcon size={15} />
+              <span>GITHUB</span>
+            </a>
+            <a href="https://www.linkedin.com/in/manoj-katuwal-2636a239a/" target="_blank" rel="noreferrer" className="footer-social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                <rect width="4" height="12" x="2" y="9" />
+                <circle cx="4" cy="4" r="2" />
+              </svg>
+              <span>LINKEDIN</span>
+            </a>
+            <a href="mailto:katwalmanoj67@gmail.com" className="footer-social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              <span>EMAIL</span>
+            </a>
+          </div>
         </div>
 
-        <div className="footer-section">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><a href="#hero">Home</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#about">About</a></li>
+        {/* Quick Nav */}
+        <div className="footer-nav-col">
+          <h4 className="footer-col-title">NAVIGATION_MAP</h4>
+          <ul className="footer-nav-list">
+            {['hero', 'projects', 'skills', 'about', 'contact'].map((sec) => (
+              <li key={sec}>
+                <a href={`#${sec}`} className="footer-nav-link">
+                  <span className="footer-nav-arrow">›</span>
+                  {sec.toUpperCase()}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
 
-        <div className="footer-section">
-          <h4>Follow Me</h4>
-          <div className="social-links">
-            <a href="https://github.com/manojctrl" target="_blank" rel="noreferrer" title="GitHub">GitHub</a>
-            <a href="https://www.linkedin.com/in/manoj-katuwal-2636a239a/" target="_blank" rel="noreferrer" title="LinkedIn">LinkedIn</a>
+        {/* System Info */}
+        <div className="footer-sys-col">
+          <h4 className="footer-col-title">SYS_METADATA</h4>
+          <div className="footer-sys-list">
+            <div className="sys-row">
+              <span className="sys-key">STACK</span>
+              <span className="sys-val">React · Vite · CSS</span>
+            </div>
+            <div className="sys-row">
+              <span className="sys-key">MOTION</span>
+              <span className="sys-val">Framer Motion</span>
+            </div>
+            <div className="sys-row">
+              <span className="sys-key">ICONS</span>
+              <span className="sys-val">Lucide React</span>
+            </div>
+            <div className="sys-row">
+              <span className="sys-key">THEME</span>
+              <span className="sys-val">Cyberpunk Dark</span>
+            </div>
+            <div className="sys-row">
+              <span className="sys-key">STATUS</span>
+              <span className="sys-val sys-online">OPERATIONAL</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="footer-bottom">
-        <p>&copy; {currentYear} Manoj Katuwal. All rights reserved.</p>
-        <p>Built with ❤️ using React & Vite</p>
+      {/* Bottom Bar */}
+      <div className="footer-bottom-bar">
+        <div className="footer-bottom-line"></div>
+        <div className="footer-bottom-content">
+          <span className="footer-copy">
+            © {currentYear} MANOJ_SYS · ALL_RIGHTS_RESERVED
+          </span>
+          <span className="footer-build-tag">
+            BUILD_v2.0 · DEPLOYED_LIVE
+          </span>
+        </div>
       </div>
     </footer>
   );

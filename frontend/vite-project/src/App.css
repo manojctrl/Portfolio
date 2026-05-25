@@ -1,5 +1,5 @@
-/* App-level styles — kept minimal, design tokens live in index.css */
+/* App wrapper */
 .app {
-  min-height: 100vh;
   position: relative;
+  min-height: 100vh;
 }
