@@ -1,34 +1,31 @@
 .navbar {
   position: fixed;
-  top: 20px;
+  top: 15px;
   left: 50%;
   transform: translateX(-50%);
-  width: calc(100% - 40px);
-  max-width: 1000px;
-  height: 64px;
+  width: calc(100% - 30px);
+  max-width: 1200px;
+  height: 60px;
   z-index: 1000;
   border-radius: var(--border-radius-sm);
-  padding: 0 24px;
-  transition: var(--transition-smooth);
+  padding: 0 20px;
+  font-family: var(--font-mono);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.8);
 }
 
-/* Glass adjustment specifically for floating nav */
 .navbar.glass-panel {
-  background: rgba(18, 22, 43, 0.6);
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-body.light-mode .navbar.glass-panel {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(3, 7, 18, 0.85);
+  border-color: rgba(0, 242, 254, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(0, 242, 254, 0.05);
 }
 
 .navbar-progress {
   position: absolute;
-  height: 3px;
+  height: 2px;
   top: 0;
   left: 0;
-  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+  box-shadow: var(--neon-glow-cyan);
   transition: width 0.2s ease;
   border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
 }
@@ -42,86 +39,94 @@ body.light-mode .navbar.glass-panel {
 
 .navbar-logo {
   font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-size: 1rem;
+  font-weight: 900;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   cursor: pointer;
+  letter-spacing: 1px;
 }
 
 .logo-text {
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .logo-bracket {
-  color: var(--accent-primary);
+  color: var(--neon-cyan);
+  text-shadow: var(--neon-glow-cyan);
+}
+
+.logo-status-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--neon-green);
+  box-shadow: var(--neon-glow-green);
+  animation: pulse 1.5s infinite;
+  display: inline-block;
+}
+
+.logo-status-text {
   font-family: var(--font-mono);
-  opacity: 0.7;
+  font-size: 0.65rem;
+  color: var(--neon-green);
+  letter-spacing: 1px;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 .nav-menu {
   display: flex;
-  gap: 8px;
+  gap: 4px;
 }
 
 .nav-link {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   color: var(--color-text-secondary);
-  padding: 8px 16px;
-  border-radius: 10px;
+  padding: 6px 12px;
+  border-radius: var(--border-radius-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
   transition: var(--transition-smooth);
-  position: relative;
 }
 
 .nav-link.active {
-  color: var(--color-text-primary);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-body.light-mode .nav-link.active {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-  transition: width 0.3s ease;
-  border-radius: 1px;
-}
-
-.nav-link.active::after {
-  width: 40%;
+  color: var(--neon-cyan);
+  background: rgba(0, 242, 254, 0.05);
+  border-color: rgba(0, 242, 254, 0.25);
+  text-shadow: var(--neon-glow-cyan);
 }
 
 .nav-link:hover {
-  color: var(--color-text-primary);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
 }
 
-/* Actions Menu (Toggle + Hamburger) */
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .theme-toggle {
   background: none;
-  border: none;
-  color: var(--color-text-primary);
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
+  border: 1px solid rgba(0, 242, 254, 0.15);
+  color: var(--neon-cyan);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--border-radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -130,37 +135,36 @@ body.light-mode .nav-link.active {
 }
 
 .theme-toggle:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: rotate(15deg);
-}
-
-body.light-mode .theme-toggle:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 242, 254, 0.1);
+  border-color: var(--neon-cyan);
+  box-shadow: var(--neon-glow-cyan);
 }
 
 .theme-toggle svg {
-  width: 20px;
-  height: 20px;
-  stroke: currentColor;
+  width: 14px;
+  height: 14px;
 }
 
 .hamburger {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   cursor: pointer;
-  padding: 8px;
+  padding: 6px;
+  border: 1px solid rgba(0, 242, 254, 0.2);
+  border-radius: var(--border-radius-sm);
 }
 
 .hamburger span {
-  width: 22px;
+  width: 18px;
   height: 2px;
-  background: var(--color-text-primary);
+  background: var(--neon-cyan);
   transition: var(--transition-smooth);
+  box-shadow: var(--neon-glow-cyan);
 }
 
 .hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
+  transform: rotate(45deg) translate(4px, 4px);
 }
 
 .hamburger.active span:nth-child(2) {
@@ -168,18 +172,17 @@ body.light-mode .theme-toggle:hover {
 }
 
 .hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(5px, -5px);
+  transform: rotate(-45deg) translate(4px, -4px);
 }
 
 @media (max-width: 768px) {
   .nav-menu {
     position: absolute;
-    top: 74px;
+    top: 70px;
     left: 0;
     width: 100%;
-    background: var(--color-card-bg);
-    backdrop-filter: blur(24px);
-    border: 1px solid var(--color-border);
+    background: rgba(3, 7, 18, 0.95);
+    border: 1px solid rgba(0, 242, 254, 0.2);
     border-radius: var(--border-radius-sm);
     flex-direction: column;
     max-height: 0;
@@ -188,18 +191,20 @@ body.light-mode .theme-toggle:hover {
   }
 
   .nav-menu.active {
-    max-height: 400px;
+    max-height: 300px;
+    padding: 10px 0;
   }
 
   .nav-link {
     width: 100%;
-    padding: 16px 24px;
+    padding: 12px 20px;
     text-align: left;
     border-radius: 0;
+    border: none;
   }
 
-  .nav-link::after {
-    display: none;
+  .nav-link.active {
+    border-left: 2px solid var(--neon-cyan);
   }
 
   .hamburger {

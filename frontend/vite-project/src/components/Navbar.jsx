@@ -70,9 +70,12 @@ function Navbar() {
       <div className="navbar-progress" style={{ width: `${scrollProgress}%` }} />
 
       <div className="navbar-container">
-        <div className="navbar-logo">
-          <span className="logo-text">Manoj</span>
-          <span className="logo-bracket">{'</>'}</span>
+        <div className="navbar-logo" onClick={() => scrollToSection('hero')}>
+          <span className="logo-bracket">[</span>
+          <span className="logo-text">MANOJ_SYS</span>
+          <span className="logo-bracket">]</span>
+          <span className="logo-status-pulse"></span>
+          <span className="logo-status-text">ONLINE</span>
         </div>
 
         <div className={`nav-menu ${isOpen ? 'active' : ''}`}>

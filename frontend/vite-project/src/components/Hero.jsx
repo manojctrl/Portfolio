@@ -1,86 +1,199 @@
 import React, { useEffect, useState } from 'react';
 import './Hero.css';
+import { Terminal, Cpu, Database, Wifi, GitBranch, Download, ArrowRight, Github, Linkedin } from 'lucide-react';
 
 function Hero() {
-  const [text, setText] = useState('');
-  const [typingIndex, setTypingIndex] = useState(0);
-  const fullText = 'Full‑Stack Developer | Creative Problem Solver';
+  const [roleText, setRoleText] = useState('');
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const roles = [
+    'Java Developer',
+    'React Developer',
+    'Backend Builder',
+    'Problem Solver',
+    'UI Experimenter'
+  ];
+
+  const [cpuLoad, setCpuLoad] = useState(42);
+  const [memLoad, setMemLoad] = useState(68);
+  const [pingTime, setPingTime] = useState(24);
+  const [terminalLine, setTerminalLine] = useState(0);
 
   useEffect(() => {
-    if (typingIndex < fullText.length) {
-      const timeout = setTimeout(() => {
-        setText((prev) => prev + fullText[typingIndex]);
-        setTypingIndex((prev) => prev + 1);
-      }, 60);
-      return () => clearTimeout(timeout);
+    const activeRole = roles[roleIndex];
+    let timer;
+    if (isDeleting) {
+      timer = setTimeout(() => {
+        setRoleText(activeRole.substring(0, charIndex - 1));
+        setCharIndex((prev) => prev - 1);
+      }, 40);
+    } else {
+      timer = setTimeout(() => {
+        setRoleText(activeRole.substring(0, charIndex + 1));
+        setCharIndex((prev) => prev + 1);
+      }, 85);
     }
-  }, [typingIndex]);
+
+    if (!isDeleting && charIndex === activeRole.length) {
+      timer = setTimeout(() => setIsDeleting(true), 2000);
+    } else if (isDeleting && charIndex === 0) {
+      setIsDeleting(false);
+      setRoleIndex((prev) => (prev + 1) % roles.length);
+    }
+
+    return () => clearTimeout(timer);
+  }, [charIndex, isDeleting, roleIndex]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCpuLoad(Math.floor(35 + Math.random() * 25));
+      setMemLoad(Math.floor(62 + Math.random() * 8));
+      setPingTime(Math.floor(18 + Math.random() * 12));
+    }, 1500);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTerminalLine((prev) => (prev + 1) % 4);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <section id="hero" className="hero">
-      <div className="hero-container">
-        <div className="hero-text-block">
-          <div className="hero-badge glass-panel">
-            <span className="availability-dot"></span>
-            <span>Available for collaborations</span>
+    <section id="hero" className="hero-section">
+      <div className="hero-grid">
+        {/* LEFT COLUMN: AMBITIOUS HEADLINE & INTRO */}
+        <div className="hero-hud-left">
+          <div className="hud-status-badge">
+            <span className="hud-pulse-dot"></span>
+            <span className="hud-badge-tag">SYS_ACTIVE // NEPAL_GATEWAY 🇳🇵</span>
           </div>
-          
-          <h1 className="hero-title">
-            नमस्ते 👋, I'm <br />
-            <span className="highlight-text">Manoj Katuwal</span>
+
+          <h1 className="hero-hud-title">
+            <span className="glow-sub">MANOJ KATWAL</span>
+            <br />
+            <span className="accent-glow-text">FULL STACK DEVELOPER</span>
           </h1>
 
-          <p className="hero-subtitle">{text}<span className="caret">|</span></p>
+          <div className="hud-interactive-role">
+            <span className="console-prompt">&gt;_ </span>
+            <span className="dynamic-role-text">{roleText}</span>
+            <span className="hud-caret">|</span>
+          </div>
 
-          <p className="hero-description">
-            I craft visually stunning, highly interactive, and functionally outstanding full‑stack web experiences. 
-            Blending elegant design with powerful clean backend logic.
+          <p className="hero-hud-desc">
+            Ambitious systems builder coding in the dead of night. Specializing in high-performance backends, reactive user interfaces, and robust software architectures.
           </p>
 
-          <div className="hero-actions">
+          <div className="hero-hud-actions">
             <a href="#projects" className="btn-primary">
-              Explore Projects
+              Initialize Grid <ArrowRight size={14} />
             </a>
-            <a href="#contact" className="btn-secondary">
-              Let's Talk
-            </a>
-            <a
-              href="/cv/manoj-katuwal-cv.pdf"
-              download
-              className="btn-secondary cv-button"
-            >
-              Download CV
+            <a href="/cv/manoj-katuwal-cv.pdf" download className="btn-secondary">
+              Pull CV.dll <Download size={14} />
             </a>
           </div>
 
-          <div className="hero-socials">
-            <a href="https://github.com/" target="_blank" rel="noreferrer" title="GitHub">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577v-2.234c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22v3.293c0 .319.22.694.825.576C20.565 21.795 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
-              </svg>
+          <div className="hero-hud-socials">
+            <a href="https://github.com/manojctrl" target="_blank" rel="noreferrer" title="GITHUB_SYS">
+              <Github size={18} />
+              <span>GITHUB</span>
             </a>
-            <a href="https://linkedin.com/" target="_blank" rel="noreferrer" title="LinkedIn">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.475-2.236-1.986-2.236-1.081 0-1.722.731-2.004 1.435-.103.25-.129.599-.129.948v5.422h-3.554s.047-8.787 0-9.699h3.554v1.373c.43-.664 1.195-1.609 2.905-1.609 2.121 0 3.713 1.385 3.713 4.365v5.57zM5.337 9.432c-1.144 0-1.915-.762-1.915-1.715 0-.953.77-1.715 1.963-1.715 1.192 0 1.914.762 1.938 1.715 0 .953-.746 1.715-1.986 1.715zm-1.6 11.02h3.273V9.75H3.737v10.702zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-              </svg>
+            <a href="https://www.linkedin.com/in/manoj-katuwal-2636a239a/" target="_blank" rel="noreferrer" title="LINKEDIN_SYS">
+              <Linkedin size={18} />
+              <span>LINKEDIN</span>
             </a>
           </div>
         </div>
 
-        <div className="hero-visual-block">
-          <div className="profile-glass-card glass-panel">
-            <div className="visual-circle circle-one"></div>
-            <div className="visual-circle circle-two"></div>
-            <div className="visual-glass-content">
-              <span className="visual-badge">React & Node</span>
-              <div className="code-text-line">
-                <span className="syntax-keyword">const</span> <span className="syntax-var">developer</span> = <span className="syntax-string">"Manoj Katuwal"</span>;
+        {/* RIGHT COLUMN: WORKSTATION HUD INTERACTIVE DASHBOARD */}
+        <div className="hero-hud-right">
+          <div className="hud-workstation glass-panel">
+            {/* Terminal Window Header */}
+            <div className="hud-window-header">
+              <div className="header-dots">
+                <span className="dot dot-close"></span>
+                <span className="dot dot-minimize"></span>
+                <span className="dot dot-expand"></span>
               </div>
-              <div className="code-text-line">
-                <span className="syntax-keyword">const</span> <span className="syntax-var">skills</span> = [<span className="syntax-string">"MERN"</span>, <span className="syntax-string">"MySQL"</span>];
+              <div className="hud-window-title">manoj_sys@server_node: ~</div>
+              <div className="hud-window-telemetry">PING: {pingTime}ms</div>
+            </div>
+
+            {/* Terminal Body */}
+            <div className="hud-window-body">
+              <div className="console-line">
+                <span className="console-user">manoj@cyber_core</span> <span className="console-dir">~</span> <span className="console-prompt">%</span> <span className="console-cmd">./run_pipeline.sh</span>
               </div>
-              <div className="code-text-line">
-                <span className="syntax-keyword">const</span> <span className="syntax-var">passion</span> = <span className="syntax-string">"Innovative UX/UI"</span>;
+              <div className="console-log-line text-success">
+                [OK] ESTABLISHING JDBC CONNECTORS TO MYSQL...
+              </div>
+              <div className="console-log-line text-info">
+                [INFO] COMPILING JAVA CORE CONTROLLERS... DONE.
+              </div>
+              <div className="console-log-line text-warning">
+                [WARN] MEMORY BUFFER POOL ALLOCATED DYNAMICALLY.
+              </div>
+
+              {/* Dynamic Live Logs */}
+              <div className="console-scroller">
+                {terminalLine === 0 && <p className="scroller-line">&gt; Loading modules: [React.Suspense, Framer.Motion] ... 100%</p>}
+                {terminalLine === 1 && <p className="scroller-line">&gt; Spawning background server thread on port 5000 ... ACTIVE</p>}
+                {terminalLine === 2 && <p className="scroller-line">&gt; Syncing remote repository hooks to GitHub (origin/main) ... OK</p>}
+                {terminalLine === 3 && <p className="scroller-line">&gt; System health checks: 200 OK - Dharan, Nepal</p>}
+              </div>
+
+              {/* HUD Telemetry Graphs */}
+              <div className="hud-telemetry-panels">
+                <div className="telemetry-bar-item">
+                  <div className="bar-label">
+                    <Cpu size={12} className="text-cyan" />
+                    <span>CPU LOAD</span>
+                    <span className="bar-value text-cyan">{cpuLoad}%</span>
+                  </div>
+                  <div className="bar-track">
+                    <div className="bar-fill bg-cyan" style={{ width: `${cpuLoad}%` }}></div>
+                  </div>
+                </div>
+
+                <div className="telemetry-bar-item">
+                  <div className="bar-label">
+                    <Database size={12} className="text-pink" />
+                    <span>MEM LOAD</span>
+                    <span className="bar-value text-pink">{memLoad}%</span>
+                  </div>
+                  <div className="bar-track">
+                    <div className="bar-fill bg-pink" style={{ width: `${memLoad}%` }}></div>
+                  </div>
+                </div>
+
+                <div className="telemetry-bar-item">
+                  <div className="bar-label">
+                    <Wifi size={12} className="text-green" />
+                    <span>PORT STATE</span>
+                    <span className="bar-value text-green">LISTENING</span>
+                  </div>
+                  <div className="bar-track">
+                    <div className="bar-fill bg-green" style={{ width: '100%' }}></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* HUD Bottom Stats Bar */}
+              <div className="hud-system-status">
+                <div className="status-node">
+                  <GitBranch size={12} />
+                  <span>main*</span>
+                </div>
+                <div className="status-node">
+                  <Terminal size={12} />
+                  <span>zsh</span>
+                </div>
+                <div className="status-node text-cyan">
+                  <span>UTF-8</span>
+                </div>
               </div>
             </div>
           </div>

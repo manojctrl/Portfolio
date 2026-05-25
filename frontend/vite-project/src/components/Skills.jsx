@@ -1,155 +1,135 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import './Skills.css';
-import {
-  Code2,
-  Database,
-  Wrench,
-  Zap,
-} from 'lucide-react';
+import { Code2, Zap, Database, Wrench, Shield, Terminal, Cpu } from 'lucide-react';
 
 const skillsData = {
   frontend: [
-    { name: 'React', icon: '⚛️', color: '#61dafb' },
-    { name: 'JavaScript', icon: '📜', color: '#f7df1e' },
-    { name: 'HTML5', icon: '🌐', color: '#e34c26' },
-    { name: 'CSS3', icon: '🎨', color: '#264de4' },
-    { name: 'Tailwind CSS', icon: '🌊', color: '#38bdf8' },
+    { name: 'React', icon: '⚛️', color: '#61dafb', level: 'PRO', exp: 'Built interactive client-side single-page layouts' },
+    { name: 'Tailwind CSS', icon: '🌊', color: '#38bdf8', level: 'EXPERT', exp: 'Designed fluid glassmorphic UI systems' },
+    { name: 'JavaScript', icon: '📜', color: '#f7df1e', level: 'PRO', exp: 'Optimized asynchronous APIs & data pipelines' },
   ],
   backend: [
-    { name: 'Java', icon: '☕', color: '#007396' },
-    { name: 'JDBC', icon: '🔌', color: '#336699' },
-    { name: 'Servlet/JSP', icon: '⚙️', color: '#FF6B35' },
-    { name: 'Node.js', icon: '🟢', color: '#68a063' },
-    { name: 'Express.js', icon: '⚡', color: '#ffffff' },
+    { name: 'Java', icon: '☕', color: '#e76f51', level: 'PRO', exp: 'Developed structured enterprise-grade systems' },
+    { name: 'JDBC', icon: '🔌', color: '#336699', level: 'INTERMEDIATE', exp: 'Optimized query latency & relational transactions' },
+    { name: 'Servlet/JSP', icon: '⚙️', color: '#FF6B35', level: 'INTERMEDIATE', exp: 'Managed stateful server-side sessions & processes' },
+    { name: 'Node.js', icon: '🟢', color: '#68a063', level: 'ADVANCED', exp: 'Built scale asynchronous network routing scripts' },
+    { name: 'Express.js', icon: '⚡', color: '#ffffff', level: 'ADVANCED', exp: 'Configured secure backend routing layers' },
   ],
   database: [
-    { name: 'MySQL', icon: '🗄️', color: '#00758f' },
-    { name: 'SQL', icon: '📊', color: '#cc2927' },
+    { name: 'MySQL', icon: '🗄️', color: '#00758f', level: 'EXPERT', exp: 'Designed complex relational DB schemas' },
+    { name: 'SQL', icon: '📊', color: '#cc2927', level: 'EXPERT', exp: 'Analyzed query execution paths & index keys' },
   ],
   tools: [
-    { name: 'Git', icon: '🔀', color: '#f1502f' },
-    { name: 'GitHub', icon: '🐙', color: '#ffffff' },
-    { name: 'Postman', icon: '📮', color: '#ff6c37' },
-    { name: 'VS Code', icon: '💻', color: '#007acc' },
+    { name: 'Git', icon: '🔀', color: '#f1502f', level: 'PRO', exp: 'Managed distributed version branches & merges' },
+    { name: 'GitHub', icon: '🐙', color: '#ffffff', level: 'EXPERT', exp: 'Maintained remote repositories & workflow webhooks' },
+    { name: 'Postman', icon: '📮', color: '#ff6c37', level: 'ADVANCED', exp: 'Validated endpoint payloads & server returns' },
+    { name: 'VS Code', icon: '💻', color: '#007acc', level: 'EXPERT', exp: 'Operating primary development editor environment' },
   ],
 };
 
 const categoryIcons = {
-  frontend: <Code2 size={28} strokeWidth={1.5} />,
-  backend: <Zap size={28} strokeWidth={1.5} />,
-  database: <Database size={28} strokeWidth={1.5} />,
-  tools: <Wrench size={28} strokeWidth={1.5} />,
+  frontend: <Code2 size={22} />,
+  backend: <Zap size={22} />,
+  database: <Database size={22} />,
+  tools: <Wrench size={22} />,
 };
 
 const categoryTitles = {
-  frontend: 'Frontend Arsenal',
-  backend: 'Backend Power',
-  database: 'Data Mastery',
-  tools: 'Development Tools',
-};
-
-const categoryDescriptions = {
-  frontend: 'Building stunning user interfaces',
-  backend: 'Crafting robust server logic',
-  database: 'Managing data efficiently',
-  tools: 'Essential development utilities',
+  frontend: 'FRONTEND_ENGINE',
+  backend: 'BACKEND_SERVICE',
+  database: 'DATA_WAREHOUSE',
+  tools: 'DEV_OPERATIONS',
 };
 
 const categoryColors = {
-  frontend: '#38bdf8',
-  backend: '#f472b6',
-  database: '#a78bfa',
-  tools: '#fbbf24',
+  frontend: 'rgba(0, 242, 254, 0.2)',
+  backend: 'rgba(255, 0, 127, 0.2)',
+  database: 'rgba(112, 0, 255, 0.2)',
+  tools: 'rgba(57, 255, 20, 0.2)',
 };
 
-// Animated Category Card with Skill Grid
+const categoryBorderGlow = {
+  frontend: 'var(--neon-glow-cyan)',
+  backend: 'var(--neon-glow-pink)',
+  database: '0 0 15px rgba(112, 0, 255, 0.35)',
+  tools: 'var(--neon-glow-green)',
+};
+
+// Skill Capsule Grid
 function SkillCategoryCard({ category, skills }) {
-  const [isHovered, setIsHovered] = useState(false);
+  const [activeSkill, setActiveSkill] = useState(null);
 
   return (
-    <motion.div
-      className="skill-category-card-modern"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      viewport={{ once: true, margin: '-100px' }}
+    <div 
+      className="skill-hud-card glass-panel"
+      style={{ border: `1px solid ${categoryColors[category]}` }}
     >
-      <motion.div
-        className="category-glow"
-        animate={isHovered ? { opacity: 1, scale: 1.05 } : { opacity: 0.4, scale: 1 }}
-        transition={{ duration: 0.3 }}
-        style={{ borderColor: categoryColors[category] }}
-      />
-
-      <div className="category-header-modern">
-        <motion.div
-          className="category-icon"
-          style={{ color: categoryColors[category] }}
-          animate={isHovered ? { rotate: 360, scale: 1.1 } : { rotate: 0, scale: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          {categoryIcons[category]}
-        </motion.div>
-        <div>
-          <h3 className="category-title-modern">{categoryTitles[category]}</h3>
-          <p className="category-desc">{categoryDescriptions[category]}</p>
-        </div>
+      {/* HUD Header */}
+      <div className="hud-card-header">
+        <span className="hud-card-icon">{categoryIcons[category]}</span>
+        <h3 className="hud-card-title">{categoryTitles[category]}</h3>
       </div>
 
-      <motion.div
-        className="skills-grid"
-        initial="hidden"
-        animate={isHovered ? 'visible' : 'hidden'}
-        variants={{
-          visible: {
-            transition: { staggerChildren: 0.08, delayChildren: 0.1 },
-          },
-          hidden: {},
-        }}
-      >
+      {/* Grid of Capsules */}
+      <div className="skills-hud-grid">
         {skills.map((skill) => (
           <motion.div
             key={skill.name}
-            className="skill-badge"
-            variants={{
-              visible: { opacity: 1, y: 0 },
-              hidden: { opacity: 0, y: 15 },
-            }}
-            whileHover={{
-              scale: 1.08,
-              boxShadow: `0 0 20px ${skill.color}40`,
+            className={`skill-hud-capsule ${activeSkill && activeSkill.name === skill.name ? 'active' : ''}`}
+            onMouseEnter={() => setActiveSkill(skill)}
+            onMouseLeave={() => setActiveSkill(null)}
+            whileHover={{ scale: 1.05, y: -2 }}
+            style={{ 
+              borderColor: activeSkill && activeSkill.name === skill.name ? skill.color : 'rgba(255, 255, 255, 0.08)',
+              boxShadow: activeSkill && activeSkill.name === skill.name ? `0 0 12px ${skill.color}40` : 'none'
             }}
           >
-            <span className="skill-emoji-badge">{skill.icon}</span>
-            <span className="skill-name-badge">{skill.name}</span>
+            <span className="capsule-emoji">{skill.icon}</span>
+            <span className="capsule-name">{skill.name}</span>
           </motion.div>
         ))}
-      </motion.div>
-    </motion.div>
+      </div>
+
+      {/* Telemetry Display Log */}
+      <div className="hud-telemetry-panel">
+        {activeSkill ? (
+          <div className="telemetry-log-content">
+            <div className="telemetry-log-header">
+              <span className="log-tag" style={{ color: activeSkill.color }}>[ {activeSkill.level} ]</span>
+              <span className="log-skill-name">{activeSkill.name}</span>
+            </div>
+            <p className="log-skill-exp">&gt; {activeSkill.exp}</p>
+          </div>
+        ) : (
+          <div className="telemetry-log-placeholder">
+            <Terminal size={14} className="terminal-placeholder-icon" />
+            <span>SELECT NODE TO LOAD METRICS</span>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
-// Floating Particle Background
-function ParticleBackground() {
+// Particle Engine
+function SkillParticleBackground() {
   return (
-    <div className="particles-container">
-      {[...Array(30)].map((_, i) => (
+    <div className="particles-hud-container">
+      {[...Array(20)].map((_, i) => (
         <motion.div
           key={i}
-          className="particle"
+          className="hud-particle"
           animate={{
-            y: [0, -100, 0],
-            x: [0, Math.cos(i) * 50, 0],
-            opacity: [0, 1, 0],
+            y: [0, -120, 0],
+            x: [0, Math.sin(i) * 35, 0],
+            opacity: [0.1, 0.6, 0.1],
           }}
           transition={{
-            duration: 6 + Math.random() * 4,
+            duration: 8 + Math.random() * 5,
             repeat: Infinity,
             ease: 'easeInOut',
-            delay: Math.random() * 2,
+            delay: Math.random() * 3,
           }}
         />
       ))}
@@ -157,92 +137,23 @@ function ParticleBackground() {
   );
 }
 
-// Animated Section Title
-function SectionTitle() {
-  return (
-    <motion.div className="skills-header-modern">
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      >
-        <motion.span
-          className="skills-badge-modern"
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          Developer Arsenal
-        </motion.span>
-        <motion.h2
-          className="skills-title-modern"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <motion.span className="gradient-text">
-            Technologies I use to build scalable and modern applications
-          </motion.span>
-        </motion.h2>
-      </motion.div>
-
-      <motion.p
-        className="skills-subtitle"
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.6 }}
-        viewport={{ once: true }}
-      >
-        Hover over each category to see the technologies and tools I've mastered.
-      </motion.p>
-    </motion.div>
-  );
-}
-
 export default function Skills() {
   const categories = ['frontend', 'backend', 'database', 'tools'];
 
   return (
-    <section id="skills" className="skills-section-modern">
-      <ParticleBackground />
+    <section id="skills" className="skills-hud-section">
+      <SkillParticleBackground />
+      <span className="section-eyebrow">// DEVELOPMENT_CAPABILITIES</span>
+      <h2 className="section-title">Developer Arsenal</h2>
 
-      <div className="skills-content-modern">
-        <SectionTitle />
-
-        <motion.div
-          className="skills-grid-container"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={{
-            hidden: {},
-            visible: {
-              transition: { staggerChildren: 0.15 },
-            },
-          }}
-        >
-          {categories.map((category) => (
-            <motion.div
-              key={category}
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0 },
-              }}
-            >
-              <SkillCategoryCard
-                category={category}
-                skills={skillsData[category]}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Decorative Elements */}
-        <div className="skills-decoration-top" />
-        <div className="skills-decoration-bottom" />
+      <div className="skills-hud-container">
+        {categories.map((category) => (
+          <SkillCategoryCard
+            key={category}
+            category={category}
+            skills={skillsData[category]}
+          />
+        ))}
       </div>
     </section>
   );

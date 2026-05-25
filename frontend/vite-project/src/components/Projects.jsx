@@ -1,330 +1,263 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import './Projects.css';
-import { ExternalLink, Github, Code2, Award } from 'lucide-react';
+import { ExternalLink, Code2, Award, ChevronDown, ChevronUp, Layers, Terminal, Server, GitFork } from 'lucide-react';
+
+// Custom SVG Github icon as it is not exported by this version of lucide-react
+const GithubIcon = ({ size = 18, ...props }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
 
 const featuredProjects = [
   {
     id: 1,
     title: 'Gym Management System',
-    description: 'A comprehensive desktop application for managing gym operations, including member tracking, membership plans, billing, and attendance management.',
+    description: 'A comprehensive desktop application managing gym memberships, billing tables, logs, and member attendance.',
     image: '💪',
-    tech: ['Java Swing', 'OOP', 'Database'],
+    tech: ['Java Swing', 'OOP', 'Local DB'],
     category: 'Desktop App',
-    status: 'Completed',
+    status: 'ACTIVE',
+    complexity: '75%',
     github: '#',
     live: '#',
-    features: ['Member Management', 'Billing System', 'Attendance Tracking'],
-    highlight: 'Enterprise-grade',
+    features: ['Member Management', 'Billing System', 'Attendance Logs'],
+    highlight: 'Robust Desktop System',
   },
   {
     id: 2,
     title: 'Rojgar Setu',
-    description: 'A job portal connecting job seekers with employers, featuring advanced search, profile management, and application tracking system.',
+    description: 'A job search engine portal connecting job seekers with employment gateways across Nepal.',
     image: '🔗',
-    tech: ['JSP', 'Servlet', 'JDBC', 'MySQL'],
+    tech: ['JSP', 'Servlet', 'MySQL', 'JDBC'],
     category: 'Web App',
-    status: 'Completed',
+    status: 'STABLE',
+    complexity: '85%',
     github: '#',
     live: '#',
-    features: ['Job Listings', 'Application Tracking', 'Profile Management'],
-    highlight: 'Full-Stack',
+    features: ['Job Listings', 'Application Routing', 'Company Portals'],
+    highlight: 'Full-Stack Portal',
   },
   {
     id: 3,
     title: 'Employee Management System',
-    description: 'Modern web application for managing employee records, attendance, and HR operations with a beautiful React interface.',
+    description: 'Modern internal employee directory tracker managing attendance, tasks, and corporate logs.',
     image: '👥',
-    tech: ['React', 'LocalStorage', 'Responsive Design'],
+    tech: ['React', 'LocalStorage', 'State Hooks'],
     category: 'Web App',
-    status: 'Completed',
+    status: 'STABLE',
+    complexity: '70%',
     github: '#',
     live: '#',
-    features: ['Employee Records', 'Attendance Tracking', 'Reports'],
-    highlight: 'React Powered',
+    features: ['Employee Records', 'Attendance logs', 'Active tasks'],
+    highlight: 'Clean Client State',
   },
   {
     id: 4,
     title: 'Travel Agency Admin Dashboard',
-    description: 'A sleek admin dashboard for managing travel bookings, packages, and customer interactions with real-time analytics.',
+    description: 'Premium administrative controller console managing booking statistics and travel inventory logs.',
     image: '✈️',
-    tech: ['React', 'Tailwind CSS', 'Real-time Data'],
+    tech: ['React', 'CSS Variables', 'Chart Hooks'],
     category: 'Dashboard',
-    status: 'Completed',
+    status: 'ACTIVE',
+    complexity: '90%',
     github: '#',
     live: '#',
-    features: ['Booking Management', 'Analytics', 'Package Management'],
-    highlight: 'Modern UI/UX',
+    features: ['Booking Analytics', 'Package tables', 'Activity monitor'],
+    highlight: 'Immersive Telemetry HUD',
   },
   {
     id: 5,
-    title: 'WeCare Inventory Management',
-    description: 'Intelligent inventory management system with stock tracking, automated reordering, and comprehensive analytics.',
+    title: 'WeCare Inventory Management System',
+    description: 'Supply analytics dashboard managing product nodes, stock limits, and automated orders.',
     image: '📦',
-    tech: ['Python', 'Database', 'Analytics'],
+    tech: ['Python', 'SQL database', 'Data Logs'],
     category: 'Backend System',
-    status: 'Completed',
+    status: 'STABLE',
+    complexity: '80%',
     github: '#',
     live: '#',
-    features: ['Stock Tracking', 'Auto Reordering', 'Reports'],
-    highlight: 'Backend Excellence',
+    features: ['Stock Level Alerts', 'Order tables', 'Transaction history'],
+    highlight: 'Backend Core Engine',
   },
 ];
 
-// Container variants for stagger animation
+const INITIAL_SHOW = 3;
+
+// Container variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.3,
+      staggerChildren: 0.15,
     },
   },
 };
 
-// Item variants for individual project cards
 const itemVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: 'easeOut' },
+    transition: { duration: 0.5, ease: 'easeOut' },
   },
 };
 
-// Project Card Component
 function ProjectCard({ project, index }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
-      className="project-card-modern"
+      className={`bento-project-card glass-panel bento-span-${index + 1}`}
       variants={itemVariants}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      whileHover={{ y: -10 }}
+      whileHover={{ y: -6 }}
+      layout
     >
-      {/* Gradient Border Effect */}
-      <motion.div
-        className="project-border-glow"
-        animate={isHovered ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.3 }}
-      />
+      {/* macOS Header HUD */}
+      <div className="bento-card-header">
+        <div className="header-dots">
+          <span className="dot dot-close"></span>
+          <span className="dot dot-minimize"></span>
+          <span className="dot dot-expand"></span>
+        </div>
+        <div className="bento-card-title">{project.title}</div>
+        <div className="bento-card-status">
+          <span className="dot-green"></span>
+          <span>{project.status}</span>
+        </div>
+      </div>
 
-      {/* Project Image/Icon Section */}
-      <motion.div
-        className="project-image-section"
-        animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="project-icon">{project.image}</div>
-        <motion.div
-          className="project-overlay"
-          initial={{ opacity: 0 }}
-          animate={isHovered ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="overlay-content">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={isHovered ? { scale: 1 } : { scale: 0 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
-              className="overlay-buttons"
-            >
-              <a href={project.github} className="overlay-btn github-btn">
-                <Github size={20} />
-              </a>
-              <a href={project.live} className="overlay-btn live-btn">
-                <ExternalLink size={20} />
-              </a>
-            </motion.div>
-          </div>
-        </motion.div>
-      </motion.div>
+      {/* Visual Image Preview */}
+      <div className="bento-visual-preview">
+        <span className="bento-icon-symbol">{project.image}</span>
+        
+        {/* Dynamic Glow Spotlight */}
+        <div className="bento-glow-overlay" />
+      </div>
 
-      {/* Project Content */}
-      <div className="project-content">
-        <div className="project-header">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <h3 className="project-title">{project.title}</h3>
-            <p className="project-description">{project.description}</p>
-          </motion.div>
-
-          <motion.div
-            className="project-badges"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <span className="badge category-badge">{project.category}</span>
-            <span className="badge status-badge completed">{project.status}</span>
-          </motion.badges>
+      {/* Core Project Details */}
+      <div className="bento-content">
+        <div className="bento-meta-header">
+          <span className="bento-category">{project.category}</span>
+          <span className="bento-highlight">{project.highlight}</span>
         </div>
 
-        {/* Tech Stack */}
-        <motion.div
-          className="project-tech-stack"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-        >
-          {project.tech.map((tech, i) => (
-            <motion.span
-              key={tech}
-              className="tech-tag"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4 + i * 0.05 }}
-              whileHover={{ scale: 1.08, backgroundColor: 'rgba(164, 102, 255, 0.2)' }}
-            >
-              {tech}
-            </motion.span>
-          ))}
-        </motion.div>
+        <p className="bento-desc">{project.description}</p>
 
-        {/* Features */}
-        <motion.div
-          className="project-features"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          {project.features.map((feature) => (
-            <div key={feature} className="feature-item">
-              <span className="feature-dot">•</span>
-              <span>{feature}</span>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Footer */}
-        <motion.div
-          className="project-footer"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-        >
-          <div className="project-links">
-            <a href={project.github} className="project-link-btn github">
-              <Github size={18} />
-              <span>GitHub</span>
-            </a>
-            <a href={project.live} className="project-link-btn live">
-              <ExternalLink size={18} />
-              <span>Live Demo</span>
-            </a>
+        {/* Complexity Bar */}
+        <div className="bento-complexity-panel">
+          <div className="complexity-info">
+            <span>COMPLEXITY</span>
+            <span className="text-cyan">{project.complexity}</span>
           </div>
-          <motion.div
-            className="highlight-badge"
-            whileHover={{ scale: 1.05 }}
-          >
-            <Award size={16} />
-            <span>{project.highlight}</span>
-          </motion.div>
-        </motion.footer>
+          <div className="complexity-track">
+            <div className="complexity-fill" style={{ width: project.complexity }}></div>
+          </div>
+        </div>
+
+        {/* Tech tags */}
+        <div className="bento-tech-tags">
+          {project.tech.map((tag) => (
+            <span key={tag} className="bento-tech-pill">{tag}</span>
+          ))}
+        </div>
+
+        {/* Bottom Actions */}
+        <div className="bento-actions">
+          <a href={project.github} className="bento-btn btn-secondary">
+            <GithubIcon size={14} /> <span>SOURCE</span>
+          </a>
+          <a href={project.live} className="bento-btn btn-primary">
+            <ExternalLink size={14} /> <span>DEPLOY</span>
+          </a>
+        </div>
       </div>
-    </motion.div>
-  );
-}
-
-// Section Title Component
-function ProjectsSectionTitle() {
-  return (
-    <motion.div className="projects-header-modern">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      >
-        <motion.span
-          className="projects-badge-modern"
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <Code2 size={18} />
-          Things I've Built
-        </motion.span>
-
-        <motion.h2
-          className="projects-title-modern"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <span className="gradient-text-projects">
-            Featured Projects & Case Studies
-          </span>
-        </motion.h2>
-      </motion.div>
-
-      <motion.p
-        className="projects-subtitle"
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.6 }}
-        viewport={{ once: true }}
-      >
-        Explore my portfolio of award-winning projects showcasing expertise in full-stack development, modern UI/UX, and scalable architecture.
-      </motion.p>
     </motion.div>
   );
 }
 
 export default function Projects() {
+  const [showAll, setShowAll] = useState(false);
+  const visibleProjects = showAll ? featuredProjects : featuredProjects.slice(0, INITIAL_SHOW);
+  const hiddenCount = featuredProjects.length - INITIAL_SHOW;
+
   return (
-    <section id="projects" className="projects-section-modern">
-      {/* Background Effects */}
-      <div className="projects-bg-elements">
-        <div className="projects-glow-top" />
-        <div className="projects-glow-bottom" />
-      </div>
+    <section id="projects" className="projects-hud-section">
+      <span className="section-eyebrow">// REPOSITORIES_GRID</span>
+      <h2 className="section-title">Production Bento Grid</h2>
 
-      <div className="projects-content-modern">
-        <ProjectsSectionTitle />
-
+      <div className="projects-hud-content">
+        {/* Projects Grid */}
         <motion.div
-          className="projects-grid-modern"
+          className="bento-projects-grid"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
         >
-          {featuredProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
+          <AnimatePresence mode="sync">
+            {visibleProjects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))}
+          </AnimatePresence>
         </motion.div>
 
-        {/* CTA Section */}
-        <motion.div
-          className="projects-cta"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h3>Ready to see more?</h3>
-          <p>Check out my GitHub profile for additional projects and open source contributions.</p>
-          <motion.a
-            href="https://github.com"
+        {/* Show More Trigger */}
+        {featuredProjects.length > INITIAL_SHOW && (
+          <div className="projects-expansion-trigger">
+            <button
+              className="show-more-btn"
+              onClick={() => setShowAll(!showAll)}
+            >
+              {showAll ? (
+                <>
+                  <ChevronUp size={16} />
+                  <span>CLOSE_EXPANSION_NODE</span>
+                </>
+              ) : (
+                <>
+                  <ChevronDown size={16} />
+                  <span>LOAD_ADDITIONAL_REPOS ({hiddenCount})</span>
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
+        {/* Dynamic CTA Console */}
+        <div className="projects-hud-cta glass-panel">
+          <div className="cta-icon-panel">
+            <Terminal size={32} className="text-cyan" />
+          </div>
+          <div className="cta-info-panel">
+            <h3>READY_FOR_INTEGRATION</h3>
+            <p>Access full commit logs, code architectures, and configurations directly on GitHub.</p>
+          </div>
+          <a
+            href="https://github.com/manojctrl"
             target="_blank"
             rel="noopener noreferrer"
-            className="cta-button"
-            whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(164, 102, 255, 0.5)' }}
-            whileTap={{ scale: 0.95 }}
+            className="btn-primary cta-btn"
           >
-            <Github size={20} />
-            View All Projects on GitHub
-          </motion.a>
-        </motion.div>
+            <GithubIcon size={16} /> <span>CLONE_ALL_REPOS</span>
+          </a>
+        </div>
       </div>
     </section>
   );
