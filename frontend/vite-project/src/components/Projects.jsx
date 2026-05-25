@@ -48,36 +48,47 @@ function Projects() {
         </div>
       ) : (
         <div className="projects-grid">
-          {projects.map((project, index) => (
-            <div key={project.id} className="project-card glass-panel" style={{ animationDelay: `${index * 0.1}s` }}>
-              {project.image && (
-                <div className="project-image">
-                  <img src={project.image} alt={project.title} />
-                </div>
-              )}
+          {projects.map((project, index) => {
+            const techStack = project.tech_stack
+              ? project.tech_stack.split(',').map((tech) => tech.trim()).filter(Boolean)
+              : [];
 
-              <div className="project-content">
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-description">{project.description}</p>
-
-                {project.technologies && (
-                  <div className="project-tags">
-                    {project.technologies.split(',').map((tech, i) => (
-                      <span key={i} className="tag">{tech.trim()}</span>
-                    ))}
+            return (
+              <div key={project.id} className="project-card glass-panel" style={{ animationDelay: `${index * 0.1}s` }}>
+                {project.image_url && (
+                  <div className="project-image">
+                    <img src={project.image_url} alt={project.title} />
                   </div>
                 )}
 
-                <div className="project-footer">
-                  {project.link && (
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
-                      View Project →
-                    </a>
+                <div className="project-content">
+                  <h3 className="project-title">{project.title}</h3>
+                  <p className="project-description">{project.description}</p>
+
+                  {techStack.length > 0 && (
+                    <div className="project-tags">
+                      {techStack.map((tech, i) => (
+                        <span key={`${project.id}-${tech}-${i}`} className="tag">{tech}</span>
+                      ))}
+                    </div>
                   )}
+
+                  <div className="project-footer">
+                    {project.github_link && (
+                      <a href={project.github_link} target="_blank" rel="noopener noreferrer" className="project-link">
+                        View GitHub →
+                      </a>
+                    )}
+                    {project.live_link && (
+                      <a href={project.live_link} target="_blank" rel="noopener noreferrer" className="project-link" style={{ marginLeft: '12px' }}>
+                        Live Demo →
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </section>

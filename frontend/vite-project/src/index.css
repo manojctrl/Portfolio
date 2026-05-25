@@ -69,7 +69,10 @@ body.light-mode {
 html, body {
   min-height: 100%;
   font-family: var(--font-body);
-  background: var(--color-bg-mesh);
+  background:
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url('/profile-bg.jpg') center center/cover no-repeat fixed,
+    var(--color-bg-mesh);
   color: var(--color-text-primary);
   scroll-behavior: smooth;
   transition: background 0.5s ease, color 0.5s ease;
