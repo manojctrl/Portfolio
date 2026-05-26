@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import './Projects.css';
-import { ExternalLink, ChevronDown, ChevronUp, Terminal } from 'lucide-react';
+import { motion, AnimatePresence } from "framer-motion";
+import "./Projects.css";
+import { ExternalLink, Terminal } from "lucide-react";
 
 // Custom SVG Github icon as it is not exported by this version of lucide-react
 const GithubIcon = ({ size = 18, ...props }) => (
@@ -25,77 +24,82 @@ const GithubIcon = ({ size = 18, ...props }) => (
 const featuredProjects = [
   {
     id: 1,
-    title: 'Gym Management System',
-    description: 'A comprehensive desktop application managing gym memberships, billing tables, logs, and member attendance.',
-    image: '💪',
-    tech: ['Java Swing', 'OOP', 'Local DB'],
-    category: 'Desktop App',
-    status: 'ACTIVE',
-    complexity: '75%',
-    github: '#',
-    live: '#',
-    features: ['Member Management', 'Billing System', 'Attendance Logs'],
-    highlight: 'Robust Desktop System',
+    title: "Rojgar Setu",
+    description:
+      "A job search engine portal connecting job seekers with employment gateways across Nepal.",
+    image: "🔗",
+    tech: ["JSP", "Servlet", "MySQL", "JDBC"],
+    category: "Web App",
+    status: "STABLE",
+    complexity: "85%",
+    github: "#",
+    live: "#",
+    features: ["Job Listings", "Application Routing", "Company Portals"],
+    highlight: "Full-Stack Portal",
   },
   {
     id: 2,
-    title: 'Rojgar Setu',
-    description: 'A job search engine portal connecting job seekers with employment gateways across Nepal.',
-    image: '🔗',
-    tech: ['JSP', 'Servlet', 'MySQL', 'JDBC'],
-    category: 'Web App',
-    status: 'STABLE',
-    complexity: '85%',
-    github: '#',
-    live: '#',
-    features: ['Job Listings', 'Application Routing', 'Company Portals'],
-    highlight: 'Full-Stack Portal',
+    title: "Gym Management System",
+    description:
+      "A comprehensive desktop application managing gym memberships, billing tables, logs, and member attendance.",
+    image: "💪",
+    tech: ["Java Swing", "OOP", "Local DB"],
+    category: "Desktop App",
+    status: "ACTIVE",
+    complexity: "75%",
+    github: "#",
+    live: "#",
+    features: ["Member Management", "Billing System", "Attendance Logs"],
+    highlight: "Robust Desktop System",
   },
   {
     id: 3,
-    title: 'Employee Management System',
-    description: 'Modern internal employee directory tracker managing attendance, tasks, and corporate logs.',
-    image: '👥',
-    tech: ['React', 'LocalStorage', 'State Hooks'],
-    category: 'Web App',
-    status: 'STABLE',
-    complexity: '70%',
-    github: '#',
-    live: '#',
-    features: ['Employee Records', 'Attendance logs', 'Active tasks'],
-    highlight: 'Clean Client State',
+    title: "Employee Management System",
+    description:
+      "Modern internal employee directory tracker managing attendance, tasks, and corporate logs.",
+    image: "👥",
+    tech: ["React", "LocalStorage", "State Hooks"],
+    category: "Web App",
+    status: "STABLE",
+    complexity: "70%",
+    github: "#",
+    live: "#",
+    features: ["Employee Records", "Attendance logs", "Active tasks"],
+    highlight: "Clean Client State",
   },
   {
     id: 4,
-    title: 'Travel Agency Admin Dashboard',
-    description: 'Premium administrative controller console managing booking statistics and travel inventory logs.',
-    image: '✈️',
-    tech: ['React', 'CSS Variables', 'Chart Hooks'],
-    category: 'Dashboard',
-    status: 'ACTIVE',
-    complexity: '90%',
-    github: '#',
-    live: '#',
-    features: ['Booking Analytics', 'Package tables', 'Activity monitor'],
-    highlight: 'Immersive Telemetry HUD',
+    title: "Travel Agency Admin Dashboard",
+    description:
+      "Premium administrative controller console managing booking statistics and travel inventory logs.",
+    image: "✈️",
+    tech: ["React", "CSS Variables", "Chart Hooks"],
+    category: "Dashboard",
+    status: "ACTIVE",
+    complexity: "90%",
+    github: "#",
+    live: "#",
+    features: ["Booking Analytics", "Package tables", "Activity monitor"],
+    highlight: "Immersive Telemetry HUD",
   },
   {
     id: 5,
-    title: 'WeCare Inventory Management System',
-    description: 'Supply analytics dashboard managing product nodes, stock limits, and automated orders.',
-    image: '📦',
-    tech: ['Python', 'SQL database', 'Data Logs'],
-    category: 'Backend System',
-    status: 'STABLE',
-    complexity: '80%',
-    github: '#',
-    live: '#',
-    features: ['Stock Level Alerts', 'Order tables', 'Transaction history'],
-    highlight: 'Backend Core Engine',
+    title: "WeCare Inventory Management System",
+    description:
+      "Supply analytics dashboard managing product nodes, stock limits, and automated orders.",
+    image: "📦",
+    tech: ["Python", "SQL database", "Data Logs"],
+    category: "Backend System",
+    status: "STABLE",
+    complexity: "80%",
+    github: "#",
+    live: "#",
+    features: ["Stock Level Alerts", "Order tables", "Transaction history"],
+    highlight: "Backend Core Engine",
   },
 ];
 
-const INITIAL_SHOW = 3;
+const INITIAL_SHOW = 4;
 
 // Container variants
 const containerVariants = {
@@ -113,7 +117,7 @@ const itemVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: 'easeOut' },
+    transition: { duration: 0.5, ease: "easeOut" },
   },
 };
 
@@ -142,7 +146,7 @@ function ProjectCard({ project, index }) {
       {/* Visual Image Preview */}
       <div className="bento-visual-preview">
         <span className="bento-icon-symbol">{project.image}</span>
-        
+
         {/* Dynamic Glow Spotlight */}
         <div className="bento-glow-overlay" />
       </div>
@@ -163,14 +167,19 @@ function ProjectCard({ project, index }) {
             <span className="text-cyan">{project.complexity}</span>
           </div>
           <div className="complexity-track">
-            <div className="complexity-fill" style={{ width: project.complexity }}></div>
+            <div
+              className="complexity-fill"
+              style={{ width: project.complexity }}
+            ></div>
           </div>
         </div>
 
         {/* Tech tags */}
         <div className="bento-tech-tags">
           {project.tech.map((tag) => (
-            <span key={tag} className="bento-tech-pill">{tag}</span>
+            <span key={tag} className="bento-tech-pill">
+              {tag}
+            </span>
           ))}
         </div>
 
@@ -189,10 +198,6 @@ function ProjectCard({ project, index }) {
 }
 
 export default function Projects() {
-  const [showAll, setShowAll] = useState(false);
-  const visibleProjects = showAll ? featuredProjects : featuredProjects.slice(0, INITIAL_SHOW);
-  const hiddenCount = featuredProjects.length - INITIAL_SHOW;
-
   return (
     <section id="projects" className="projects-hud-section">
       <span className="section-eyebrow">// REPOSITORIES_GRID</span>
@@ -205,36 +210,14 @@ export default function Projects() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
+          viewport={{ once: true, amount: 0.15 }}
         >
           <AnimatePresence mode="sync">
-            {visibleProjects.map((project, index) => (
+            {featuredProjects.map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </AnimatePresence>
         </motion.div>
-
-        {/* Show More Trigger */}
-        {featuredProjects.length > INITIAL_SHOW && (
-          <div className="projects-expansion-trigger">
-            <button
-              className="show-more-btn"
-              onClick={() => setShowAll(!showAll)}
-            >
-              {showAll ? (
-                <>
-                  <ChevronUp size={16} />
-                  <span>CLOSE_EXPANSION_NODE</span>
-                </>
-              ) : (
-                <>
-                  <ChevronDown size={16} />
-                  <span>LOAD_ADDITIONAL_REPOS ({hiddenCount})</span>
-                </>
-              )}
-            </button>
-          </div>
-        )}
 
         {/* Dynamic CTA Console */}
         <div className="projects-hud-cta glass-panel">
@@ -243,7 +226,10 @@ export default function Projects() {
           </div>
           <div className="cta-info-panel">
             <h3>READY_FOR_INTEGRATION</h3>
-            <p>Access full commit logs, code architectures, and configurations directly on GitHub.</p>
+            <p>
+              Access full commit logs, code architectures, and configurations
+              directly on GitHub.
+            </p>
           </div>
           <a
             href="https://github.com/manojctrl"
