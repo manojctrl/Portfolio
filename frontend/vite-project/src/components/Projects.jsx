@@ -21,13 +21,219 @@ const GithubIcon = ({ size = 18, ...props }) => (
   </svg>
 );
 
+// bespoked cybernetic SVG illustrations for tech stacks
+const ReactLogoSVG = () => (
+  <svg
+    className="tech-illustrative-svg react-svg"
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <filter id="react-glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="3" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    <circle cx="50" cy="50" r="42" stroke="rgba(0, 242, 254, 0.05)" fill="none" strokeWidth="1" />
+    <circle cx="50" cy="50" r="30" stroke="rgba(0, 242, 254, 0.03)" fill="none" strokeWidth="1" strokeDasharray="4 4" />
+    <g filter="url(#react-glow)">
+      <ellipse cx="50" cy="50" rx="9" ry="25" stroke="var(--neon-cyan)" fill="none" strokeWidth="1.5" className="react-orbit orbit-1" />
+      <ellipse cx="50" cy="50" rx="9" ry="25" stroke="var(--neon-cyan)" fill="none" strokeWidth="1.5" className="react-orbit orbit-2" transform="rotate(60 50 50)" />
+      <ellipse cx="50" cy="50" rx="9" ry="25" stroke="var(--neon-cyan)" fill="none" strokeWidth="1.5" className="react-orbit orbit-3" transform="rotate(120 50 50)" />
+      <circle cx="50" cy="50" r="3.5" fill="var(--neon-cyan)" className="react-nucleus" />
+    </g>
+  </svg>
+);
+
+const JavaMysqlLogoSVG = () => (
+  <svg
+    className="tech-illustrative-svg java-mysql-svg"
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <filter id="java-glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="3" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    <path d="M 15 50 L 85 50 M 50 15 L 50 85" stroke="rgba(255, 255, 255, 0.02)" strokeWidth="1" />
+    <g filter="url(#java-glow)">
+      {/* Java Coffee Cup */}
+      <path d="M 38 42 C 38 52, 62 52, 62 42 L 64 36 L 36 36 Z" stroke="var(--neon-pink)" strokeWidth="2" fill="rgba(255, 0, 127, 0.05)" />
+      <path d="M 62 38 C 67 38, 67 46, 62 46" stroke="var(--neon-pink)" strokeWidth="1.8" fill="none" />
+      <path d="M 32 54 C 32 56, 68 56, 68 54 Z" stroke="var(--neon-pink)" strokeWidth="1.8" fill="none" />
+      
+      {/* Floating steam paths */}
+      <path d="M 42 30 C 40 25, 47 22, 44 16" stroke="var(--neon-cyan)" strokeWidth="1.8" strokeLinecap="round" fill="none" className="java-steam steam-1" />
+      <path d="M 50 30 C 48 24, 55 20, 52 14" stroke="var(--neon-cyan)" strokeWidth="1.8" strokeLinecap="round" fill="none" className="java-steam steam-2" />
+      
+      {/* Database cylinder base at the bottom */}
+      <path d="M 32 68 C 32 64, 68 64, 68 68 L 68 76 C 68 80, 32 80, 32 76 Z" stroke="var(--neon-cyan)" strokeWidth="2" fill="rgba(0, 242, 254, 0.05)" />
+      <ellipse cx="50" cy="68" rx="18" ry="4" stroke="var(--neon-cyan)" strokeWidth="1.8" fill="rgba(0, 242, 254, 0.1)" />
+      <path d="M 32 72 C 32 76, 68 76, 68 72" stroke="var(--neon-cyan)" strokeWidth="1.5" strokeDasharray="3 3" fill="none" />
+      
+      {/* Network connection line */}
+      <line x1="50" y1="56" x2="50" y2="64" stroke="var(--neon-cyan)" strokeWidth="1.5" strokeDasharray="2 2" />
+    </g>
+  </svg>
+);
+
+const DesktopUiLogoSVG = () => (
+  <svg
+    className="tech-illustrative-svg desktop-svg"
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <filter id="desktop-glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="3" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    <g filter="url(#desktop-glow)">
+      {/* OS window */}
+      <rect x="20" y="20" width="60" height="60" rx="5" stroke="var(--neon-pink)" strokeWidth="2" fill="rgba(255, 0, 127, 0.02)" />
+      <line x1="20" y1="35" x2="80" y2="35" stroke="var(--neon-pink)" strokeWidth="1.5" />
+      
+      {/* Window control dots */}
+      <circle cx="28" cy="27" r="1.8" fill="var(--neon-pink)" />
+      <circle cx="34" cy="27" r="1.8" fill="var(--neon-cyan)" />
+      <circle cx="40" cy="27" r="1.8" fill="var(--neon-green)" />
+      
+      {/* Code prompt and local database stacks */}
+      <path d="M 30 48 L 40 55 L 30 62" stroke="var(--neon-cyan)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="terminal-prompt" />
+      <rect x="46" y="59" width="14" height="3" fill="var(--neon-cyan)" className="terminal-cursor" />
+      
+      {/* Corner UI telemetry bracket */}
+      <path d="M 72 45 L 75 45 L 75 70 L 60 70" stroke="rgba(0, 242, 254, 0.3)" strokeWidth="1" fill="none" />
+      <circle cx="75" cy="45" r="1.5" fill="var(--neon-cyan)" />
+    </g>
+  </svg>
+);
+
+const DashboardChartLogoSVG = () => (
+  <svg
+    className="tech-illustrative-svg dashboard-svg"
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <filter id="dash-glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="3" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    <g filter="url(#dash-glow)">
+      {/* Dashboard Grid frame */}
+      <rect x="18" y="18" width="64" height="64" rx="4" stroke="var(--neon-cyan)" strokeWidth="2" fill="rgba(0, 242, 254, 0.02)" />
+      <line x1="18" y1="32" x2="82" y2="32" stroke="var(--neon-cyan)" strokeWidth="1" />
+      
+      {/* Grid lines */}
+      <line x1="25" y1="48" x2="75" y2="48" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1" strokeDasharray="3 3" />
+      <line x1="25" y1="62" x2="75" y2="62" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1" strokeDasharray="3 3" />
+      
+      {/* Beautiful glowing peak telemetry chart line */}
+      <path d="M 26 65 L 38 46 L 50 56 L 62 36 L 74 48" stroke="var(--neon-pink)" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" className="chart-line" />
+      <circle cx="62" cy="36" r="3.5" fill="var(--neon-pink)" className="chart-peak-dot" />
+      <circle cx="38" cy="46" r="2" fill="var(--neon-cyan)" />
+      
+      {/* Horizontal base line */}
+      <line x1="22" y1="72" x2="78" y2="72" stroke="rgba(0, 242, 254, 0.3)" strokeWidth="1" />
+    </g>
+  </svg>
+);
+
+const PythonLogoSVG = () => (
+  <svg
+    className="tech-illustrative-svg python-svg"
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <linearGradient id="python-cyan-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#00f2fe" />
+        <stop offset="100%" stopColor="#4facfe" />
+      </linearGradient>
+      <linearGradient id="python-pink-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#ff007f" />
+        <stop offset="100%" stopColor="#7f00ff" />
+      </linearGradient>
+      <filter id="python-glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="3" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    <g filter="url(#python-glow)">
+      <circle cx="50" cy="50" r="42" stroke="rgba(255, 255, 255, 0.02)" fill="none" strokeWidth="1" />
+      
+      {/* Top Snake */}
+      <path
+        d="M 50 18 C 37 18 36 25 36 29 L 36 38 L 51 38 L 51 43 L 65 43 C 71 43 73 38 73 31 L 73 27 C 73 21 69 18 57 18 Z"
+        fill="url(#python-cyan-grad)"
+        className="python-snake snake-top"
+      />
+      <circle cx="43" cy="24" r="2" fill="#030712" />
+      
+      {/* Bottom Snake */}
+      <path
+        d="M 50 82 C 63 82 64 75 64 71 L 64 62 L 49 62 L 49 57 L 35 57 C 29 57 27 62 27 69 L 27 73 C 27 79 31 82 43 82 Z"
+        fill="url(#python-pink-grad)"
+        className="python-snake snake-bottom"
+      />
+      <circle cx="57" cy="76" r="2" fill="#030712" />
+    </g>
+  </svg>
+);
+
+function TechIllustrativeIcon({ type }) {
+  switch (type) {
+    case "react":
+      return <ReactLogoSVG />;
+    case "java_mysql":
+      return <JavaMysqlLogoSVG />;
+    case "desktop":
+      return <DesktopUiLogoSVG />;
+    case "dashboard":
+      return <DashboardChartLogoSVG />;
+    case "python":
+      return <PythonLogoSVG />;
+    default:
+      return (
+        <svg
+          className="tech-illustrative-svg default-svg"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="50" cy="50" r="20" stroke="var(--neon-cyan)" fill="none" strokeWidth="2" />
+        </svg>
+      );
+  }
+}
+
 const featuredProjects = [
   {
     id: 1,
     title: "Rojgar Setu",
     description:
       "A job search engine portal connecting job seekers with employment gateways across Nepal.",
-    image: "🔗",
+    screenshot: "/screenshots/image.png",
+    iconType: "java_mysql",
     tech: ["JSP", "Servlet", "MySQL", "JDBC"],
     category: "Web App",
     status: "STABLE",
@@ -42,7 +248,8 @@ const featuredProjects = [
     title: "Gym Management System",
     description:
       "A comprehensive desktop application managing gym memberships, billing tables, logs, and member attendance.",
-    image: "💪",
+    screenshot: "/screenshots/image-1.png",
+    iconType: "desktop",
     tech: ["Java Swing", "OOP", "Local DB"],
     category: "Desktop App",
     status: "ACTIVE",
@@ -57,7 +264,8 @@ const featuredProjects = [
     title: "Employee Management System",
     description:
       "Modern internal employee directory tracker managing attendance, tasks, and corporate logs.",
-    image: "👥",
+    screenshot: "",
+    iconType: "react",
     tech: ["React", "LocalStorage", "State Hooks"],
     category: "Web App",
     status: "STABLE",
@@ -72,14 +280,15 @@ const featuredProjects = [
     title: "Travel Agency Admin Dashboard",
     description:
       "Premium administrative controller console managing booking statistics and travel inventory logs.",
-    image: "✈️",
+    screenshot: "",
+    iconType: "dashboard",
     tech: ["React", "CSS Variables", "Chart Hooks"],
     category: "Dashboard",
     status: "ACTIVE",
     complexity: "90%",
     github: "#",
     live: "#",
-    features: ["Booking Analytics", "Package tables", "Activity monitor"],
+    features: ["Booking Analytics", "Package tables", "Active tasks"],
     highlight: "Immersive Telemetry HUD",
   },
   {
@@ -87,7 +296,8 @@ const featuredProjects = [
     title: "WeCare Inventory Management System",
     description:
       "Supply analytics dashboard managing product nodes, stock limits, and automated orders.",
-    image: "📦",
+    screenshot: "",
+    iconType: "python",
     tech: ["Python", "SQL database", "Data Logs"],
     category: "Backend System",
     status: "STABLE",
@@ -145,7 +355,21 @@ function ProjectCard({ project, index }) {
 
       {/* Visual Image Preview */}
       <div className="bento-visual-preview">
-        <span className="bento-icon-symbol">{project.image}</span>
+        {project.screenshot ? (
+          <div className="screenshot-wrapper">
+            <img
+              src={project.screenshot}
+              alt={`${project.title} Preview`}
+              className="bento-screenshot-img"
+              loading="lazy"
+            />
+            <div className="screenshot-overlay">
+              <span className="screenshot-tag">// SYSTEM_PREVIEW_ACTIVE</span>
+            </div>
+          </div>
+        ) : (
+          <TechIllustrativeIcon type={project.iconType} />
+        )}
 
         {/* Dynamic Glow Spotlight */}
         <div className="bento-glow-overlay" />
