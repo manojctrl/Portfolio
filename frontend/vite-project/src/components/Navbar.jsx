@@ -1,39 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './Navbar.css';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isLightMode, setIsLightMode] = useState(false);
+  const [isLightMode, setIsLightMode] = useState(() => {
+    const savedTheme = typeof window !== 'undefined' ? localStorage.getItem('theme') : null;
+    return savedTheme === 'light';
+  });
 
-  // Initialize theme from localStorage or system preference
+  // Apply theme class to document body whenever isLightMode changes
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
+    if (isLightMode) {
       document.body.classList.add('light-mode');
-      setIsLightMode(true);
-    } else if (savedTheme === 'dark') {
-      document.body.classList.remove('light-mode');
-      setIsLightMode(false);
     } else {
-      // Default to dark mode as it is premium
       document.body.classList.remove('light-mode');
-      setIsLightMode(false);
     }
-  }, []);
+  }, [isLightMode]);
 
   // Toggle theme handler
   const toggleTheme = () => {
-    if (isLightMode) {
-      document.body.classList.remove('light-mode');
-      localStorage.setItem('theme', 'dark');
-      setIsLightMode(false);
-    } else {
-      document.body.classList.add('light-mode');
-      localStorage.setItem('theme', 'light');
-      setIsLightMode(true);
-    }
+    setIsLightMode((prev) => {
+      const nextMode = !prev;
+      localStorage.setItem('theme', nextMode ? 'light' : 'dark');
+      return nextMode;
+    });
   };
 
   // Scroll listeners for progress and section spy

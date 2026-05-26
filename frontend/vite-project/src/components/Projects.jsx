@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Projects.css';
-import { ExternalLink, Code2, Award, ChevronDown, ChevronUp, Layers, Terminal, Server, GitFork } from 'lucide-react';
+import { ExternalLink, ChevronDown, ChevronUp, Terminal } from 'lucide-react';
 
 // Custom SVG Github icon as it is not exported by this version of lucide-react
 const GithubIcon = ({ size = 18, ...props }) => (
@@ -118,14 +118,10 @@ const itemVariants = {
 };
 
 function ProjectCard({ project, index }) {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <motion.div
       className={`bento-project-card glass-panel bento-span-${index + 1}`}
       variants={itemVariants}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       whileHover={{ y: -6 }}
       layout
     >

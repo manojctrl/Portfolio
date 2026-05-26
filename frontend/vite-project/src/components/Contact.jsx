@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './Contact.css';
-import { Terminal, Mail, Phone, MapPin, Send, Wifi } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Wifi } from 'lucide-react';
 
 function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });

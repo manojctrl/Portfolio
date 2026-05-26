@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Hero.css';
 import { Terminal, Cpu, Database, Wifi, GitBranch, Download, ArrowRight } from 'lucide-react';
 
@@ -17,18 +17,19 @@ const LinkedinIcon = ({ size = 16 }) => (
   </svg>
 );
 
+const roles = [
+  'Java Developer',
+  'React Developer',
+  'Backend Builder',
+  'Problem Solver',
+  'UI Experimenter'
+];
+
 function Hero() {
   const [roleText, setRoleText] = useState('');
   const [roleIndex, setRoleIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const roles = [
-    'Java Developer',
-    'React Developer',
-    'Backend Builder',
-    'Problem Solver',
-    'UI Experimenter'
-  ];
 
   const [cpuLoad, setCpuLoad] = useState(42);
   const [memLoad, setMemLoad] = useState(68);
@@ -53,8 +54,10 @@ function Hero() {
     if (!isDeleting && charIndex === activeRole.length) {
       timer = setTimeout(() => setIsDeleting(true), 2000);
     } else if (isDeleting && charIndex === 0) {
-      setIsDeleting(false);
-      setRoleIndex((prev) => (prev + 1) % roles.length);
+      timer = setTimeout(() => {
+        setIsDeleting(false);
+        setRoleIndex((prev) => (prev + 1) % roles.length);
+      }, 0);
     }
 
     return () => clearTimeout(timer);
@@ -106,7 +109,7 @@ function Hero() {
             <a href="#projects" className="btn-primary">
               Initialize Grid <ArrowRight size={14} />
             </a>
-            <a href="/cv/manoj-katuwal-cv.pdf" download className="btn-secondary">
+            <a href="/cv/Manoj_Katuwal_CV.pdf" download className="btn-secondary">
               Pull CV.dll <Download size={14} />
             </a>
           </div>

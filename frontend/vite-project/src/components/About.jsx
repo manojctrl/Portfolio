@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import './About.css';
-import { Terminal, Calendar, Code, CheckCircle, Award } from 'lucide-react';
+import { Terminal, Calendar } from 'lucide-react';
 
 const timelineSteps = [
   {

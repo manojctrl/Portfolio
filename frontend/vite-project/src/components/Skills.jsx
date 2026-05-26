@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import './Skills.css';
-import { Code2, Zap, Database, Wrench, Shield, Terminal, Cpu } from 'lucide-react';
+import { Code2, Zap, Database, Wrench, Terminal } from 'lucide-react';
 
 const skillsData = {
   frontend: [
@@ -49,12 +49,7 @@ const categoryColors = {
   tools: 'rgba(57, 255, 20, 0.2)',
 };
 
-const categoryBorderGlow = {
-  frontend: 'var(--neon-glow-cyan)',
-  backend: 'var(--neon-glow-pink)',
-  database: '0 0 15px rgba(112, 0, 255, 0.35)',
-  tools: 'var(--neon-glow-green)',
-};
+
 
 // Skill Capsule Grid
 function SkillCategoryCard({ category, skills }) {
@@ -112,24 +107,47 @@ function SkillCategoryCard({ category, skills }) {
   );
 }
 
+const PARTICLE_PARAMS = [
+  { xOffset: 0, duration: 8.5, delay: 0.2 },
+  { xOffset: 12.5, duration: 11.2, delay: 1.5 },
+  { xOffset: -25.3, duration: 9.8, delay: 0.8 },
+  { xOffset: 8.9, duration: 12.4, delay: 2.1 },
+  { xOffset: -15.4, duration: 10.1, delay: 0.4 },
+  { xOffset: 32.1, duration: 8.9, delay: 1.9 },
+  { xOffset: -5.7, duration: 11.7, delay: 0.7 },
+  { xOffset: 20.3, duration: 9.3, delay: 2.5 },
+  { xOffset: -30.0, duration: 12.9, delay: 1.1 },
+  { xOffset: 15.2, duration: 8.1, delay: 0.3 },
+  { xOffset: -12.1, duration: 10.6, delay: 1.7 },
+  { xOffset: 28.4, duration: 11.5, delay: 0.6 },
+  { xOffset: -8.5, duration: 9.0, delay: 2.3 },
+  { xOffset: 3.2, duration: 12.1, delay: 1.2 },
+  { xOffset: -22.7, duration: 8.3, delay: 0.9 },
+  { xOffset: 18.6, duration: 10.4, delay: 2.0 },
+  { xOffset: -17.9, duration: 11.9, delay: 0.5 },
+  { xOffset: 25.1, duration: 9.6, delay: 1.4 },
+  { xOffset: -2.4, duration: 12.7, delay: 2.7 },
+  { xOffset: 10.5, duration: 8.7, delay: 0.1 },
+];
+
 // Particle Engine
 function SkillParticleBackground() {
   return (
     <div className="particles-hud-container">
-      {[...Array(20)].map((_, i) => (
+      {PARTICLE_PARAMS.map((p, i) => (
         <motion.div
           key={i}
           className="hud-particle"
           animate={{
             y: [0, -120, 0],
-            x: [0, Math.sin(i) * 35, 0],
+            x: [0, p.xOffset, 0],
             opacity: [0.1, 0.6, 0.1],
           }}
           transition={{
-            duration: 8 + Math.random() * 5,
+            duration: p.duration,
             repeat: Infinity,
             ease: 'easeInOut',
-            delay: Math.random() * 3,
+            delay: p.delay,
           }}
         />
       ))}
