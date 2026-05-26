@@ -39,25 +39,26 @@ function Hero() {
   useEffect(() => {
     const activeRole = roles[roleIndex];
     let timer;
-    if (isDeleting) {
-      timer = setTimeout(() => {
-        setRoleText(activeRole.substring(0, charIndex - 1));
-        setCharIndex((prev) => prev - 1);
-      }, 40);
-    } else {
-      timer = setTimeout(() => {
-        setRoleText(activeRole.substring(0, charIndex + 1));
-        setCharIndex((prev) => prev + 1);
-      }, 85);
-    }
 
-    if (!isDeleting && charIndex === activeRole.length) {
-      timer = setTimeout(() => setIsDeleting(true), 2000);
-    } else if (isDeleting && charIndex === 0) {
-      timer = setTimeout(() => {
+    if (isDeleting) {
+      if (charIndex > 0) {
+        timer = setTimeout(() => {
+          setRoleText(activeRole.substring(0, charIndex - 1));
+          setCharIndex((prev) => prev - 1);
+        }, 40);
+      } else {
         setIsDeleting(false);
         setRoleIndex((prev) => (prev + 1) % roles.length);
-      }, 0);
+      }
+    } else {
+      if (charIndex < activeRole.length) {
+        timer = setTimeout(() => {
+          setRoleText(activeRole.substring(0, charIndex + 1));
+          setCharIndex((prev) => prev + 1);
+        }, 85);
+      } else {
+        timer = setTimeout(() => setIsDeleting(true), 2000);
+      }
     }
 
     return () => clearTimeout(timer);

@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import './About.css';
-import { Terminal, Calendar } from 'lucide-react';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import "./About.css";
+import { Terminal, Calendar } from "lucide-react";
 
 const timelineSteps = [
   {
@@ -11,7 +11,7 @@ const timelineSteps = [
     desc: "Mastered basic programming fundamentals, OOP paradigms, compiler logic, and structural programming patterns.",
     icon: "☕",
     status: "SUCCESS",
-    log: "java_compiler --version => 1.8.0_202"
+    log: "java_compiler --version => 1.8.0_202",
   },
   {
     phase: "PHASE_02 // FIRST_DEPLOY",
@@ -20,7 +20,7 @@ const timelineSteps = [
     desc: "Engineered first desktop software system featuring Java Swing, multi-threading operations, and flat-file local storage.",
     icon: "💪",
     status: "DEPLOYED",
-    log: "java -jar gym_mgr.jar => SUCCESS (0 errors)"
+    log: "java -jar gym_mgr.jar => SUCCESS (0 errors)",
   },
   {
     phase: "PHASE_03 // RELATIONAL_DB",
@@ -29,7 +29,7 @@ const timelineSteps = [
     desc: "Integrated application layers with relational database storage, writing custom index queries and designing database schemas.",
     icon: "🗄️",
     status: "LINKED",
-    log: "mysql -u root -p -e 'SHOW DATABASES;'"
+    log: "mysql -u root -p -e 'SHOW DATABASES;'",
   },
   {
     phase: "PHASE_04 // CLIENT_REACTIVE",
@@ -38,7 +38,7 @@ const timelineSteps = [
     desc: "Focused on user experience design, building single-page architectures, hooks lifecycle, and client-side styling.",
     icon: "⚛️",
     status: "COMPILED",
-    log: "npm run dev => local host:5173"
+    log: "npm run dev => local host:5173",
   },
   {
     phase: "PHASE_05 // CORE_SYSTEMS",
@@ -47,8 +47,8 @@ const timelineSteps = [
     desc: "Developing production-ready applications with React frontends, Node/Express backends, and robust system APIs.",
     icon: "⚡",
     status: "ACTIVE",
-    log: "systemctl status manoj_portfolio => ACTIVE"
-  }
+    log: "systemctl status manoj_portfolio => ACTIVE",
+  },
 ];
 
 function About() {
@@ -63,11 +63,11 @@ function About() {
         {/* LEFT COLUMN: INTERACTIVE CYBER TIMELINE */}
         <div className="timeline-hud-container">
           <div className="timeline-tracker-line"></div>
-          
+
           {timelineSteps.map((step, index) => (
-            <motion.div 
+            <motion.div
               key={step.phase}
-              className={`timeline-node-item ${index === activeStep ? 'active' : ''}`}
+              className={`timeline-node-item ${index === activeStep ? "active" : ""}`}
               onClick={() => setActiveStep(index)}
               whileHover={{ x: 8 }}
               transition={{ duration: 0.2 }}
@@ -131,27 +131,54 @@ function About() {
               <pre>
                 <code className="text-muted">// System parameters init</code>
                 <br />
-                <code><span className="text-keyword">const</span> developer = &#123;</code>
+                <code>
+                  <span className="text-keyword">const</span> developer = &#123;
+                </code>
                 <br />
-                <code>  name: <span className="text-string">"Manoj Katwal"</span>,</code>
+                <code>
+                  {" "}
+                  name: <span className="text-string">"Manoj Katwal"</span>,
+                </code>
                 <br />
-                <code>  origin: <span className="text-string">"Dharan, Nepal 🇳🇵"</span>,</code>
+                <code>
+                  {" "}
+                  origin:{" "}
+                  <span className="text-string">"Dharan, Nepal 🇳🇵"</span>,
+                </code>
                 <br />
-                <code>  focus: <span className="text-string">"Full Stack / Systems"</span>,</code>
+                <code>
+                  {" "}
+                  focus:{" "}
+                  <span className="text-string">"Full Stack / Systems"</span>,
+                </code>
                 <br />
-                <code>  status: <span className="text-string">"OPERATIONAL"</span>,</code>
+                <code>
+                  {" "}
+                  status: <span className="text-string">"OPERATIONAL"</span>,
+                </code>
                 <br />
-                <code>  uptime: <span className="text-string">"LATE_NIGHT"</span></code>
+                <code>
+                  {" "}
+                  uptime: <span className="text-string">"LATE_NIGHT"</span>
+                </code>
                 <br />
                 <code>&#125;;</code>
                 <br />
                 <br />
-                <code className="text-muted">// Debug selected timeline phase</code>
+                <code className="text-muted">
+                  // Debug selected timeline phase
+                </code>
                 <br />
-                <code><span className="text-keyword">debugger</span>.inspect(timelineSteps[{activeStep}]);</code>
+                <code>
+                  <span className="text-keyword">debugger</span>
+                  .inspect(timelineSteps[{activeStep}]);
+                </code>
                 <br />
                 <br />
-                <code className="text-pink">Output: "{timelineSteps[activeStep].title} is fully verified and stable."</code>
+                <code className="text-pink">
+                  Output: "{timelineSteps[activeStep].title} is fully verified
+                  and stable."
+                </code>
               </pre>
             </div>
           </div>
