@@ -16,7 +16,7 @@ Here is a preview of the cinematic **Manoj OS** user interface.
 ### 🖥️ 1. Main Terminal Dashboard (Hero Section)
 > The terminal includes a real-time typing simulator showing active controller compiles, active thread counts, animated CPU & memory telemetry bars, and zsh status nodes.
 >
-> ![Manoj OS Desktop Preview](https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80) *(Replace with actual screenshot file path: e.g., `/public/screenshots/hero_os.png`)*
+
 
 ### 🗃️ 2. Bento Grid Projects (Systems Registry)
 > A modern 5-card Bento Grid featuring macOS preview buttons, interactive hover glow spotlights, individual project complexity percentages, and live status pulses.
