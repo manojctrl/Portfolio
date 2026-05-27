@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./Projects.css";
-import { ExternalLink, Terminal } from "lucide-react";
+import { ExternalLink, Terminal, Copy, Check, X } from "lucide-react";
 
 // Custom SVG Github icon as it is not exported by this version of lucide-react
 const GithubIcon = ({ size = 18, ...props }) => (
@@ -238,8 +239,8 @@ const featuredProjects = [
     category: "Web App",
     status: "STABLE",
     complexity: "85%",
-    github: "#",
-    live: "#",
+    github: "https://github.com/manojctrl/Rojgar-Setu",
+    live: "https://github.com/manojctrl/Rojgar-Setu",
     features: ["Job Listings", "Application Routing", "Company Portals"],
     highlight: "Full-Stack Portal",
   },
@@ -254,8 +255,8 @@ const featuredProjects = [
     category: "Desktop App",
     status: "ACTIVE",
     complexity: "75%",
-    github: "#",
-    live: "#",
+    github: "https://github.com/manojctrl/Gym-Management-System",
+    live: "https://github.com/manojctrl/Gym-Management-System/releases",
     features: ["Member Management", "Billing System", "Attendance Logs"],
     highlight: "Robust Desktop System",
   },
@@ -270,8 +271,8 @@ const featuredProjects = [
     category: "Web App",
     status: "STABLE",
     complexity: "70%",
-    github: "#",
-    live: "#",
+    github: "https://github.com/manojctrl/Employee-Management-System",
+    live: "https://employee-management-nepal.netlify.app",
     features: ["Employee Records", "Attendance logs", "Active tasks"],
     highlight: "Clean Client State",
   },
@@ -286,8 +287,8 @@ const featuredProjects = [
     category: "Dashboard",
     status: "ACTIVE",
     complexity: "90%",
-    github: "#",
-    live: "#",
+    github: "https://github.com/manojctrl/Travel-Agency-Admin-Dashboard",
+    live: "https://travel-admin-dashboard.vercel.app",
     features: ["Booking Analytics", "Package tables", "Active tasks"],
     highlight: "Immersive Telemetry HUD",
   },
@@ -302,8 +303,8 @@ const featuredProjects = [
     category: "Backend System",
     status: "STABLE",
     complexity: "80%",
-    github: "#",
-    live: "#",
+    github: "https://github.com/manojctrl/WeCare-Inventory-Management-System",
+    live: "https://github.com/manojctrl/WeCare-Inventory-Management-System",
     features: ["Stock Level Alerts", "Order tables", "Transaction history"],
     highlight: "Backend Core Engine",
   },
@@ -331,7 +332,7 @@ const itemVariants = {
   },
 };
 
-function ProjectCard({ project, index }) {
+function ProjectCard({ project, index, onActionClick }) {
   return (
     <motion.div
       className={`bento-project-card glass-panel bento-span-${index + 1}`}
@@ -409,12 +410,18 @@ function ProjectCard({ project, index }) {
 
         {/* Bottom Actions */}
         <div className="bento-actions">
-          <a href={project.github} className="bento-btn btn-secondary">
+          <button
+            onClick={() => onActionClick("source", project)}
+            className="bento-btn btn-secondary"
+          >
             <GithubIcon size={14} /> <span>SOURCE</span>
-          </a>
-          <a href={project.live} className="bento-btn btn-primary">
+          </button>
+          <button
+            onClick={() => onActionClick("deploy", project)}
+            className="bento-btn btn-primary"
+          >
             <ExternalLink size={14} /> <span>DEPLOY</span>
-          </a>
+          </button>
         </div>
       </div>
     </motion.div>
@@ -422,6 +429,15 @@ function ProjectCard({ project, index }) {
 }
 
 export default function Projects() {
+  const [terminalAlert, setTerminalAlert] = useState(null);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <section id="projects" className="projects-hud-section">
       <span className="section-eyebrow">// REPOSITORIES_GRID</span>
@@ -438,7 +454,12 @@ export default function Projects() {
         >
           <AnimatePresence mode="sync">
             {featuredProjects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
+              <ProjectCard
+                key={project.id}
+                project={project}
+                index={index}
+                onActionClick={(type, proj) => setTerminalAlert({ type, project: proj })}
+              />
             ))}
           </AnimatePresence>
         </motion.div>
@@ -465,6 +486,122 @@ export default function Projects() {
           </a>
         </div>
       </div>
+
+      {/* Cybernetic Terminal Action Modal */}
+      <AnimatePresence>
+        {terminalAlert && (
+          <motion.div
+            className="terminal-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setTerminalAlert(null)}
+          >
+            <motion.div
+              className="terminal-modal-content glass-panel"
+              initial={{ scale: 0.9, y: 30, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 30, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="bento-card-header">
+                <div className="header-dots">
+                  <span className="dot dot-close" onClick={() => setTerminalAlert(null)}></span>
+                  <span className="dot dot-minimize"></span>
+                  <span className="dot dot-expand"></span>
+                </div>
+                <div className="bento-card-title">
+                  SYS_LINK_CONTROLLER // {terminalAlert.type.toUpperCase()}_MODE
+                </div>
+                <div className="bento-card-status">
+                  <span className="dot-green"></span>
+                  <span>ONLINE</span>
+                </div>
+              </div>
+
+              <div className="terminal-modal-body">
+                <p className="terminal-log-line text-warning font-mono">
+                  &gt;_ INITIALIZING SECURE REDIRECTION CONTROLLER...
+                </p>
+
+                <div className="terminal-console-block">
+                  <div className="console-line font-mono">
+                    <span className="text-cyan">[STATE]</span> Resolving assets for:{" "}
+                    <span className="text-white font-bold">{terminalAlert.project.title}</span>
+                  </div>
+                  <div className="console-line font-mono">
+                    <span className="text-cyan">[TARGET]</span> Resource mapping to:{" "}
+                    <span className="text-pink">{terminalAlert.type.toUpperCase()}</span>
+                  </div>
+
+                  {terminalAlert.type === "source" ? (
+                    <>
+                      <div className="console-line mt-2 text-muted font-mono">
+                        # You can clone this repository locally using:
+                      </div>
+                      <div className="console-command-box">
+                        <code className="text-success font-mono">
+                          git clone {terminalAlert.project.github}.git
+                        </code>
+                        <button
+                          className="console-copy-btn"
+                          title="Copy clone command"
+                          onClick={() =>
+                            handleCopy(`git clone ${terminalAlert.project.github}.git`)
+                          }
+                        >
+                          {copied ? (
+                            <Check size={13} className="text-green" />
+                          ) : (
+                            <Copy size={13} className="text-cyan" />
+                          )}
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="console-line mt-2 text-muted font-mono">
+                        # Deployment target endpoint status:
+                      </div>
+                      <div className="console-command-box">
+                        <code className="text-success font-mono">
+                          HTTP/1.1 GET {terminalAlert.project.live}
+                        </code>
+                      </div>
+                    </>
+                  )}
+                  
+                  <div className="console-line text-info mt-2 font-mono">
+                    [SYS] Ready to spawn secure subprocess shell...
+                  </div>
+                </div>
+
+                <div className="terminal-modal-actions">
+                  <button
+                    className="btn-secondary modal-btn"
+                    onClick={() => setTerminalAlert(null)}
+                  >
+                    <X size={13} /> <span>ABORT_SYS</span>
+                  </button>
+                  <a
+                    href={
+                      terminalAlert.type === "source"
+                        ? terminalAlert.project.github
+                        : terminalAlert.project.live
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary modal-btn"
+                    onClick={() => setTerminalAlert(null)}
+                  >
+                    <ExternalLink size={13} /> <span>EXECUTE_LINK</span>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
