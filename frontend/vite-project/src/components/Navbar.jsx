@@ -122,7 +122,7 @@ const Navbar = () => {
           <div className="navbar-actions">
             {/* Download CV Button */}
             <motion.a
-              href="/resume.pdf"
+              href="/cv/Manoj_Katuwal_CV.pdf"
               download
               className="navbar-cta"
               whileHover={{ scale: 1.04 }}
@@ -194,7 +194,7 @@ const Navbar = () => {
               ))}
 
               <motion.a
-                href="/resume.pdf"
+                href="/cv/Manoj_Katuwal_CV.pdf"
                 download
                 className="navbar-mobile-cta"
                 initial={{ opacity: 0, y: 10 }}

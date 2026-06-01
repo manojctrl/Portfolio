@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./Projects.css";
 import { ExternalLink, Terminal, Copy, Check, X } from "lucide-react";
@@ -265,7 +265,7 @@ const featuredProjects = [
     title: "Employee Management System",
     description:
       "Modern internal employee directory tracker managing attendance, tasks, and corporate logs.",
-    screenshot: "",
+    screenshot: "/screenshots/image-2.png",
     iconType: "react",
     tech: ["React", "LocalStorage", "State Hooks"],
     category: "Web App",
@@ -281,7 +281,7 @@ const featuredProjects = [
     title: "Travel Agency Admin Dashboard",
     description:
       "Premium administrative controller console managing booking statistics and travel inventory logs.",
-    screenshot: "",
+    screenshot: "/screenshots/image-3.png",
     iconType: "dashboard",
     tech: ["React", "CSS Variables", "Chart Hooks"],
     category: "Dashboard",
@@ -333,8 +333,22 @@ const itemVariants = {
 };
 
 function ProjectCard({ project, index, onActionClick }) {
+  const cardRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--card-mouse-x', `${x}px`);
+    card.style.setProperty('--card-mouse-y', `${y}px`);
+  };
+
   return (
     <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
       className={`bento-project-card glass-panel bento-span-${index + 1}`}
       variants={itemVariants}
       whileHover={{ y: -6 }}

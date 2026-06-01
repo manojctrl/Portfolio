@@ -101,9 +101,15 @@
 .bento-glow-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 242, 254, 0.06) 0%, transparent 60%);
+  background: radial-gradient(circle 220px at var(--card-mouse-x, 50%) var(--card-mouse-y, 50%), rgba(0, 242, 254, 0.12) 0%, transparent 80%);
   pointer-events: none;
   z-index: 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.bento-project-card:hover .bento-glow-overlay {
+  opacity: 1;
 }
 
 /* Screenshot preview wrapper styles */
