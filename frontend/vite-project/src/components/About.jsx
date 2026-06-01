@@ -1,188 +1,155 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import "./About.css";
-import { Terminal, Calendar } from "lucide-react";
+import { motion } from 'framer-motion';
+import { Code, Layers, GitBranch, Activity } from 'lucide-react';
+import './About.css';
 
-const timelineSteps = [
-  {
-    phase: "PHASE_01 // INIT_CORE",
-    date: "2024.03",
-    title: "Started with Java",
-    desc: "Mastered basic programming fundamentals, OOP paradigms, compiler logic, and structural programming patterns.",
-    icon: "☕",
-    status: "SUCCESS",
-    log: "java_compiler --version => 1.8.0_202",
-  },
-  {
-    phase: "PHASE_02 // FIRST_DEPLOY",
-    date: "2024.08",
-    title: "Built Gym Management System",
-    desc: "Engineered first desktop software system featuring Java Swing, multi-threading operations, and flat-file local storage.",
-    icon: "💪",
-    status: "DEPLOYED",
-    log: "java -jar gym_mgr.jar => SUCCESS (0 errors)",
-  },
-  {
-    phase: "PHASE_03 // RELATIONAL_DB",
-    date: "2024.12",
-    title: "Learned MySQL & JDBC",
-    desc: "Integrated application layers with relational database storage, writing custom index queries and designing database schemas.",
-    icon: "🗄️",
-    status: "LINKED",
-    log: "mysql -u root -p -e 'SHOW DATABASES;'",
-  },
-  {
-    phase: "PHASE_04 // CLIENT_REACTIVE",
-    date: "2025.04",
-    title: "Shifted to React & Modern Web",
-    desc: "Focused on user experience design, building single-page architectures, hooks lifecycle, and client-side styling.",
-    icon: "⚛️",
-    status: "COMPILED",
-    log: "npm run dev => local host:5173",
-  },
-  {
-    phase: "PHASE_05 // CORE_SYSTEMS",
-    date: "2026.01",
-    title: "Full Stack Architectures",
-    desc: "Developing production-ready applications with React frontends, Node/Express backends, and robust system APIs.",
-    icon: "⚡",
-    status: "ACTIVE",
-    log: "systemctl status manoj_portfolio => ACTIVE",
-  },
+const stats = [
+  { icon: Code, number: '10+', label: 'Projects Completed' },
+  { icon: Layers, number: '15+', label: 'Technologies Learned' },
+  { icon: GitBranch, number: '8+', label: 'GitHub Repositories' },
+  { icon: Activity, number: '500+', label: 'Contributions' },
 ];
 
+const qualities = [
+  'Problem Solving',
+  'Clean Code',
+  'UI/UX Design',
+  'Team Collaboration',
+  'Fast Learner',
+  'Creative Thinking',
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const statCardVariants = {
+  hidden: { opacity: 0, scale: 0.85 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const badgeVariants = {
+  hidden: { opacity: 0, scale: 0.8, y: 10 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
 function About() {
-  const [activeStep, setActiveStep] = useState(timelineSteps.length - 1);
-
   return (
-    <section id="about" className="about-section">
-      <span className="section-eyebrow">// STORY_DRIVEN_TIMELINE</span>
-      <h2 className="section-title">Terminal Log History</h2>
+    <section id="about" className="about">
+      <div className="container">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="about-header"
+        >
+          <span className="section-label">Get to Know Me</span>
+          <h2 className="section-title">About Me</h2>
+        </motion.div>
 
-      <div className="about-hud-grid">
-        {/* LEFT COLUMN: INTERACTIVE CYBER TIMELINE */}
-        <div className="timeline-hud-container">
-          <div className="timeline-tracker-line"></div>
+        <div className="about-grid">
+          {/* Left Column — Bio Text */}
+          <motion.div
+            className="about-text"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <motion.p variants={itemVariants}>
+              I'm a passionate Full Stack Developer with a focus on building
+              modern, responsive, and user-friendly web applications. Currently
+              pursuing my journey in software development, I combine creativity
+              with technical expertise to deliver digital solutions that make a
+              real impact.
+            </motion.p>
+            <motion.p variants={itemVariants}>
+              My approach to development is rooted in clean code principles,
+              continuous learning, and a deep appreciation for elegant design. I
+              believe great software is not just functional — it should be
+              beautiful, intuitive, and a joy to use.
+            </motion.p>
+            <motion.p variants={itemVariants}>
+              When I'm not coding, you'll find me exploring new technologies,
+              contributing to open source, or brainstorming the next project that
+              pushes my boundaries.
+            </motion.p>
+          </motion.div>
 
-          {timelineSteps.map((step, index) => (
-            <motion.div
-              key={step.phase}
-              className={`timeline-node-item ${index === activeStep ? "active" : ""}`}
-              onClick={() => setActiveStep(index)}
-              whileHover={{ x: 8 }}
-              transition={{ duration: 0.2 }}
-            >
-              <div className="node-marker-wrapper">
-                <div className="node-pulse-circle"></div>
-                <span className="node-icon">{step.icon}</span>
-              </div>
-
-              <div className="node-details glass-panel">
-                <div className="node-header">
-                  <span className="node-phase">{step.phase}</span>
-                  <span className="node-date">
-                    <Calendar size={12} /> {step.date}
-                  </span>
+          {/* Right Column — Stats Grid */}
+          <motion.div
+            className="about-stats"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {stats.map(({ icon: Icon, number, label }) => (
+              <motion.div
+                key={label}
+                className="stat-card glass-card"
+                variants={statCardVariants}
+                whileHover={{ y: -6, transition: { duration: 0.25 } }}
+              >
+                <div className="stat-icon">
+                  <Icon size={20} />
                 </div>
-                <h3 className="node-title">{step.title}</h3>
-                <p className="node-desc">{step.desc}</p>
-                <div className="node-shell-log">
-                  <Terminal size={12} className="text-pink" />
-                  <span>{step.log}</span>
-                </div>
-                <div className="node-status-tag">
-                  <span className="dot-green"></span>
-                  <span>{step.status}</span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                <span className="stat-number gradient-text">{number}</span>
+                <span className="stat-label">{label}</span>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
 
-        {/* RIGHT COLUMN: CODE PREVIEW & STATS */}
-        <div className="about-stats-container">
-          {/* Real-time Achievement Stats */}
-          <div className="about-metrics-grid">
-            <div className="metric-panel glass-panel">
-              <span className="metric-num">2+</span>
-              <span className="metric-lbl">Years Coded</span>
-            </div>
-            <div className="metric-panel glass-panel">
-              <span className="metric-num">15+</span>
-              <span className="metric-lbl">Systems Shipped</span>
-            </div>
-            <div className="metric-panel glass-panel">
-              <span className="metric-num">50+</span>
-              <span className="metric-lbl">Merged Pulls</span>
-            </div>
+        {/* Bottom — What I Bring Badges */}
+        <motion.div
+          className="about-qualities"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <motion.span className="qualities-heading" variants={itemVariants}>
+            What I Bring
+          </motion.span>
+          <div className="qualities-list">
+            {qualities.map((quality, index) => (
+              <motion.span
+                key={quality}
+                className="quality-badge"
+                variants={badgeVariants}
+                custom={index}
+              >
+                {quality}
+              </motion.span>
+            ))}
           </div>
-
-          {/* Holographic Coder Tag IDE Card */}
-          <div className="holo-ide-card glass-panel">
-            <div className="hud-window-header">
-              <div className="header-dots">
-                <span className="dot dot-close"></span>
-                <span className="dot dot-minimize"></span>
-                <span className="dot dot-expand"></span>
-              </div>
-              <div className="hud-window-title">manoj_sys_debugger.sh</div>
-            </div>
-            <div className="ide-content">
-              <pre>
-                <code className="text-muted">// System parameters init</code>
-                <br />
-                <code>
-                  <span className="text-keyword">const</span> developer = &#123;
-                </code>
-                <br />
-                <code>
-                  {" "}
-                  name: <span className="text-string">"Manoj Katwal"</span>,
-                </code>
-                <br />
-                <code>
-                  {" "}
-                  origin:{" "}
-                  <span className="text-string">"Dharan, Nepal 🇳🇵"</span>,
-                </code>
-                <br />
-                <code>
-                  {" "}
-                  focus:{" "}
-                  <span className="text-string">"Full Stack / Systems"</span>,
-                </code>
-                <br />
-                <code>
-                  {" "}
-                  status: <span className="text-string">"OPERATIONAL"</span>,
-                </code>
-                <br />
-                <code>
-                  {" "}
-                  uptime: <span className="text-string">"LATE_NIGHT"</span>
-                </code>
-                <br />
-                <code>&#125;;</code>
-                <br />
-                <br />
-                <code className="text-muted">
-                  // Debug selected timeline phase
-                </code>
-                <br />
-                <code>
-                  <span className="text-keyword">debugger</span>
-                  .inspect(timelineSteps[{activeStep}]);
-                </code>
-                <br />
-                <br />
-                <code className="text-pink">
-                  Output: "{timelineSteps[activeStep].title} is fully verified
-                  and stable."
-                </code>
-              </pre>
-            </div>
-          </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
