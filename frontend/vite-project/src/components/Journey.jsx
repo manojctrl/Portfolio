@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Award, Briefcase, Calendar, Code, Cpu, ExternalLink, Rocket } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Award, Code, Cpu, Rocket } from 'lucide-react';
 import './Journey.css';
 
 const milestones = [
@@ -72,177 +71,80 @@ const itemVariants = {
 };
 
 export default function Journey() {
-  const [activeMilestone, setActiveMilestone] = useState(milestones[0].id);
-
   return (
     <section id="journey" className="journey-hud-section">
       <span className="section-eyebrow">// DEVELOPMENT_MILESTONES</span>
       <h2 className="section-title">The Career Timeline</h2>
       
       <div className="journey-hud-container container">
-        {/* Timeline main grid */}
-        <div className="journey-interactive-layout">
-          
-          {/* LEFT: Year Selector Hub */}
-          <div className="year-selector-hub">
-            {milestones.map((m) => {
-              const Icon = m.icon;
-              return (
-                <button
-                  key={m.id}
-                  className={`year-hud-btn ${activeMilestone === m.id ? 'active' : ''} color-${m.colorClass}`}
-                  onClick={() => setActiveMilestone(m.id)}
-                  aria-label={`View milestone for ${m.year}`}
-                >
-                  <span className="btn-telemetry-status">
-                    <span className="dot" />
-                    <span>ACTIVE</span>
-                  </span>
-                  <div className="btn-year-inner">
-                    <span className="btn-year-text">{m.year}</span>
-                    <span className="btn-icon-wrapper">
-                      <Icon size={16} />
-                    </span>
+        {/* Modern Vertical Timeline */}
+        <motion.div
+          className="timeline-modern-container"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
+          {/* Central Timeline Line */}
+          <div className="timeline-central-line"></div>
+
+          {milestones.map((m, index) => {
+            const Icon = m.icon;
+            const isEven = index % 2 === 0;
+
+            return (
+              <motion.div
+                key={m.id}
+                className={`timeline-milestone-card ${isEven ? 'timeline-left' : 'timeline-right'}`}
+                variants={itemVariants}
+              >
+                {/* Timeline Node Connector */}
+                <div className={`timeline-node bg-${m.colorClass}`}>
+                  <div className={`timeline-node-inner color-${m.colorClass}`}>
+                    <Icon size={18} />
                   </div>
-                  <div className="btn-active-line" />
-                </button>
-              );
-            })}
-          </div>
+                  <div className="timeline-node-glow"></div>
+                </div>
 
-          {/* RIGHT: Detailed Telemetry Panel */}
-          <div className="telemetry-milestone-panel">
-            <AnimatePresence mode="wait">
-              {milestones.map((m) => {
-                if (m.id !== activeMilestone) return null;
-                const Icon = m.icon;
-                return (
-                  <motion.div
-                    key={m.id}
-                    className="telemetry-card glass-panel"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.4, ease: 'easeOut' }}
-                  >
-                    {/* Header bar with simulated OS buttons */}
-                    <div className="bento-card-header">
-                      <div className="header-dots">
-                        <span className="dot dot-close"></span>
-                        <span className="dot dot-minimize"></span>
-                        <span className="dot dot-expand"></span>
-                      </div>
-                      <div className="bento-card-title">SYS_LANDMARK // {m.year}</div>
-                      <div className="bento-card-status">
-                        <span className="dot-green"></span>
-                        <span>ONLINE</span>
-                      </div>
+                {/* Card Content */}
+                <div className={`timeline-card-content glass-panel`}>
+                  <div className="timeline-card-header">
+                    <div className="timeline-year-badge">
+                      <span className="timeline-year">{m.year}</span>
                     </div>
-
-                    <div className="telemetry-card-body">
-                      {/* Sub-header grid */}
-                      <div className="milestone-detail-header">
-                        <div className={`milestone-badge-glow bg-${m.colorClass}`}>
-                          <Icon size={24} className={`text-${m.colorClass}`} />
-                        </div>
-                        <div className="milestone-title-block">
-                          <span className="milestone-year-subtitle">// YEAR_{m.year}</span>
-                          <h3>{m.title}</h3>
-                          <h4>{m.subtitle}</h4>
-                        </div>
-                      </div>
-
-                      {/* Main explanation */}
-                      <p className="milestone-desc-content">{m.desc}</p>
-
-                      {/* Hardware / Tech stats table */}
-                      <div className="milestone-metrics-grid">
-                        {Object.entries(m.metrics).map(([key, val]) => (
-                          <div key={key} className="metric-row">
-                            <span className="metric-key">{key}</span>
-                            <span className={`metric-val text-${m.colorClass}`}>{val}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Technology Pills */}
-                      <div className="milestone-tech-pillbox">
-                        {m.tags.map((tag) => (
-                          <span key={tag} className="milestone-tag">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          </div>
-
-        </div>
-
-        {/* Desktop Vertical Glow Timeline (Fall-back Interactive Scroll View) */}
-        <div className="journey-scroll-timeline-view">
-          <motion.div
-            className="vertical-timeline-grid"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            {/* Timeline center line */}
-            <div className="timeline-center-glow-track" />
-
-            {milestones.map((m, index) => {
-              const Icon = m.icon;
-              const isEven = index % 2 === 0;
-
-              return (
-                <motion.div
-                  key={m.id}
-                  className={`timeline-item-node ${isEven ? 'left-aligned' : 'right-aligned'}`}
-                  variants={itemVariants}
-                >
-                  {/* Glowing vertical connector node */}
-                  <div className={`timeline-connector-dot bg-${m.colorClass}`}>
-                    <Icon size={14} className="node-icon" />
-                    <div className="pulse-ring" />
+                    <div className={`timeline-status-dot color-${m.colorClass}`}></div>
                   </div>
 
-                  {/* Card Container */}
-                  <div className="timeline-card-wrapper">
-                    <div className="timeline-date-label">{m.year}</div>
+                  <div className="timeline-card-body">
+                    <h3 className="timeline-card-title">{m.title}</h3>
+                    <p className="timeline-card-subtitle">{m.subtitle}</p>
                     
-                    <div className="glass-panel timeline-vertical-card">
-                      <div className="bento-card-header">
-                        <div className="header-dots">
-                          <span className="dot dot-close"></span>
-                          <span className="dot dot-minimize"></span>
-                          <span className="dot dot-expand"></span>
-                        </div>
-                        <div className="bento-card-title">MILESTONE // {m.year}</div>
-                      </div>
+                    <p className="timeline-card-description">{m.desc}</p>
 
-                      <div className="timeline-vertical-card-body">
-                        <h4 className={`milestone-title-text text-${m.colorClass}`}>{m.title}</h4>
-                        <span className="milestone-sub-text">{m.subtitle}</span>
-                        <p className="milestone-main-paragraph">{m.desc}</p>
-                        
-                        <div className="timeline-tech-tags-list">
-                          {m.tags.map((t) => (
-                            <span key={t} className="bento-tech-pill">{t}</span>
-                          ))}
+                    {/* Tech Tags */}
+                    <div className="timeline-tech-stack">
+                      {m.tags.map((tag) => (
+                        <span key={tag} className={`timeline-tag color-${m.colorClass}`}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Metrics */}
+                    <div className="timeline-metrics">
+                      {Object.entries(m.metrics).map(([key, val]) => (
+                        <div key={key} className="timeline-metric-item">
+                          <span className="metric-label">{key}</span>
+                          <span className={`metric-value color-${m.colorClass}`}>{val}</span>
                         </div>
-                      </div>
+                      ))}
                     </div>
                   </div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </div>
-
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
       </div>
     </section>
   );

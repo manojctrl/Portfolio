@@ -349,61 +349,56 @@ function ProjectCard({ project, index, onActionClick }) {
     <motion.div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className={`bento-project-card glass-panel bento-span-${index + 1}`}
+      className="modern-project-card glass-panel"
       variants={itemVariants}
-      whileHover={{ y: -6 }}
+      whileHover={{ y: -8 }}
       layout
     >
-      {/* macOS Header HUD */}
-      <div className="bento-card-header">
-        <div className="header-dots">
-          <span className="dot dot-close"></span>
-          <span className="dot dot-minimize"></span>
-          <span className="dot dot-expand"></span>
-        </div>
-        <div className="bento-card-title">{project.title}</div>
-        <div className="bento-card-status">
-          <span className="dot-green"></span>
-          <span>{project.status}</span>
-        </div>
-      </div>
-
-      {/* Visual Image Preview */}
-      <div className="bento-visual-preview">
+      {/* Card Visual Preview */}
+      <div className="project-card-image">
         {project.screenshot ? (
-          <div className="screenshot-wrapper">
-            <img
-              src={project.screenshot}
-              alt={`${project.title} Preview`}
-              className="bento-screenshot-img"
-              loading="lazy"
-            />
-            <div className="screenshot-overlay">
-              <span className="screenshot-tag">// SYSTEM_PREVIEW_ACTIVE</span>
-            </div>
-          </div>
+          <img
+            src={project.screenshot}
+            alt={`${project.title} Preview`}
+            className="project-image"
+            loading="lazy"
+          />
         ) : (
-          <TechIllustrativeIcon type={project.iconType} />
+          <div className="project-icon-placeholder">
+            <TechIllustrativeIcon type={project.iconType} />
+          </div>
         )}
-
-        {/* Dynamic Glow Spotlight */}
-        <div className="bento-glow-overlay" />
+        <div className="project-image-overlay"></div>
       </div>
 
-      {/* Core Project Details */}
-      <div className="bento-content">
-        <div className="bento-meta-header">
-          <span className="bento-category">{project.category}</span>
-          <span className="bento-highlight">{project.highlight}</span>
+      {/* Card Content */}
+      <div className="project-card-content">
+        {/* Header with status */}
+        <div className="project-card-top">
+          <div className="project-title-section">
+            <h3 className="project-title">{project.title}</h3>
+            <p className="project-category">{project.category}</p>
+          </div>
+          <span className={`project-status-badge status-${project.status.toLowerCase()}`}>
+            {project.status}
+          </span>
         </div>
 
-        <p className="bento-desc">{project.description}</p>
+        {/* Description */}
+        <p className="project-description">{project.description}</p>
 
-        {/* Complexity Bar */}
-        <div className="bento-complexity-panel">
-          <div className="complexity-info">
-            <span>COMPLEXITY</span>
-            <span className="text-cyan">{project.complexity}</span>
+        {/* Tech Stack */}
+        <div className="project-tech-stack">
+          {project.tech.map((tech) => (
+            <span key={tech} className="project-tech-tag">{tech}</span>
+          ))}
+        </div>
+
+        {/* Complexity Indicator */}
+        <div className="project-complexity-bar">
+          <div className="complexity-label">
+            <span>Complexity</span>
+            <span className="complexity-value">{project.complexity}</span>
           </div>
           <div className="complexity-track">
             <div
@@ -413,28 +408,21 @@ function ProjectCard({ project, index, onActionClick }) {
           </div>
         </div>
 
-        {/* Tech tags */}
-        <div className="bento-tech-tags">
-          {project.tech.map((tag) => (
-            <span key={tag} className="bento-tech-pill">
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {/* Bottom Actions */}
-        <div className="bento-actions">
+        {/* Action Buttons */}
+        <div className="project-card-actions">
           <button
             onClick={() => onActionClick("source", project)}
-            className="bento-btn btn-secondary"
+            className="project-action-btn btn-source"
           >
-            <GithubIcon size={14} /> <span>SOURCE</span>
+            <GithubIcon size={14} />
+            <span>Source</span>
           </button>
           <button
             onClick={() => onActionClick("deploy", project)}
-            className="bento-btn btn-primary"
+            className="project-action-btn btn-deploy"
           >
-            <ExternalLink size={14} /> <span>DEPLOY</span>
+            <ExternalLink size={14} />
+            <span>Demo</span>
           </button>
         </div>
       </div>
@@ -445,6 +433,7 @@ function ProjectCard({ project, index, onActionClick }) {
 export default function Projects() {
   const [terminalAlert, setTerminalAlert] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [showAll, setShowAll] = useState(false);
 
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text);
@@ -452,167 +441,126 @@ export default function Projects() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const displayedProjects = showAll ? featuredProjects : featuredProjects.slice(0, INITIAL_SHOW);
+
   return (
     <section id="projects" className="projects-hud-section">
       <div className="container">
-        <span className="section-eyebrow">// REPOSITORIES_GRID</span>
-        <h2 className="section-title">Featured Projects & Case Studies</h2>
+        <span className="section-eyebrow">// FEATURED_PROJECTS</span>
+        <h2 className="section-title">Projects & Case Studies</h2>
 
         <div className="projects-hud-content">
-          {/* Projects Grid */}
+          {/* Modern Projects Grid */}
           <motion.div
-            className="bento-projects-grid"
+            className="modern-projects-grid"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
           >
             <AnimatePresence mode="sync">
-              {featuredProjects.map((project, index) => (
+              {displayedProjects.map((project) => (
                 <ProjectCard
                   key={project.id}
                   project={project}
-                  index={index}
                   onActionClick={(type, proj) => setTerminalAlert({ type, project: proj })}
                 />
               ))}
             </AnimatePresence>
           </motion.div>
 
-          {/* Dynamic CTA Console */}
-          <div className="projects-hud-cta glass-panel">
-            <div className="cta-icon-panel">
-              <Terminal size={32} className="text-cyan" />
-            </div>
-            <div className="cta-info-panel">
-              <h3>READY_FOR_INTEGRATION</h3>
-              <p>
-                Access full commit logs, code architectures, and configurations
-                directly on GitHub.
-              </p>
-            </div>
-            <a
-              href="https://github.com/manojctrl"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary cta-btn"
+          {/* Load More Button */}
+          {!showAll && featuredProjects.length > INITIAL_SHOW && (
+            <motion.div
+              className="projects-load-more"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
             >
-              <GithubIcon size={16} /> <span>VIEW_ALL_REPOSITORIES</span>
-            </a>
-          </div>
+              <button
+                onClick={() => setShowAll(true)}
+                className="btn-load-more"
+              >
+                View All Projects ({featuredProjects.length})
+              </button>
+            </motion.div>
+          )}
         </div>
       </div>
 
-      {/* Cybernetic Terminal Action Modal */}
+      {/* Action Modal */}
       <AnimatePresence>
         {terminalAlert && (
           <motion.div
-            className="terminal-modal-overlay"
+            className="project-modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setTerminalAlert(null)}
           >
             <motion.div
-              className="terminal-modal-content glass-panel"
+              className="project-modal-content glass-panel"
               initial={{ scale: 0.9, y: 30, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 30, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="bento-card-header">
-                <div className="header-dots">
-                  <span className="dot dot-close" onClick={() => setTerminalAlert(null)}></span>
-                  <span className="dot dot-minimize"></span>
-                  <span className="dot dot-expand"></span>
-                </div>
-                <div className="bento-card-title">
-                  SYS_LINK_CONTROLLER // {terminalAlert.type.toUpperCase()}_MODE
-                </div>
-                <div className="bento-card-status">
-                  <span className="dot-green"></span>
-                  <span>ONLINE</span>
+              <div className="modal-header">
+                <h3>{terminalAlert.project.title}</h3>
+                <button 
+                  onClick={() => setTerminalAlert(null)}
+                  className="modal-close"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="modal-body">
+                <p className="modal-subtitle">
+                  {terminalAlert.type === "source" ? "Repository Link" : "Live Demo"}
+                </p>
+
+                <div className="modal-link-box">
+                  <code className="modal-link">
+                    {terminalAlert.type === "source"
+                      ? terminalAlert.project.github
+                      : terminalAlert.project.live}
+                  </code>
+                  <button
+                    className="modal-copy-btn"
+                    onClick={() =>
+                      handleCopy(
+                        terminalAlert.type === "source"
+                          ? terminalAlert.project.github
+                          : terminalAlert.project.live
+                      )
+                    }
+                  >
+                    {copied ? <Check size={16} /> : <Copy size={16} />}
+                  </button>
                 </div>
               </div>
 
-              <div className="terminal-modal-body">
-                <p className="terminal-log-line text-warning font-mono">
-                  &gt;_ INITIALIZING SECURE REDIRECTION CONTROLLER...
-                </p>
-
-                <div className="terminal-console-block">
-                  <div className="console-line font-mono">
-                    <span className="text-cyan">[STATE]</span> Resolving assets for:{" "}
-                    <span className="text-white font-bold">{terminalAlert.project.title}</span>
-                  </div>
-                  <div className="console-line font-mono">
-                    <span className="text-cyan">[TARGET]</span> Resource mapping to:{" "}
-                    <span className="text-pink">{terminalAlert.type.toUpperCase()}</span>
-                  </div>
-
-                  {terminalAlert.type === "source" ? (
-                    <>
-                      <div className="console-line mt-2 text-muted font-mono">
-                        # You can clone this repository locally using:
-                      </div>
-                      <div className="console-command-box">
-                        <code className="text-success font-mono">
-                          git clone {terminalAlert.project.github}.git
-                        </code>
-                        <button
-                          className="console-copy-btn"
-                          title="Copy clone command"
-                          onClick={() =>
-                            handleCopy(`git clone ${terminalAlert.project.github}.git`)
-                          }
-                        >
-                          {copied ? (
-                            <Check size={13} className="text-green" />
-                          ) : (
-                            <Copy size={13} className="text-cyan" />
-                          )}
-                        </button>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="console-line mt-2 text-muted font-mono">
-                        # Deployment target endpoint status:
-                      </div>
-                      <div className="console-command-box">
-                        <code className="text-success font-mono">
-                          HTTP/1.1 GET {terminalAlert.project.live}
-                        </code>
-                      </div>
-                    </>
-                  )}
-                  
-                  <div className="console-line text-info mt-2 font-mono">
-                    [SYS] Ready to spawn secure subprocess shell...
-                  </div>
-                </div>
-
-                <div className="terminal-modal-actions">
-                  <button
-                    className="btn-secondary modal-btn"
-                    onClick={() => setTerminalAlert(null)}
-                  >
-                    <X size={13} /> <span>CANCEL</span>
-                  </button>
-                  <a
-                    href={
-                      terminalAlert.type === "source"
-                        ? terminalAlert.project.github
-                        : terminalAlert.project.live
-                    }
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-primary modal-btn"
-                    onClick={() => setTerminalAlert(null)}
-                  >
-                    <ExternalLink size={13} /> <span>VISIT_LINK</span>
-                  </a>
-                </div>
+              <div className="modal-footer">
+                <button
+                  className="modal-btn modal-btn-secondary"
+                  onClick={() => setTerminalAlert(null)}
+                >
+                  Close
+                </button>
+                <a
+                  href={
+                    terminalAlert.type === "source"
+                      ? terminalAlert.project.github
+                      : terminalAlert.project.live
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="modal-btn modal-btn-primary"
+                  onClick={() => setTerminalAlert(null)}
+                >
+                  <ExternalLink size={14} /> Open Link
+                </a>
               </div>
             </motion.div>
           </motion.div>
