@@ -454,50 +454,52 @@ export default function Projects() {
 
   return (
     <section id="projects" className="projects-hud-section">
-      <span className="section-eyebrow">// REPOSITORIES_GRID</span>
-      <h2 className="section-title">Production Bento Grid</h2>
+      <div className="container">
+        <span className="section-eyebrow">// REPOSITORIES_GRID</span>
+        <h2 className="section-title">Featured Projects & Case Studies</h2>
 
-      <div className="projects-hud-content">
-        {/* Projects Grid */}
-        <motion.div
-          className="bento-projects-grid"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-        >
-          <AnimatePresence mode="sync">
-            {featuredProjects.map((project, index) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                index={index}
-                onActionClick={(type, proj) => setTerminalAlert({ type, project: proj })}
-              />
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Dynamic CTA Console */}
-        <div className="projects-hud-cta glass-panel">
-          <div className="cta-icon-panel">
-            <Terminal size={32} className="text-cyan" />
-          </div>
-          <div className="cta-info-panel">
-            <h3>READY_FOR_INTEGRATION</h3>
-            <p>
-              Access full commit logs, code architectures, and configurations
-              directly on GitHub.
-            </p>
-          </div>
-          <a
-            href="https://github.com/manojctrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary cta-btn"
+        <div className="projects-hud-content">
+          {/* Projects Grid */}
+          <motion.div
+            className="bento-projects-grid"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
           >
-            <GithubIcon size={16} /> <span>CLONE_ALL_REPOS</span>
-          </a>
+            <AnimatePresence mode="sync">
+              {featuredProjects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  onActionClick={(type, proj) => setTerminalAlert({ type, project: proj })}
+                />
+              ))}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Dynamic CTA Console */}
+          <div className="projects-hud-cta glass-panel">
+            <div className="cta-icon-panel">
+              <Terminal size={32} className="text-cyan" />
+            </div>
+            <div className="cta-info-panel">
+              <h3>READY_FOR_INTEGRATION</h3>
+              <p>
+                Access full commit logs, code architectures, and configurations
+                directly on GitHub.
+              </p>
+            </div>
+            <a
+              href="https://github.com/manojctrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary cta-btn"
+            >
+              <GithubIcon size={16} /> <span>VIEW_ALL_REPOSITORIES</span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -595,7 +597,7 @@ export default function Projects() {
                     className="btn-secondary modal-btn"
                     onClick={() => setTerminalAlert(null)}
                   >
-                    <X size={13} /> <span>ABORT_SYS</span>
+                    <X size={13} /> <span>CANCEL</span>
                   </button>
                   <a
                     href={
@@ -608,7 +610,7 @@ export default function Projects() {
                     className="btn-primary modal-btn"
                     onClick={() => setTerminalAlert(null)}
                   >
-                    <ExternalLink size={13} /> <span>EXECUTE_LINK</span>
+                    <ExternalLink size={13} /> <span>VISIT_LINK</span>
                   </a>
                 </div>
               </div>

@@ -107,7 +107,7 @@ function Contact() {
             <form className="transmission-form" onSubmit={handleSubmit}>
               <div className="form-hud-row">
                 <div className="form-hud-group">
-                  <label className="form-hud-label">SENDER_ID</label>
+                  <label className="form-hud-label">Your Name</label>
                   <input
                     type="text"
                     name="name"
@@ -119,7 +119,7 @@ function Contact() {
                   />
                 </div>
                 <div className="form-hud-group">
-                  <label className="form-hud-label">RETURN_ADDR</label>
+                  <label className="form-hud-group">Your Email</label>
                   <input
                     type="email"
                     name="email"
@@ -133,7 +133,7 @@ function Contact() {
               </div>
 
               <div className="form-hud-group">
-                <label className="form-hud-label">SUBJECT_HEADER</label>
+                <label className="form-hud-label">Subject</label>
                 <input
                   type="text"
                   name="subject"
@@ -146,7 +146,7 @@ function Contact() {
               </div>
 
               <div className="form-hud-group">
-                <label className="form-hud-label">PAYLOAD_BODY</label>
+                <label className="form-hud-label">Message Payload</label>
                 <textarea
                   name="message"
                   value={formData.message}
@@ -165,20 +165,20 @@ function Contact() {
               >
                 {isSubmitting ? (
                   <>
-                    <span className="sending-dots">TRANSMITTING</span>
+                    <span className="sending-dots">SENDING MESSAGE</span>
                     <span className="hud-caret">|</span>
                   </>
                 ) : (
                   <>
                     <Send size={14} />
-                    <span>DISPATCH_SIGNAL</span>
+                    <span>SEND MESSAGE</span>
                   </>
                 )}
               </button>
 
               {submitted && (
                 <div className="transmission-success">
-                  <span className="text-success">✓ SIGNAL_RECEIVED — I'll respond within 24h!</span>
+                  <span className="text-success">✓ MESSAGE_RECEIVED — I'll respond within 24h!</span>
                 </div>
               )}
             </form>

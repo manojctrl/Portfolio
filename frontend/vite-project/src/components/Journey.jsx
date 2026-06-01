@@ -76,7 +76,7 @@ export default function Journey() {
 
   return (
     <section id="journey" className="journey-hud-section">
-      <span className="section-eyebrow">// DEVELOPMENT_CHRONICLE</span>
+      <span className="section-eyebrow">// DEVELOPMENT_MILESTONES</span>
       <h2 className="section-title">The Career Timeline</h2>
       
       <div className="journey-hud-container container">
@@ -96,7 +96,7 @@ export default function Journey() {
                 >
                   <span className="btn-telemetry-status">
                     <span className="dot" />
-                    <span>SYS_READY</span>
+                    <span>ACTIVE</span>
                   </span>
                   <div className="btn-year-inner">
                     <span className="btn-year-text">{m.year}</span>
@@ -132,10 +132,10 @@ export default function Journey() {
                         <span className="dot dot-minimize"></span>
                         <span className="dot dot-expand"></span>
                       </div>
-                      <div className="bento-card-title">SYS_LANDMARK // RECORD_{m.year}</div>
+                      <div className="bento-card-title">SYS_LANDMARK // {m.year}</div>
                       <div className="bento-card-status">
                         <span className="dot-green"></span>
-                        <span>COMMITTED</span>
+                        <span>ONLINE</span>
                       </div>
                     </div>
 
@@ -146,7 +146,7 @@ export default function Journey() {
                           <Icon size={24} className={`text-${m.colorClass}`} />
                         </div>
                         <div className="milestone-title-block">
-                          <span className="milestone-year-subtitle">// CHRONO_{m.year}</span>
+                          <span className="milestone-year-subtitle">// YEAR_{m.year}</span>
                           <h3>{m.title}</h3>
                           <h4>{m.subtitle}</h4>
                         </div>
@@ -221,7 +221,7 @@ export default function Journey() {
                           <span className="dot dot-minimize"></span>
                           <span className="dot dot-expand"></span>
                         </div>
-                        <div className="bento-card-title">CHRONO_TELEMETRY // {m.year}</div>
+                        <div className="bento-card-title">MILESTONE // {m.year}</div>
                       </div>
 
                       <div className="timeline-vertical-card-body">
