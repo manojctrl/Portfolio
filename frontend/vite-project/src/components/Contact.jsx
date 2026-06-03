@@ -1,189 +1,355 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import './Contact.css';
-import { Mail, Phone, MapPin, Send, Wifi } from 'lucide-react';
+
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Send
+} from 'lucide-react';
+
+// Custom Github Icon SVG
+const GithubIcon = ({ size = 20 }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
+
+// Custom Linkedin Icon SVG
+const LinkedinIcon = ({ size = 20 }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect width="4" height="12" x="2" y="9" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
 
 function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.name || !formData.email || !formData.message) {
+      setError('Please fill in all required fields');
+      return;
+    }
+
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+
+    if (!accessKey || accessKey === 'your_web3forms_key_here') {
+      setError('Please configure VITE_WEB3FORMS_ACCESS_KEY in the .env file to make this form fully functional.');
+      return;
+    }
+
     setIsSubmitting(true);
-    setTimeout(() => {
+    setError('');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject || `Manoj OS Portfolio Msg from ${formData.name}`,
+          message: formData.message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitted(true);
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+        });
+        setTimeout(() => setSubmitted(false), 5000);
+      } else {
+        setError(result.message || 'Failed to transmit message. Please try again.');
+      }
+    } catch {
+      setError('A transmission error occurred. Please verify your connection.');
+    } finally {
       setIsSubmitting(false);
-      setSubmitted(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setSubmitted(false), 5000);
-    }, 1500);
+    }
   };
 
   return (
-    <section id="contact" className="contact-hud-section">
-      <span className="section-eyebrow">// TRANSMISSION_CONSOLE</span>
-      <h2 className="section-title">Open a Channel</h2>
+    <section id="contact" className="contact-modern-section">
+      <div className="container">
+        <span className="section-label">// GET_IN_TOUCH</span>
 
-      <div className="contact-hud-grid">
-        {/* LEFT: Signal Info Panels */}
-        <div className="contact-info-col">
-          <div className="signal-status-bar glass-panel">
-            <div className="signal-dot"></div>
-            <div className="signal-text">
-              <span className="signal-title">NODE STATUS: ONLINE</span>
-              <span className="signal-sub">Average response latency &lt; 24h</span>
-            </div>
-            <Wifi size={20} className="signal-wifi-icon" />
-          </div>
+        <h2 className="section-title">Open a Channel</h2>
 
-          <div className="contact-methods-list">
-            <a href="mailto:katwalmanoj67@gmail.com" className="contact-hud-method glass-panel">
-              <div className="method-icon-wrapper">
-                <Mail size={18} />
+        <p className="contact-subtitle">
+          Let's connect and discuss opportunities,
+          collaborations, or just say hello!
+        </p>
+
+        <div className="contact-modern-container">
+
+        {/* Contact Info */}
+        <motion.div
+          className="contact-info-panel"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <h3>Contact Information</h3>
+
+          <div className="contact-info-grid">
+
+            <a
+              href="mailto:katwalmanoj67@gmail.com"
+              className="contact-card"
+            >
+              <div className="contact-card-icon">
+                <Mail size={20} />
               </div>
-              <div className="method-details">
-                <span className="method-label">MAIL_ENDPOINT</span>
-                <span className="method-value">katwalmanoj67@gmail.com</span>
+
+              <div className="contact-card-content">
+                <h4>Email</h4>
+                <p>katwalmanoj67@gmail.com</p>
               </div>
             </a>
 
-            <a href="tel:+977-9804064003" className="contact-hud-method glass-panel">
-              <div className="method-icon-wrapper method-phone">
-                <Phone size={18} />
+            <a
+              href="tel:+9779804064003"
+              className="contact-card"
+            >
+              <div className="contact-card-icon">
+                <Phone size={20} />
               </div>
-              <div className="method-details">
-                <span className="method-label">VOICE_CHANNEL</span>
-                <span className="method-value">+977-9804064003</span>
+
+              <div className="contact-card-content">
+                <h4>Phone</h4>
+                <p>+977 9804064003</p>
               </div>
             </a>
 
-            <div className="contact-hud-method glass-panel" style={{ cursor: 'default' }}>
-              <div className="method-icon-wrapper method-location">
-                <MapPin size={18} />
+            <div className="contact-card">
+              <div className="contact-card-icon">
+                <MapPin size={20} />
               </div>
-              <div className="method-details">
-                <span className="method-label">GEO_LOCATION</span>
-                <span className="method-value">Dharan, Nepal 🇳🇵</span>
+
+              <div className="contact-card-content">
+                <h4>Location</h4>
+                <p>Dharan, Nepal 🇳🇵</p>
+              </div>
+            </div>
+
+            <div className="contact-card">
+              <div className="contact-card-icon">
+                <Send size={20} />
+              </div>
+
+              <div className="contact-card-content">
+                <h4>Response Time</h4>
+                <p>Within 24 Hours</p>
               </div>
             </div>
           </div>
 
-          {/* Terminal log block */}
-          <div className="contact-terminal-log glass-panel">
-            <div className="hud-window-header">
-              <div className="header-dots">
-                <span className="dot dot-close"></span>
-                <span className="dot dot-minimize"></span>
-                <span className="dot dot-expand"></span>
-              </div>
-              <span className="hud-window-title">connection_log.sh</span>
-            </div>
-            <div className="terminal-log-body">
-              <p className="tlog"><span className="text-success">[OK]</span> GATEWAY OPEN — awaiting transmission</p>
-              <p className="tlog"><span className="text-info">[INFO]</span> Accepting: freelance, collab, fulltime</p>
-              <p className="tlog"><span className="text-warning">[NOTE]</span> Currently in Dharan, Nepal. UTC+5:45</p>
-              <p className="tlog"><span className="text-success">[READY]</span> Signal active. Response guaranteed.</p>
+          {/* Social Links */}
+          <div className="contact-social-links">
+            <h4>Follow Me</h4>
+
+            <div className="social-icons">
+
+              <a
+                href="https://github.com/manojctrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-link"
+              >
+                <GithubIcon size={20} />
+              </a>
+
+              <a
+                href="https://linkedin.com/in/manojkatwal"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-link"
+              >
+                <LinkedinIcon size={20} />
+              </a>
+
+              <a
+                href="mailto:katwalmanoj67@gmail.com"
+                className="social-link"
+              >
+                <Mail size={20} />
+              </a>
+
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* RIGHT: Transmission Form */}
-        <div className="contact-form-col">
-          <div className="transmission-form-panel glass-panel">
-            <div className="hud-window-header">
-              <div className="header-dots">
-                <span className="dot dot-close"></span>
-                <span className="dot dot-minimize"></span>
-                <span className="dot dot-expand"></span>
-              </div>
-              <span className="hud-window-title">new_transmission.sh</span>
-              <span className="hud-window-telemetry">ENCRYPTED</span>
-            </div>
+        {/* Contact Form */}
+        <motion.div
+          className="contact-form-panel"
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <div className="contact-form-wrapper glass-panel">
+            <h3>Send Me a Message</h3>
 
-            <form className="transmission-form" onSubmit={handleSubmit}>
-              <div className="form-hud-row">
-                <div className="form-hud-group">
-                  <label className="form-hud-label">Your Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Your name"
-                    className="form-hud-input"
-                    required
-                  />
-                </div>
-                <div className="form-hud-group">
-                  <label className="form-hud-group">Your Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="your@email.com"
-                    className="form-hud-input"
-                    required
-                  />
-                </div>
-              </div>
+            <form
+              className="contact-form"
+              onSubmit={handleSubmit}
+            >
+              <div className="form-group">
+                <label htmlFor="name">Full Name</label>
 
-              <div className="form-hud-group">
-                <label className="form-hud-label">Subject</label>
                 <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="John Doe"
+                  className="form-input"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="email">Email Address</label>
+
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="your@email.com"
+                  className="form-input"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="subject">
+                  Subject (Optional)
+                </label>
+
+                <input
+                  id="subject"
                   type="text"
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
                   placeholder="What's this about?"
-                  className="form-hud-input"
-                  required
+                  className="form-input"
                 />
               </div>
 
-              <div className="form-hud-group">
-                <label className="form-hud-label">Message Payload</label>
+              <div className="form-group">
+                <label htmlFor="message">Message</label>
+
                 <textarea
+                  id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Write your message here..."
-                  rows="6"
-                  className="form-hud-input form-hud-textarea"
+                  placeholder="Your message here..."
+                  rows="5"
+                  className="form-input form-textarea"
                   required
                 />
               </div>
 
+              {error && (
+                <div className="form-error">
+                  {error}
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="btn-primary transmission-send-btn"
+                className="form-submit-btn"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <>
-                    <span className="sending-dots">SENDING MESSAGE</span>
-                    <span className="hud-caret">|</span>
+                    <span className="loading-spinner"></span>
+                    <span>Sending...</span>
                   </>
                 ) : (
                   <>
-                    <Send size={14} />
-                    <span>SEND MESSAGE</span>
+                    <Send size={16} />
+                    <span>Send Message</span>
                   </>
                 )}
               </button>
 
               {submitted && (
-                <div className="transmission-success">
-                  <span className="text-success">✓ MESSAGE_RECEIVED — I'll respond within 24h!</span>
-                </div>
+                <motion.div
+                  className="form-success"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  ✓ Message sent successfully!
+                </motion.div>
               )}
             </form>
           </div>
-        </div>
+        </motion.div>
+
+      </div>
       </div>
     </section>
   );

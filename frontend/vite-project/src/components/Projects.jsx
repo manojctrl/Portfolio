@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./Projects.css";
-import { ExternalLink, Terminal, Copy, Check, X } from "lucide-react";
+import { ExternalLink, Copy, Check, X } from "lucide-react";
 
 // Custom SVG Github icon as it is not exported by this version of lucide-react
 const GithubIcon = ({ size = 18, ...props }) => (
@@ -332,7 +332,7 @@ const itemVariants = {
   },
 };
 
-function ProjectCard({ project, index, onActionClick }) {
+function ProjectCard({ project, onActionClick }) {
   const cardRef = useRef(null);
 
   const handleMouseMove = (e) => {

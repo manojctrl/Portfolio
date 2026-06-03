@@ -352,11 +352,44 @@
     max-width: 100%;
   }
 }
+.journey-interactive-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  align-items: stretch;
+  margin-top: 45px;
+}
 
+.journey-hud-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.year-hud-btn {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding: 16px 24px;
+  background: rgba(10, 15, 30, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.year-hud-btn:hover {
+  background: rgba(16, 24, 48, 0.6);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateX(4px);
+}
+
+.year-hud-btn.active {
+  background: rgba(16, 24, 48, 0.85);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .btn-year-text {

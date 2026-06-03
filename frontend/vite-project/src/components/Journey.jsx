@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Award, Code, Cpu, Rocket } from 'lucide-react';
 import './Journey.css';
@@ -49,102 +50,130 @@ const milestones = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94],
-    },
-  },
-};
-
 export default function Journey() {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const activeMilestone = milestones[activeIdx];
+  const ActiveIcon = activeMilestone.icon;
+
   return (
     <section id="journey" className="journey-hud-section">
-      <span className="section-eyebrow">// DEVELOPMENT_MILESTONES</span>
-      <h2 className="section-title">The Career Timeline</h2>
-      
-      <div className="journey-hud-container container">
-        {/* Modern Vertical Timeline */}
-        <motion.div
-          className="timeline-modern-container"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-        >
-          {/* Central Timeline Line */}
-          <div className="timeline-central-line"></div>
+      <div className="container">
+        <span className="section-label">// DEVELOPMENT_MILESTONES</span>
+        <h2 className="section-title">The Career Timeline</h2>
+        
+        {/* Desktop Interactive Layout */}
+        <div className="journey-interactive-layout">
+          {/* Left Menu Panel */}
+          <div className="journey-hud-menu">
+            {milestones.map((m, idx) => {
+              const Icon = m.icon;
+              const isActive = idx === activeIdx;
 
-          {milestones.map((m, index) => {
-            const Icon = m.icon;
-            const isEven = index % 2 === 0;
-
-            return (
-              <motion.div
-                key={m.id}
-                className={`timeline-milestone-card ${isEven ? 'timeline-left' : 'timeline-right'}`}
-                variants={itemVariants}
-              >
-                {/* Timeline Node Connector */}
-                <div className={`timeline-node bg-${m.colorClass}`}>
-                  <div className={`timeline-node-inner color-${m.colorClass}`}>
-                    <Icon size={18} />
+              return (
+                <button
+                  key={m.id}
+                  onClick={() => setActiveIdx(idx)}
+                  className={`year-hud-btn ${isActive ? 'active' : ''} color-${m.colorClass}`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeLine"
+                      className="btn-active-line"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                  <span className="btn-year-text">{m.year}</span>
+                  <div className="btn-icon-wrapper">
+                    <Icon size={16} />
                   </div>
-                  <div className="timeline-node-glow"></div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Right Telemetry Detail Panel */}
+          <div className="telemetry-milestone-panel">
+            <motion.div
+              key={activeMilestone.id}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+              className="telemetry-card"
+            >
+              <div className="telemetry-card-body">
+                <div className="milestone-detail-header">
+                  <div className={`milestone-badge-glow bg-${activeMilestone.colorClass} color-${activeMilestone.colorClass}`}>
+                    <ActiveIcon size={24} />
+                  </div>
+                  <div className="milestone-title-block">
+                    <span className="milestone-year-subtitle">YEAR_{activeMilestone.year}</span>
+                    <h3>{activeMilestone.title}</h3>
+                    <h4>{activeMilestone.subtitle}</h4>
+                  </div>
                 </div>
 
-                {/* Card Content */}
-                <div className={`timeline-card-content glass-panel`}>
-                  <div className="timeline-card-header">
-                    <div className="timeline-year-badge">
-                      <span className="timeline-year">{m.year}</span>
+                <p className="milestone-desc-content">{activeMilestone.desc}</p>
+
+                <div className="milestone-metrics-grid">
+                  {Object.entries(activeMilestone.metrics).map(([key, val]) => (
+                    <div key={key} className="metric-row">
+                      <span className="metric-key">{key}</span>
+                      <span className={`metric-val color-${activeMilestone.colorClass}`}>{val}</span>
                     </div>
-                    <div className={`timeline-status-dot color-${m.colorClass}`}></div>
+                  ))}
+                </div>
+
+                <div className="milestone-tech-pillbox">
+                  {activeMilestone.tags.map((tag) => (
+                    <span key={tag} className="milestone-tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Mobile Scroll Timeline View */}
+        <div className="journey-scroll-timeline-view">
+          <div className="vertical-timeline-grid">
+            <div className="timeline-center-glow-track"></div>
+            
+            {milestones.map((m) => {
+              const Icon = m.icon;
+              return (
+                <div key={m.id} className="timeline-item-node">
+                  <div className={`timeline-connector-dot color-${m.colorClass}`} style={{ borderColor: `var(--neon-${m.colorClass})` }}>
+                    <Icon className="node-icon" />
+                    <div className="pulse-ring" style={{ borderColor: `var(--neon-${m.colorClass})` }}></div>
                   </div>
-
-                  <div className="timeline-card-body">
-                    <h3 className="timeline-card-title">{m.title}</h3>
-                    <p className="timeline-card-subtitle">{m.subtitle}</p>
-                    
-                    <p className="timeline-card-description">{m.desc}</p>
-
-                    {/* Tech Tags */}
-                    <div className="timeline-tech-stack">
-                      {m.tags.map((tag) => (
-                        <span key={tag} className={`timeline-tag color-${m.colorClass}`}>
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Metrics */}
-                    <div className="timeline-metrics">
-                      {Object.entries(m.metrics).map(([key, val]) => (
-                        <div key={key} className="timeline-metric-item">
-                          <span className="metric-label">{key}</span>
-                          <span className={`metric-value color-${m.colorClass}`}>{val}</span>
+                  
+                  <div className="timeline-card-wrapper">
+                    <div className="timeline-date-label">{m.year}</div>
+                    <div className="timeline-vertical-card glass-panel">
+                      <div className="timeline-vertical-card-body">
+                        <h3 className={`milestone-title-text color-${m.colorClass}`}>{m.title}</h3>
+                        <span className="milestone-sub-text">{m.subtitle}</span>
+                        <p className="milestone-main-paragraph">{m.desc}</p>
+                        
+                        <div className="timeline-tech-tags-list">
+                          {m.tags.map((tag) => (
+                            <span key={tag} className="milestone-tag">
+                              {tag}
+                            </span>
+                          ))}
                         </div>
-                      ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
       </div>
     </section>
   );
