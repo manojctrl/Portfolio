@@ -3,674 +3,344 @@ import { motion, AnimatePresence } from "framer-motion";
 import "./Projects.css";
 import { ExternalLink, Copy, Check, X } from "lucide-react";
 
-// Custom SVG Github icon as it is not exported by this version of lucide-react
 const GithubIcon = ({ size = 18, ...props }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24"
+    fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
     <path d="M9 18c-4.51 2-5-2-7-2" />
   </svg>
 );
 
-// bespoked cybernetic SVG illustrations for tech stacks
-const ReactLogoSVG = () => (
-  <svg
-    className="tech-illustrative-svg react-svg"
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+/* ═══════════════════════════════════
+   ILLUSTRATIONS
+═══════════════════════════════════ */
+
+const JobPortalIllustration = () => (
+  <svg className="proj-illustration" viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <filter id="react-glow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
+      <radialGradient id="rg-bg" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stopColor="#0d1a35" /><stop offset="100%" stopColor="#060d1a" />
+      </radialGradient>
+      <filter id="rg-glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     </defs>
-    <circle cx="50" cy="50" r="42" stroke="rgba(0, 242, 254, 0.05)" fill="none" strokeWidth="1" />
-    <circle cx="50" cy="50" r="30" stroke="rgba(0, 242, 254, 0.03)" fill="none" strokeWidth="1" strokeDasharray="4 4" />
-    <g filter="url(#react-glow)">
-      <ellipse cx="50" cy="50" rx="9" ry="25" stroke="var(--neon-cyan)" fill="none" strokeWidth="1.5" className="react-orbit orbit-1" />
-      <ellipse cx="50" cy="50" rx="9" ry="25" stroke="var(--neon-cyan)" fill="none" strokeWidth="1.5" className="react-orbit orbit-2" transform="rotate(60 50 50)" />
-      <ellipse cx="50" cy="50" rx="9" ry="25" stroke="var(--neon-cyan)" fill="none" strokeWidth="1.5" className="react-orbit orbit-3" transform="rotate(120 50 50)" />
-      <circle cx="50" cy="50" r="3.5" fill="var(--neon-cyan)" className="react-nucleus" />
+    <rect width="360" height="200" fill="url(#rg-bg)" />
+    {[...Array(8)].map((_,c) => [...Array(5)].map((_,r) => (
+      <circle key={`${c}-${r}`} cx={30+c*44} cy={20+r*42} r="1" fill="rgba(0,242,254,0.12)" />
+    )))}
+    <g filter="url(#rg-glow)">
+      <circle cx="180" cy="100" r="22" fill="rgba(0,242,254,0.08)" stroke="#00f2fe" strokeWidth="1.5" />
+      <circle cx="180" cy="100" r="14" fill="rgba(0,242,254,0.12)" stroke="#00f2fe" strokeWidth="1" strokeDasharray="3 2">
+        <animateTransform attributeName="transform" type="rotate" from="0 180 100" to="360 180 100" dur="18s" repeatCount="indefinite"/>
+      </circle>
+      <text x="180" y="104" textAnchor="middle" fill="#00f2fe" fontSize="10" fontFamily="monospace" fontWeight="bold">JOBS</text>
     </g>
+    {[
+      { x:72,  y:60,  label:"Seeker",  color:"#ff007f" },
+      { x:288, y:60,  label:"Company", color:"#39ff14" },
+      { x:72,  y:140, label:"Resume",  color:"#ff007f" },
+      { x:288, y:140, label:"Portal",  color:"#39ff14" },
+      { x:180, y:22,  label:"Search",  color:"#00f2fe" },
+      { x:180, y:178, label:"Apply",   color:"#00f2fe" },
+    ].map(({ x, y, label, color }, i) => (
+      <g key={i} filter="url(#rg-glow)">
+        <line x1={x} y1={y} x2="180" y2="100" stroke={color} strokeWidth="0.7" strokeDasharray="4 3" opacity="0.4">
+          <animate attributeName="stroke-dashoffset" from="0" to="-28" dur={`${2.5+i*0.4}s`} repeatCount="indefinite"/>
+        </line>
+        <circle cx={x} cy={y} r="10" fill={`${color}18`} stroke={color} strokeWidth="1.2">
+          <animate attributeName="r" values="10;11.5;10" dur={`${2+i*0.3}s`} repeatCount="indefinite"/>
+        </circle>
+        <text x={x} y={y+3.5} textAnchor="middle" fill={color} fontSize="6" fontFamily="monospace">{label}</text>
+      </g>
+    ))}
+    {[
+      { path:"M72,60 Q126,80 180,100",  color:"#ff007f", dur:"3s"   },
+      { path:"M288,60 Q234,80 180,100", color:"#39ff14", dur:"3.6s" },
+      { path:"M180,22 Q180,61 180,100", color:"#00f2fe", dur:"2.8s" },
+    ].map(({ path, color, dur }, i) => (
+      <circle key={i} r="3" fill={color} opacity="0.9">
+        <animateMotion path={path} dur={dur} repeatCount="indefinite"/>
+      </circle>
+    ))}
   </svg>
 );
 
-const JavaMysqlLogoSVG = () => (
-  <svg
-    className="tech-illustrative-svg java-mysql-svg"
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+const GymIllustration = () => (
+  <svg className="proj-illustration" viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <filter id="java-glow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
+      <radialGradient id="gym-bg" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stopColor="#1a0d2e" /><stop offset="100%" stopColor="#0a0614" />
+      </radialGradient>
+      <filter id="gym-glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     </defs>
-    <path d="M 15 50 L 85 50 M 50 15 L 50 85" stroke="rgba(255, 255, 255, 0.02)" strokeWidth="1" />
-    <g filter="url(#java-glow)">
-      {/* Java Coffee Cup */}
-      <path d="M 38 42 C 38 52, 62 52, 62 42 L 64 36 L 36 36 Z" stroke="var(--neon-pink)" strokeWidth="2" fill="rgba(255, 0, 127, 0.05)" />
-      <path d="M 62 38 C 67 38, 67 46, 62 46" stroke="var(--neon-pink)" strokeWidth="1.8" fill="none" />
-      <path d="M 32 54 C 32 56, 68 56, 68 54 Z" stroke="var(--neon-pink)" strokeWidth="1.8" fill="none" />
-      
-      {/* Floating steam paths */}
-      <path d="M 42 30 C 40 25, 47 22, 44 16" stroke="var(--neon-cyan)" strokeWidth="1.8" strokeLinecap="round" fill="none" className="java-steam steam-1" />
-      <path d="M 50 30 C 48 24, 55 20, 52 14" stroke="var(--neon-cyan)" strokeWidth="1.8" strokeLinecap="round" fill="none" className="java-steam steam-2" />
-      
-      {/* Database cylinder base at the bottom */}
-      <path d="M 32 68 C 32 64, 68 64, 68 68 L 68 76 C 68 80, 32 80, 32 76 Z" stroke="var(--neon-cyan)" strokeWidth="2" fill="rgba(0, 242, 254, 0.05)" />
-      <ellipse cx="50" cy="68" rx="18" ry="4" stroke="var(--neon-cyan)" strokeWidth="1.8" fill="rgba(0, 242, 254, 0.1)" />
-      <path d="M 32 72 C 32 76, 68 76, 68 72" stroke="var(--neon-cyan)" strokeWidth="1.5" strokeDasharray="3 3" fill="none" />
-      
-      {/* Network connection line */}
-      <line x1="50" y1="56" x2="50" y2="64" stroke="var(--neon-cyan)" strokeWidth="1.5" strokeDasharray="2 2" />
+    <rect width="360" height="200" fill="url(#gym-bg)" />
+    {[...Array(10)].map((_,i) => (
+      <line key={i} x1="0" y1={20+i*18} x2="360" y2={20+i*18} stroke="rgba(255,0,127,0.04)" strokeWidth="1"/>
+    ))}
+    <g filter="url(#gym-glow)" transform="translate(180,82)">
+      <rect x="-52" y="-8" width="104" height="16" rx="4" fill="rgba(255,0,127,0.1)" stroke="#ff007f" strokeWidth="1.5"/>
+      {[[-52,-18],[-52,4],[36,-18],[36,4]].map(([x,y],i) => (
+        <rect key={i} x={x} y={y} width="16" height="28" rx="5" fill="rgba(255,0,127,0.15)" stroke="#ff007f" strokeWidth="1.5"/>
+      ))}
+      <animateTransform attributeName="transform" type="translate" values="180,82;180,78;180,82" dur="2s" repeatCount="indefinite"/>
     </g>
-  </svg>
-);
-
-const DesktopUiLogoSVG = () => (
-  <svg
-    className="tech-illustrative-svg desktop-svg"
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      <filter id="desktop-glow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-    <g filter="url(#desktop-glow)">
-      {/* OS window */}
-      <rect x="20" y="20" width="60" height="60" rx="5" stroke="var(--neon-pink)" strokeWidth="2" fill="rgba(255, 0, 127, 0.02)" />
-      <line x1="20" y1="35" x2="80" y2="35" stroke="var(--neon-pink)" strokeWidth="1.5" />
-      
-      {/* Window control dots */}
-      <circle cx="28" cy="27" r="1.8" fill="var(--neon-pink)" />
-      <circle cx="34" cy="27" r="1.8" fill="var(--neon-cyan)" />
-      <circle cx="40" cy="27" r="1.8" fill="var(--neon-green)" />
-      
-      {/* Code prompt and local database stacks */}
-      <path d="M 30 48 L 40 55 L 30 62" stroke="var(--neon-cyan)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="terminal-prompt" />
-      <rect x="46" y="59" width="14" height="3" fill="var(--neon-cyan)" className="terminal-cursor" />
-      
-      {/* Corner UI telemetry bracket */}
-      <path d="M 72 45 L 75 45 L 75 70 L 60 70" stroke="rgba(0, 242, 254, 0.3)" strokeWidth="1" fill="none" />
-      <circle cx="75" cy="45" r="1.5" fill="var(--neon-cyan)" />
-    </g>
-  </svg>
-);
-
-const DashboardChartLogoSVG = () => (
-  <svg
-    className="tech-illustrative-svg dashboard-svg"
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      <filter id="dash-glow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-    <g filter="url(#dash-glow)">
-      {/* Dashboard Grid frame */}
-      <rect x="18" y="18" width="64" height="64" rx="4" stroke="var(--neon-cyan)" strokeWidth="2" fill="rgba(0, 242, 254, 0.02)" />
-      <line x1="18" y1="32" x2="82" y2="32" stroke="var(--neon-cyan)" strokeWidth="1" />
-      
-      {/* Grid lines */}
-      <line x1="25" y1="48" x2="75" y2="48" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1" strokeDasharray="3 3" />
-      <line x1="25" y1="62" x2="75" y2="62" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1" strokeDasharray="3 3" />
-      
-      {/* Beautiful glowing peak telemetry chart line */}
-      <path d="M 26 65 L 38 46 L 50 56 L 62 36 L 74 48" stroke="var(--neon-pink)" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" className="chart-line" />
-      <circle cx="62" cy="36" r="3.5" fill="var(--neon-pink)" className="chart-peak-dot" />
-      <circle cx="38" cy="46" r="2" fill="var(--neon-cyan)" />
-      
-      {/* Horizontal base line */}
-      <line x1="22" y1="72" x2="78" y2="72" stroke="rgba(0, 242, 254, 0.3)" strokeWidth="1" />
-    </g>
-  </svg>
-);
-
-const PythonLogoSVG = () => (
-  <svg
-    className="tech-illustrative-svg python-svg"
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      <linearGradient id="python-cyan-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#00f2fe" />
-        <stop offset="100%" stopColor="#4facfe" />
-      </linearGradient>
-      <linearGradient id="python-pink-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#ff007f" />
-        <stop offset="100%" stopColor="#7f00ff" />
-      </linearGradient>
-      <filter id="python-glow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-    <g filter="url(#python-glow)">
-      <circle cx="50" cy="50" r="42" stroke="rgba(255, 255, 255, 0.02)" fill="none" strokeWidth="1" />
-      
-      {/* Top Snake */}
-      <path
-        d="M 50 18 C 37 18 36 25 36 29 L 36 38 L 51 38 L 51 43 L 65 43 C 71 43 73 38 73 31 L 73 27 C 73 21 69 18 57 18 Z"
-        fill="url(#python-cyan-grad)"
-        className="python-snake snake-top"
-      />
-      <circle cx="43" cy="24" r="2" fill="#030712" />
-      
-      {/* Bottom Snake */}
-      <path
-        d="M 50 82 C 63 82 64 75 64 71 L 64 62 L 49 62 L 49 57 L 35 57 C 29 57 27 62 27 69 L 27 73 C 27 79 31 82 43 82 Z"
-        fill="url(#python-pink-grad)"
-        className="python-snake snake-bottom"
-      />
-      <circle cx="57" cy="76" r="2" fill="#030712" />
-    </g>
-  </svg>
-);
-
-function TechIllustrativeIcon({ type }) {
-  switch (type) {
-    case "react":
-      return <ReactLogoSVG />;
-    case "java_mysql":
-      return <JavaMysqlLogoSVG />;
-    case "desktop":
-      return <DesktopUiLogoSVG />;
-    case "dashboard":
-      return <DashboardChartLogoSVG />;
-    case "python":
-      return <PythonLogoSVG />;
-    default:
+    {[
+      { label:"Members", val:0.82, x:30  },
+      { label:"Revenue", val:0.67, x:70  },
+      { label:"Attend",  val:0.91, x:110 },
+      { label:"Active",  val:0.55, x:150 },
+    ].map(({ label, val, x }, i) => {
+      const h = val * 60;
       return (
-        <svg
-          className="tech-illustrative-svg default-svg"
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle cx="50" cy="50" r="20" stroke="var(--neon-cyan)" fill="none" strokeWidth="2" />
-        </svg>
+        <g key={i} filter="url(#gym-glow)">
+          <rect x={x} y={155-h} width="22" height={h} rx="3"
+            fill={`rgba(255,0,127,0.${Math.round(val*18+5)})`} stroke="#ff007f" strokeWidth="1">
+            <animate attributeName="height" from="0" to={h} dur={`${0.6+i*0.15}s`} fill="freeze"/>
+            <animate attributeName="y" from="155" to={155-h} dur={`${0.6+i*0.15}s`} fill="freeze"/>
+          </rect>
+          <text x={x+11} y="170" textAnchor="middle" fill="rgba(255,0,127,0.6)" fontSize="6" fontFamily="monospace">{label}</text>
+          <text x={x+11} y={148-h} textAnchor="middle" fill="#ff007f" fontSize="7" fontFamily="monospace">{Math.round(val*100)}%</text>
+        </g>
       );
-  }
-}
+    })}
+    <circle cx="270" cy="105" r="28" fill="none" stroke="#ff007f" strokeWidth="1" opacity="0.3">
+      <animate attributeName="r" values="20;35;20" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0;0.5" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="270" cy="105" r="12" fill="rgba(255,0,127,0.12)" stroke="#ff007f" strokeWidth="1.5" filter="url(#gym-glow)"/>
+    <text x="270" y="109" textAnchor="middle" fill="#ff007f" fontSize="8" fontFamily="monospace">LIVE</text>
+  </svg>
+);
 
+const EmployeeIllustration = () => (
+  <svg className="proj-illustration" viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="emp-bg" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stopColor="#0d1a0d" /><stop offset="100%" stopColor="#060d06" />
+      </radialGradient>
+      <filter id="emp-glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <rect width="360" height="200" fill="url(#emp-bg)" />
+    <g stroke="rgba(57,255,20,0.25)" strokeWidth="1" fill="none">
+      <line x1="180" y1="52"  x2="180" y2="78"/>
+      <line x1="180" y1="78"  x2="100" y2="78"/>
+      <line x1="180" y1="78"  x2="260" y2="78"/>
+      <line x1="100" y1="78"  x2="100" y2="108"/>
+      <line x1="180" y1="78"  x2="180" y2="108"/>
+      <line x1="260" y1="78"  x2="260" y2="108"/>
+      <line x1="100" y1="138" x2="60"  y2="138"/>
+      <line x1="100" y1="138" x2="100" y2="165"/>
+      <line x1="100" y1="138" x2="140" y2="138"/>
+      <line x1="60"  y1="138" x2="60"  y2="165"/>
+      <line x1="140" y1="138" x2="140" y2="165"/>
+    </g>
+    {[
+      { x:180, y:38,  initials:"CEO", color:"#39ff14", size:14 },
+      { x:100, y:108, initials:"DEV", color:"#00f2fe", size:12 },
+      { x:180, y:108, initials:"HR",  color:"#00f2fe", size:12 },
+      { x:260, y:108, initials:"MKT", color:"#00f2fe", size:12 },
+      { x:60,  y:165, initials:"FE",  color:"#39ff14", size:10 },
+      { x:100, y:165, initials:"BE",  color:"#39ff14", size:10 },
+      { x:140, y:165, initials:"QA",  color:"#39ff14", size:10 },
+    ].map(({ x, y, initials, color, size }, i) => (
+      <g key={i} filter="url(#emp-glow)">
+        <circle cx={x} cy={y} r={size} fill={`${color}18`} stroke={color} strokeWidth="1.3">
+          <animate attributeName="opacity" values="0.7;1;0.7" dur={`${2+i*0.4}s`} repeatCount="indefinite"/>
+        </circle>
+        <text x={x} y={y+3} textAnchor="middle" fill={color} fontSize={size*0.62} fontFamily="monospace" fontWeight="bold">{initials}</text>
+      </g>
+    ))}
+    <g filter="url(#emp-glow)">
+      <rect x="290" y="55" width="55" height="90" rx="4" fill="rgba(57,255,20,0.04)" stroke="rgba(57,255,20,0.3)" strokeWidth="1"/>
+      <text x="317" y="72" textAnchor="middle" fill="rgba(57,255,20,0.5)" fontSize="6" fontFamily="monospace">ATTENDANCE</text>
+      {["✓ Aarav","✓ Priya","✗ Rahul","✓ Sita","✓ Rajan"].map((t,i) => (
+        <text key={i} x="300" y={85+i*14} fill={t.startsWith("✓") ? "#39ff14" : "#ff007f"} fontSize="7" fontFamily="monospace">{t}</text>
+      ))}
+    </g>
+  </svg>
+);
+
+const TravelIllustration = () => (
+  <svg className="proj-illustration" viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="tv-bg" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stopColor="#0d1520" /><stop offset="100%" stopColor="#060c18" />
+      </radialGradient>
+      <filter id="tv-glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <rect width="360" height="200" fill="url(#tv-bg)" />
+    <g opacity="0.12" fill="#00f2fe">
+      <ellipse cx="100" cy="90"  rx="50" ry="35"/>
+      <ellipse cx="185" cy="80"  rx="35" ry="28"/>
+      <ellipse cx="255" cy="85"  rx="25" ry="22"/>
+      <ellipse cx="315" cy="100" rx="22" ry="18"/>
+      <ellipse cx="150" cy="140" rx="28" ry="18"/>
+    </g>
+    {[...Array(7)].map((_,i) => (
+      <line key={i} x1="0" y1={28+i*24} x2="360" y2={28+i*24} stroke="rgba(0,242,254,0.05)" strokeWidth="1"/>
+    ))}
+    {[
+      { d:"M 85 90 Q 140 40 220 75",  color:"#ff007f" },
+      { d:"M 220 75 Q 270 55 305 90", color:"#00f2fe" },
+      { d:"M 85 90 Q 110 150 160 140",color:"#39ff14" },
+    ].map(({ d, color }, i) => (
+      <g key={i} filter="url(#tv-glow)">
+        <path d={d} fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="200" strokeDashoffset="200" opacity="0.7">
+          <animate attributeName="stroke-dashoffset" from="200" to="0" dur={`${1.5+i*0.5}s`} fill="freeze" begin={`${i*0.4}s`}/>
+        </path>
+        <circle r="3.5" fill={color}>
+          <animateMotion path={d} dur={`${3+i*0.8}s`} repeatCount="indefinite"/>
+        </circle>
+      </g>
+    ))}
+    {[
+      { x:85,  y:90,  color:"#ff007f" },
+      { x:220, y:75,  color:"#ff007f" },
+      { x:305, y:90,  color:"#00f2fe" },
+      { x:160, y:140, color:"#39ff14" },
+    ].map(({ x, y, color }, i) => (
+      <g key={i} filter="url(#tv-glow)">
+        <circle cx={x} cy={y} r="4.5" fill={`${color}20`} stroke={color} strokeWidth="1.5"/>
+        <circle cx={x} cy={y} r="1.8" fill={color}/>
+        <circle cx={x} cy={y} r="8" fill="none" stroke={color} strokeWidth="0.8" opacity="0.4">
+          <animate attributeName="r" values="5;12;5" dur={`${1.8+i*0.3}s`} repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.5;0;0.5" dur={`${1.8+i*0.3}s`} repeatCount="indefinite"/>
+        </circle>
+      </g>
+    ))}
+    <g filter="url(#tv-glow)">
+      <rect x="260" y="130" width="85" height="55" rx="4" fill="rgba(0,0,0,0.4)" stroke="rgba(0,242,254,0.2)" strokeWidth="1"/>
+      <text x="302" y="143" textAnchor="middle" fill="rgba(0,242,254,0.5)" fontSize="6" fontFamily="monospace">BOOKINGS</text>
+      <polyline points="270,175 283,162 296,168 309,150 322,157 335,142" fill="none" stroke="#00f2fe" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+      <circle cx="335" cy="142" r="3" fill="#00f2fe"/>
+    </g>
+  </svg>
+);
+
+const InventoryIllustration = () => (
+  <svg className="proj-illustration" viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="inv-bg" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stopColor="#1a100d" /><stop offset="100%" stopColor="#0d0806" />
+      </radialGradient>
+      <filter id="inv-glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <rect width="360" height="200" fill="url(#inv-bg)" />
+    <line x1="30" y1="100" x2="330" y2="100" stroke="rgba(239,159,39,0.15)" strokeWidth="8" strokeLinecap="round"/>
+    <line x1="30" y1="100" x2="330" y2="100" stroke="rgba(239,159,39,0.3)" strokeWidth="1.5" strokeDasharray="6 4">
+      <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="1s" repeatCount="indefinite"/>
+    </line>
+    {[
+      { x:58,  label:"INPUT",   sublabel:"Raw Stock", color:"#ef9f27" },
+      { x:148, label:"PROCESS", sublabel:"Validate",  color:"#00f2fe" },
+      { x:238, label:"STORE",   sublabel:"Warehouse", color:"#39ff14" },
+      { x:318, label:"ALERT",   sublabel:"Low Stock", color:"#ff007f" },
+    ].map(({ x, label, sublabel, color }, i) => (
+      <g key={i} filter="url(#inv-glow)">
+        <rect x={x-28} y="76" width="56" height="48" rx="5" fill={`${color}10`} stroke={color} strokeWidth="1.4"/>
+        <text x={x} y="96"  textAnchor="middle" fill={color} fontSize="7.5" fontFamily="monospace" fontWeight="bold">{label}</text>
+        <text x={x} y="108" textAnchor="middle" fill={`${color}99`} fontSize="6" fontFamily="monospace">{sublabel}</text>
+        <circle cx={x} cy="117" r="2.5" fill={color}>
+          <animate attributeName="opacity" values="1;0.2;1" dur={`${1.2+i*0.25}s`} repeatCount="indefinite"/>
+        </circle>
+      </g>
+    ))}
+    {[0, 0.33, 0.66].map((delay, i) => (
+      <circle key={i} r="5" fill="#ef9f27" opacity="0.8">
+        <animateMotion path="M 30,100 L 330,100" dur="3s" begin={`${delay*3}s`} repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.05;0.95;1" dur="3s" begin={`${delay*3}s`} repeatCount="indefinite"/>
+      </circle>
+    ))}
+    {[
+      { x:40,  label:"Med A", level:0.75, color:"#39ff14" },
+      { x:88,  label:"Med B", level:0.3,  color:"#ff007f" },
+      { x:136, label:"Equip", level:0.55, color:"#ef9f27" },
+      { x:224, label:"Supp",  level:0.88, color:"#39ff14" },
+      { x:272, label:"Misc",  level:0.2,  color:"#ff007f" },
+      { x:320, label:"Tools", level:0.6,  color:"#ef9f27" },
+    ].map(({ x, label, level, color }, i) => {
+      const h = level * 40;
+      return (
+        <g key={i} filter="url(#inv-glow)">
+          <rect x={x-10} y={58-h} width="20" height={h} rx="2" fill={`${color}25`} stroke={color} strokeWidth="1">
+            <animate attributeName="height" from="0" to={h} dur={`${0.5+i*0.1}s`} fill="freeze"/>
+            <animate attributeName="y" from="58" to={58-h} dur={`${0.5+i*0.1}s`} fill="freeze"/>
+          </rect>
+          <text x={x} y="66" textAnchor="middle" fill={`${color}88`} fontSize="5.5" fontFamily="monospace">{label}</text>
+        </g>
+      );
+    })}
+  </svg>
+);
+
+/* ─── Map ─── */
+const illustrationMap = {
+  rojgar:    <JobPortalIllustration />,
+  gym:       <GymIllustration />,
+  employee:  <EmployeeIllustration />,
+  travel:    <TravelIllustration />,
+  inventory: <InventoryIllustration />,
+};
+
+/* ─── Data ─── */
 const featuredProjects = [
   {
-    id: 1,
-    title: "Rojgar Setu",
-    description:
-      "A job search engine portal connecting job seekers with employment gateways across Nepal.",
-    screenshot: "/screenshots/image.png",
-    iconType: "java_mysql",
+    id: 1, title: "Rojgar Setu",
+    description: "A job search engine portal connecting job seekers with employment gateways across Nepal.",
+    illustrationKey: "rojgar",
     tech: ["JSP", "Servlet", "MySQL", "JDBC"],
-    category: "Web App",
-    status: "STABLE",
-    complexity: "85%",
+    category: "Web App", status: "STABLE", complexity: "85%",
     github: "https://github.com/manojctrl/Rojgar-Setu",
     live: "https://github.com/manojctrl/Rojgar-Setu",
-    features: ["Job Listings", "Application Routing", "Company Portals"],
-    highlight: "Full-Stack Portal",
   },
   {
-    id: 2,
-    title: "Gym Management System",
-    description:
-      "A comprehensive desktop application managing gym memberships, billing tables, logs, and member attendance.",
-    screenshot: "/screenshots/image-1.png",
-    iconType: "desktop",
+    id: 2, title: "Gym Management System",
+    description: "A comprehensive desktop application managing gym memberships, billing tables, logs, and member attendance.",
+    illustrationKey: "gym",
     tech: ["Java Swing", "OOP", "Local DB"],
-    category: "Desktop App",
-    status: "ACTIVE",
-    complexity: "75%",
+    category: "Desktop App", status: "ACTIVE", complexity: "75%",
     github: "https://github.com/manojctrl/Gym-Management-System",
     live: "https://github.com/manojctrl/Gym-Management-System/releases",
-    features: ["Member Management", "Billing System", "Attendance Logs"],
-    highlight: "Robust Desktop System",
   },
   {
-    id: 3,
-    title: "Employee Management System",
-    description:
-      "Modern internal employee directory tracker managing attendance, tasks, and corporate logs.",
-    screenshot: "/screenshots/image-2.png",
-    iconType: "react",
+    id: 3, title: "Employee Management System",
+    description: "Modern internal employee directory tracker managing attendance, tasks, and corporate logs.",
+    illustrationKey: "employee",
     tech: ["React", "LocalStorage", "State Hooks"],
-    category: "Web App",
-    status: "STABLE",
-    complexity: "70%",
+    category: "Web App", status: "STABLE", complexity: "70%",
     github: "https://github.com/manojctrl/Employee-Management-System",
     live: "https://employee-management-nepal.netlify.app",
-    features: ["Employee Records", "Attendance logs", "Active tasks"],
-    highlight: "Clean Client State",
   },
   {
-    id: 4,
-    title: "Travel Agency Admin Dashboard",
-    description:
-      "Premium administrative controller console managing booking statistics and travel inventory logs.",
-    screenshot: "/screenshots/image-3.png",
-    iconType: "dashboard",
+    id: 4, title: "Travel Agency Admin Dashboard",
+    description: "Premium administrative controller console managing booking statistics and travel inventory logs.",
+    illustrationKey: "travel",
     tech: ["React", "CSS Variables", "Chart Hooks"],
-    category: "Dashboard",
-    status: "ACTIVE",
-    complexity: "90%",
+    category: "Dashboard", status: "ACTIVE", complexity: "90%",
     github: "https://github.com/manojctrl/Travel-Agency-Admin-Dashboard",
     live: "https://travel-admin-dashboard.vercel.app",
-    features: ["Booking Analytics", "Package tables", "Active tasks"],
-    highlight: "Immersive Telemetry HUD",
   },
   {
-    id: 5,
-    title: "WeCare Inventory Management System",
-    description:
-      "Supply analytics dashboard managing product nodes, stock limits, and automated orders.",
-    screenshot: "",
-    iconType: "python",
-    tech: ["Python", "SQL database", "Data Logs"],
-    category: "Backend System",
-    status: "STABLE",
-    complexity: "80%",
+    id: 5, title: "WeCare Inventory Management",
+    description: "Supply analytics dashboard managing product nodes, stock limits, and automated order pipelines.",
+    illustrationKey: "inventory",
+    tech: ["Python", "SQL", "Data Logs"],
+    category: "Backend System", status: "STABLE", complexity: "80%",
     github: "https://github.com/manojctrl/WeCare-Inventory-Management-System",
     live: "https://github.com/manojctrl/WeCare-Inventory-Management-System",
-    features: ["Stock Level Alerts", "Order tables", "Transaction history"],
-    highlight: "Backend Core Engine",
   },
 ];
 
 const INITIAL_SHOW = 4;
-
-// Container variants
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.12 } },
 };
-
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
 };
 
-function ProjectCard({ project, onActionClick }) {
-  const cardRef = useRef(null);
-
-  const handleMouseMove = (e) => {
-    const card = cardRef.current;
-    if (!card) return;import { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import "./Projects.css";
-import { ExternalLink, Copy, Check, X } from "lucide-react";
-
-// Custom SVG Github icon as it is not exported by this version of lucide-react
-const GithubIcon = ({ size = 18, ...props }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-    <path d="M9 18c-4.51 2-5-2-7-2" />
-  </svg>
-);
-
-// bespoked cybernetic SVG illustrations for tech stacks
-const ReactLogoSVG = () => (
-  <svg
-    className="tech-illustrative-svg react-svg"
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      <filter id="react-glow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-    <circle cx="50" cy="50" r="42" stroke="rgba(0, 242, 254, 0.05)" fill="none" strokeWidth="1" />
-    <circle cx="50" cy="50" r="30" stroke="rgba(0, 242, 254, 0.03)" fill="none" strokeWidth="1" strokeDasharray="4 4" />
-    <g filter="url(#react-glow)">
-      <ellipse cx="50" cy="50" rx="9" ry="25" stroke="var(--neon-cyan)" fill="none" strokeWidth="1.5" className="react-orbit orbit-1" />
-      <ellipse cx="50" cy="50" rx="9" ry="25" stroke="var(--neon-cyan)" fill="none" strokeWidth="1.5" className="react-orbit orbit-2" transform="rotate(60 50 50)" />
-      <ellipse cx="50" cy="50" rx="9" ry="25" stroke="var(--neon-cyan)" fill="none" strokeWidth="1.5" className="react-orbit orbit-3" transform="rotate(120 50 50)" />
-      <circle cx="50" cy="50" r="3.5" fill="var(--neon-cyan)" className="react-nucleus" />
-    </g>
-  </svg>
-);
-
-const JavaMysqlLogoSVG = () => (
-  <svg
-    className="tech-illustrative-svg java-mysql-svg"
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      <filter id="java-glow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-    <path d="M 15 50 L 85 50 M 50 15 L 50 85" stroke="rgba(255, 255, 255, 0.02)" strokeWidth="1" />
-    <g filter="url(#java-glow)">
-      {/* Java Coffee Cup */}
-      <path d="M 38 42 C 38 52, 62 52, 62 42 L 64 36 L 36 36 Z" stroke="var(--neon-pink)" strokeWidth="2" fill="rgba(255, 0, 127, 0.05)" />
-      <path d="M 62 38 C 67 38, 67 46, 62 46" stroke="var(--neon-pink)" strokeWidth="1.8" fill="none" />
-      <path d="M 32 54 C 32 56, 68 56, 68 54 Z" stroke="var(--neon-pink)" strokeWidth="1.8" fill="none" />
-      
-      {/* Floating steam paths */}
-      <path d="M 42 30 C 40 25, 47 22, 44 16" stroke="var(--neon-cyan)" strokeWidth="1.8" strokeLinecap="round" fill="none" className="java-steam steam-1" />
-      <path d="M 50 30 C 48 24, 55 20, 52 14" stroke="var(--neon-cyan)" strokeWidth="1.8" strokeLinecap="round" fill="none" className="java-steam steam-2" />
-      
-      {/* Database cylinder base at the bottom */}
-      <path d="M 32 68 C 32 64, 68 64, 68 68 L 68 76 C 68 80, 32 80, 32 76 Z" stroke="var(--neon-cyan)" strokeWidth="2" fill="rgba(0, 242, 254, 0.05)" />
-      <ellipse cx="50" cy="68" rx="18" ry="4" stroke="var(--neon-cyan)" strokeWidth="1.8" fill="rgba(0, 242, 254, 0.1)" />
-      <path d="M 32 72 C 32 76, 68 76, 68 72" stroke="var(--neon-cyan)" strokeWidth="1.5" strokeDasharray="3 3" fill="none" />
-      
-      {/* Network connection line */}
-      <line x1="50" y1="56" x2="50" y2="64" stroke="var(--neon-cyan)" strokeWidth="1.5" strokeDasharray="2 2" />
-    </g>
-  </svg>
-);
-
-const DesktopUiLogoSVG = () => (
-  <svg
-    className="tech-illustrative-svg desktop-svg"
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      <filter id="desktop-glow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-    <g filter="url(#desktop-glow)">
-      {/* OS window */}
-      <rect x="20" y="20" width="60" height="60" rx="5" stroke="var(--neon-pink)" strokeWidth="2" fill="rgba(255, 0, 127, 0.02)" />
-      <line x1="20" y1="35" x2="80" y2="35" stroke="var(--neon-pink)" strokeWidth="1.5" />
-      
-      {/* Window control dots */}
-      <circle cx="28" cy="27" r="1.8" fill="var(--neon-pink)" />
-      <circle cx="34" cy="27" r="1.8" fill="var(--neon-cyan)" />
-      <circle cx="40" cy="27" r="1.8" fill="var(--neon-green)" />
-      
-      {/* Code prompt and local database stacks */}
-      <path d="M 30 48 L 40 55 L 30 62" stroke="var(--neon-cyan)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="terminal-prompt" />
-      <rect x="46" y="59" width="14" height="3" fill="var(--neon-cyan)" className="terminal-cursor" />
-      
-      {/* Corner UI telemetry bracket */}
-      <path d="M 72 45 L 75 45 L 75 70 L 60 70" stroke="rgba(0, 242, 254, 0.3)" strokeWidth="1" fill="none" />
-      <circle cx="75" cy="45" r="1.5" fill="var(--neon-cyan)" />
-    </g>
-  </svg>
-);
-
-const DashboardChartLogoSVG = () => (
-  <svg
-    className="tech-illustrative-svg dashboard-svg"
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      <filter id="dash-glow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-    <g filter="url(#dash-glow)">
-      {/* Dashboard Grid frame */}
-      <rect x="18" y="18" width="64" height="64" rx="4" stroke="var(--neon-cyan)" strokeWidth="2" fill="rgba(0, 242, 254, 0.02)" />
-      <line x1="18" y1="32" x2="82" y2="32" stroke="var(--neon-cyan)" strokeWidth="1" />
-      
-      {/* Grid lines */}
-      <line x1="25" y1="48" x2="75" y2="48" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1" strokeDasharray="3 3" />
-      <line x1="25" y1="62" x2="75" y2="62" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1" strokeDasharray="3 3" />
-      
-      {/* Beautiful glowing peak telemetry chart line */}
-      <path d="M 26 65 L 38 46 L 50 56 L 62 36 L 74 48" stroke="var(--neon-pink)" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" className="chart-line" />
-      <circle cx="62" cy="36" r="3.5" fill="var(--neon-pink)" className="chart-peak-dot" />
-      <circle cx="38" cy="46" r="2" fill="var(--neon-cyan)" />
-      
-      {/* Horizontal base line */}
-      <line x1="22" y1="72" x2="78" y2="72" stroke="rgba(0, 242, 254, 0.3)" strokeWidth="1" />
-    </g>
-  </svg>
-);
-
-const PythonLogoSVG = () => (
-  <svg
-    className="tech-illustrative-svg python-svg"
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      <linearGradient id="python-cyan-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#00f2fe" />
-        <stop offset="100%" stopColor="#4facfe" />
-      </linearGradient>
-      <linearGradient id="python-pink-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#ff007f" />
-        <stop offset="100%" stopColor="#7f00ff" />
-      </linearGradient>
-      <filter id="python-glow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-    <g filter="url(#python-glow)">
-      <circle cx="50" cy="50" r="42" stroke="rgba(255, 255, 255, 0.02)" fill="none" strokeWidth="1" />
-      
-      {/* Top Snake */}
-      <path
-        d="M 50 18 C 37 18 36 25 36 29 L 36 38 L 51 38 L 51 43 L 65 43 C 71 43 73 38 73 31 L 73 27 C 73 21 69 18 57 18 Z"
-        fill="url(#python-cyan-grad)"
-        className="python-snake snake-top"
-      />
-      <circle cx="43" cy="24" r="2" fill="#030712" />
-      
-      {/* Bottom Snake */}
-      <path
-        d="M 50 82 C 63 82 64 75 64 71 L 64 62 L 49 62 L 49 57 L 35 57 C 29 57 27 62 27 69 L 27 73 C 27 79 31 82 43 82 Z"
-        fill="url(#python-pink-grad)"
-        className="python-snake snake-bottom"
-      />
-      <circle cx="57" cy="76" r="2" fill="#030712" />
-    </g>
-  </svg>
-);
-
-function TechIllustrativeIcon({ type }) {
-  switch (type) {
-    case "react":
-      return <ReactLogoSVG />;
-    case "java_mysql":
-      return <JavaMysqlLogoSVG />;
-    case "desktop":
-      return <DesktopUiLogoSVG />;
-    case "dashboard":
-      return <DashboardChartLogoSVG />;
-    case "python":
-      return <PythonLogoSVG />;
-    default:
-      return (
-        <svg
-          className="tech-illustrative-svg default-svg"
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle cx="50" cy="50" r="20" stroke="var(--neon-cyan)" fill="none" strokeWidth="2" />
-        </svg>
-      );
-  }
-}
-
-const featuredProjects = [
-  {
-    id: 1,
-    title: "Rojgar Setu",
-    description:
-      "A job search engine portal connecting job seekers with employment gateways across Nepal.",
-    screenshot: "/screenshots/image.png",
-    iconType: "java_mysql",
-    tech: ["JSP", "Servlet", "MySQL", "JDBC"],
-    category: "Web App",
-    status: "STABLE",
-    complexity: "85%",
-    github: "https://github.com/manojctrl/Rojgar-Setu",
-    live: "https://github.com/manojctrl/Rojgar-Setu",
-    features: ["Job Listings", "Application Routing", "Company Portals"],
-    highlight: "Full-Stack Portal",
-  },
-  {
-    id: 2,
-    title: "Gym Management System",
-    description:
-      "A comprehensive desktop application managing gym memberships, billing tables, logs, and member attendance.",
-    screenshot: "/screenshots/image-1.png",
-    iconType: "desktop",
-    tech: ["Java Swing", "OOP", "Local DB"],
-    category: "Desktop App",
-    status: "ACTIVE",
-    complexity: "75%",
-    github: "https://github.com/manojctrl/Gym-Management-System",
-    live: "https://github.com/manojctrl/Gym-Management-System/releases",
-    features: ["Member Management", "Billing System", "Attendance Logs"],
-    highlight: "Robust Desktop System",
-  },
-  {
-    id: 3,
-    title: "Employee Management System",
-    description:
-      "Modern internal employee directory tracker managing attendance, tasks, and corporate logs.",
-    screenshot: "/screenshots/image-2.png",
-    iconType: "react",
-    tech: ["React", "LocalStorage", "State Hooks"],
-    category: "Web App",
-    status: "STABLE",
-    complexity: "70%",
-    github: "https://github.com/manojctrl/Employee-Management-System",
-    live: "https://employee-management-nepal.netlify.app",
-    features: ["Employee Records", "Attendance logs", "Active tasks"],
-    highlight: "Clean Client State",
-  },
-  {
-    id: 4,
-    title: "Travel Agency Admin Dashboard",
-    description:
-      "Premium administrative controller console managing booking statistics and travel inventory logs.",
-    screenshot: "/screenshots/image-3.png",
-    iconType: "dashboard",
-    tech: ["React", "CSS Variables", "Chart Hooks"],
-    category: "Dashboard",
-    status: "ACTIVE",
-    complexity: "90%",
-    github: "https://github.com/manojctrl/Travel-Agency-Admin-Dashboard",
-    live: "https://travel-admin-dashboard.vercel.app",
-    features: ["Booking Analytics", "Package tables", "Active tasks"],
-    highlight: "Immersive Telemetry HUD",
-  },
-  {
-    id: 5,
-    title: "WeCare Inventory Management System",
-    description:
-      "Supply analytics dashboard managing product nodes, stock limits, and automated orders.",
-    screenshot: "",
-    iconType: "python",
-    tech: ["Python", "SQL database", "Data Logs"],
-    category: "Backend System",
-    status: "STABLE",
-    complexity: "80%",
-    github: "https://github.com/manojctrl/WeCare-Inventory-Management-System",
-    live: "https://github.com/manojctrl/WeCare-Inventory-Management-System",
-    features: ["Stock Level Alerts", "Order tables", "Transaction history"],
-    highlight: "Backend Core Engine",
-  },
-];
-
-const INITIAL_SHOW = 4;
-
-// Container variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
-
+/* ─── Card ─── */
 function ProjectCard({ project, onActionClick }) {
   const cardRef = useRef(null);
 
@@ -678,10 +348,8 @@ function ProjectCard({ project, onActionClick }) {
     const card = cardRef.current;
     if (!card) return;
     const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    card.style.setProperty('--card-mouse-x', `${x}px`);
-    card.style.setProperty('--card-mouse-y', `${y}px`);
+    card.style.setProperty("--card-mouse-x", `${e.clientX - rect.left}px`);
+    card.style.setProperty("--card-mouse-y", `${e.clientY - rect.top}px`);
   };
 
   return (
@@ -690,78 +358,59 @@ function ProjectCard({ project, onActionClick }) {
       onMouseMove={handleMouseMove}
       className="modern-project-card glass-panel"
       variants={itemVariants}
-      whileHover={{ y: -8 }}
+      whileHover={{ y: -6 }}
       layout
     >
-      {/* Card Visual Preview */}
-      <div className="project-card-image">
-        {project.screenshot ? (
-          <img
-            src={project.screenshot}
-            alt={`${project.title} Preview`}
-            className="project-image"
-            loading="lazy"
-          />
-        ) : (
-          <div className="project-icon-placeholder">
-            <TechIllustrativeIcon type={project.iconType} />
-          </div>
-        )}
-        <div className="project-image-overlay"></div>
+      <div className="card-glow-overlay" />
+
+      {/* Illustration */}
+      <div className="project-card-image illustration-area">
+        {illustrationMap[project.illustrationKey]}
+        <div className="illustration-chip">
+          <span className="chip-dot" />
+          {project.category}
+        </div>
       </div>
 
-      {/* Card Content */}
+      {/* Content */}
       <div className="project-card-content">
-        {/* Header with status */}
         <div className="project-card-top">
-          <div className="project-title-section">
-            <h3 className="project-title">{project.title}</h3>
-            <p className="project-category">{project.category}</p>
-          </div>
+          <h3 className="project-title">{project.title}</h3>
           <span className={`project-status-badge status-${project.status.toLowerCase()}`}>
-            {project.status}
+            <span className="status-dot" />{project.status}
           </span>
         </div>
 
-        {/* Description */}
         <p className="project-description">{project.description}</p>
 
-        {/* Tech Stack */}
         <div className="project-tech-stack">
           {project.tech.map((tech) => (
             <span key={tech} className="project-tech-tag">{tech}</span>
           ))}
         </div>
 
-        {/* Complexity Indicator */}
         <div className="project-complexity-bar">
           <div className="complexity-label">
             <span>Complexity</span>
             <span className="complexity-value">{project.complexity}</span>
           </div>
           <div className="complexity-track">
-            <div
+            <motion.div
               className="complexity-fill"
-              style={{ width: project.complexity }}
-            ></div>
+              initial={{ width: 0 }}
+              whileInView={{ width: project.complexity }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
+            />
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="project-card-actions">
-          <button
-            onClick={() => onActionClick("source", project)}
-            className="project-action-btn btn-source"
-          >
-            <GithubIcon size={14} />
-            <span>Source</span>
+          <button onClick={() => onActionClick("source", project)} className="project-action-btn btn-source">
+            <GithubIcon size={14} /><span>Source</span>
           </button>
-          <button
-            onClick={() => onActionClick("deploy", project)}
-            className="project-action-btn btn-deploy"
-          >
-            <ExternalLink size={14} />
-            <span>Demo</span>
+          <button onClick={() => onActionClick("deploy", project)} className="project-action-btn btn-deploy">
+            <ExternalLink size={14} /><span>Demo</span>
           </button>
         </div>
       </div>
@@ -769,6 +418,7 @@ function ProjectCard({ project, onActionClick }) {
   );
 }
 
+/* ─── Section ─── */
 export default function Projects() {
   const [terminalAlert, setTerminalAlert] = useState(null);
   const [copied, setCopied] = useState(false);
@@ -780,25 +430,24 @@ export default function Projects() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const displayedProjects = showAll ? featuredProjects : featuredProjects.slice(0, INITIAL_SHOW);
+  const displayed = showAll ? featuredProjects : featuredProjects.slice(0, INITIAL_SHOW);
 
   return (
     <section id="projects" className="projects-hud-section">
       <div className="container">
         <span className="section-eyebrow">// FEATURED_PROJECTS</span>
-        <h2 className="section-title">Projects & Case Studies</h2>
+        <h2 className="section-title">Projects &amp; Case Studies</h2>
 
         <div className="projects-hud-content">
-          {/* Modern Projects Grid */}
           <motion.div
             className="modern-projects-grid"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
+            viewport={{ once: true, amount: 0.1 }}
           >
             <AnimatePresence mode="sync">
-              {displayedProjects.map((project) => (
+              {displayed.map((project) => (
                 <ProjectCard
                   key={project.id}
                   project={project}
@@ -808,7 +457,6 @@ export default function Projects() {
             </AnimatePresence>
           </motion.div>
 
-          {/* Load More Button */}
           {!showAll && featuredProjects.length > INITIAL_SHOW && (
             <motion.div
               className="projects-load-more"
@@ -816,10 +464,7 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <button
-                onClick={() => setShowAll(true)}
-                className="btn-load-more"
-              >
+              <button onClick={() => setShowAll(true)} className="btn-load-more">
                 View All Projects ({featuredProjects.length})
               </button>
             </motion.div>
@@ -827,310 +472,52 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* Action Modal */}
       <AnimatePresence>
         {terminalAlert && (
           <motion.div
             className="project-modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setTerminalAlert(null)}
           >
             <motion.div
               className="project-modal-content glass-panel"
-              initial={{ scale: 0.9, y: 30, opacity: 0 }}
+              initial={{ scale: 0.92, y: 24, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.9, y: 30, opacity: 0 }}
+              exit={{ scale: 0.92, y: 24, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 28 }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="modal-header">
-                <h3>{terminalAlert.project.title}</h3>
-                <button 
-                  onClick={() => setTerminalAlert(null)}
-                  className="modal-close"
-                >
-                  <X size={20} />
+                <div className="modal-header-left">
+                  <span className={`modal-type-tag ${terminalAlert.type === "source" ? "tag-source" : "tag-demo"}`}>
+                    {terminalAlert.type === "source" ? "Repository" : "Live Demo"}
+                  </span>
+                  <h3>{terminalAlert.project.title}</h3>
+                </div>
+                <button onClick={() => setTerminalAlert(null)} className="modal-close">
+                  <X size={18} />
                 </button>
               </div>
-
               <div className="modal-body">
-                <p className="modal-subtitle">
-                  {terminalAlert.type === "source" ? "Repository Link" : "Live Demo"}
-                </p>
-
                 <div className="modal-link-box">
                   <code className="modal-link">
-                    {terminalAlert.type === "source"
-                      ? terminalAlert.project.github
-                      : terminalAlert.project.live}
+                    {terminalAlert.type === "source" ? terminalAlert.project.github : terminalAlert.project.live}
                   </code>
-                  <button
-                    className="modal-copy-btn"
-                    onClick={() =>
-                      handleCopy(
-                        terminalAlert.type === "source"
-                          ? terminalAlert.project.github
-                          : terminalAlert.project.live
-                      )
-                    }
-                  >
-                    {copied ? <Check size={16} /> : <Copy size={16} />}
+                  <button className="modal-copy-btn"
+                    onClick={() => handleCopy(terminalAlert.type === "source" ? terminalAlert.project.github : terminalAlert.project.live)}>
+                    {copied ? <Check size={15} /> : <Copy size={15} />}
                   </button>
                 </div>
               </div>
-
               <div className="modal-footer">
-                <button
-                  className="modal-btn modal-btn-secondary"
-                  onClick={() => setTerminalAlert(null)}
-                >
-                  Close
-                </button>
+                <button className="modal-btn modal-btn-secondary" onClick={() => setTerminalAlert(null)}>Close</button>
                 <a
-                  href={
-                    terminalAlert.type === "source"
-                      ? terminalAlert.project.github
-                      : terminalAlert.project.live
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={terminalAlert.type === "source" ? terminalAlert.project.github : terminalAlert.project.live}
+                  target="_blank" rel="noopener noreferrer"
                   className="modal-btn modal-btn-primary"
                   onClick={() => setTerminalAlert(null)}
                 >
-                  <ExternalLink size={14} /> Open Link
-                </a>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </section>
-  );
-}
-
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    card.style.setProperty('--card-mouse-x', `${x}px`);
-    card.style.setProperty('--card-mouse-y', `${y}px`);
-  };
-
-  return (
-    <motion.div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      className="modern-project-card glass-panel"
-      variants={itemVariants}
-      whileHover={{ y: -8 }}
-      layout
-    >
-      {/* Card Visual Preview */}
-      <div className="project-card-image">
-        {project.screenshot ? (
-          <img
-            src={project.screenshot}
-            alt={`${project.title} Preview`}
-            className="project-image"
-            loading="lazy"
-          />
-        ) : (
-          <div className="project-icon-placeholder">
-            <TechIllustrativeIcon type={project.iconType} />
-          </div>
-        )}
-        <div className="project-image-overlay"></div>
-      </div>
-
-      {/* Card Content */}
-      <div className="project-card-content">
-        {/* Header with status */}
-        <div className="project-card-top">
-          <div className="project-title-section">
-            <h3 className="project-title">{project.title}</h3>
-            <p className="project-category">{project.category}</p>
-          </div>
-          <span className={`project-status-badge status-${project.status.toLowerCase()}`}>
-            {project.status}
-          </span>
-        </div>
-
-        {/* Description */}
-        <p className="project-description">{project.description}</p>
-
-        {/* Tech Stack */}
-        <div className="project-tech-stack">
-          {project.tech.map((tech) => (
-            <span key={tech} className="project-tech-tag">{tech}</span>
-          ))}
-        </div>
-
-        {/* Complexity Indicator */}
-        <div className="project-complexity-bar">
-          <div className="complexity-label">
-            <span>Complexity</span>
-            <span className="complexity-value">{project.complexity}</span>
-          </div>
-          <div className="complexity-track">
-            <div
-              className="complexity-fill"
-              style={{ width: project.complexity }}
-            ></div>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="project-card-actions">
-          <button
-            onClick={() => onActionClick("source", project)}
-            className="project-action-btn btn-source"
-          >
-            <GithubIcon size={14} />
-            <span>Source</span>
-          </button>
-          <button
-            onClick={() => onActionClick("deploy", project)}
-            className="project-action-btn btn-deploy"
-          >
-            <ExternalLink size={14} />
-            <span>Demo</span>
-          </button>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-export default function Projects() {
-  const [terminalAlert, setTerminalAlert] = useState(null);
-  const [copied, setCopied] = useState(false);
-  const [showAll, setShowAll] = useState(false);
-
-  const handleCopy = (text) => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const displayedProjects = showAll ? featuredProjects : featuredProjects.slice(0, INITIAL_SHOW);
-
-  return (
-    <section id="projects" className="projects-hud-section">
-      <div className="container">
-        <span className="section-eyebrow">// FEATURED_PROJECTS</span>
-        <h2 className="section-title">Projects & Case Studies</h2>
-
-        <div className="projects-hud-content">
-          {/* Modern Projects Grid */}
-          <motion.div
-            className="modern-projects-grid"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
-          >
-            <AnimatePresence mode="sync">
-              {displayedProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onActionClick={(type, proj) => setTerminalAlert({ type, project: proj })}
-                />
-              ))}
-            </AnimatePresence>
-          </motion.div>
-
-          {/* Load More Button */}
-          {!showAll && featuredProjects.length > INITIAL_SHOW && (
-            <motion.div
-              className="projects-load-more"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <button
-                onClick={() => setShowAll(true)}
-                className="btn-load-more"
-              >
-                View All Projects ({featuredProjects.length})
-              </button>
-            </motion.div>
-          )}
-        </div>
-      </div>
-
-      {/* Action Modal */}
-      <AnimatePresence>
-        {terminalAlert && (
-          <motion.div
-            className="project-modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setTerminalAlert(null)}
-          >
-            <motion.div
-              className="project-modal-content glass-panel"
-              initial={{ scale: 0.9, y: 30, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.9, y: 30, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="modal-header">
-                <h3>{terminalAlert.project.title}</h3>
-                <button 
-                  onClick={() => setTerminalAlert(null)}
-                  className="modal-close"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-
-              <div className="modal-body">
-                <p className="modal-subtitle">
-                  {terminalAlert.type === "source" ? "Repository Link" : "Live Demo"}
-                </p>
-
-                <div className="modal-link-box">
-                  <code className="modal-link">
-                    {terminalAlert.type === "source"
-                      ? terminalAlert.project.github
-                      : terminalAlert.project.live}
-                  </code>
-                  <button
-                    className="modal-copy-btn"
-                    onClick={() =>
-                      handleCopy(
-                        terminalAlert.type === "source"
-                          ? terminalAlert.project.github
-                          : terminalAlert.project.live
-                      )
-                    }
-                  >
-                    {copied ? <Check size={16} /> : <Copy size={16} />}
-                  </button>
-                </div>
-              </div>
-
-              <div className="modal-footer">
-                <button
-                  className="modal-btn modal-btn-secondary"
-                  onClick={() => setTerminalAlert(null)}
-                >
-                  Close
-                </button>
-                <a
-                  href={
-                    terminalAlert.type === "source"
-                      ? terminalAlert.project.github
-                      : terminalAlert.project.live
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="modal-btn modal-btn-primary"
-                  onClick={() => setTerminalAlert(null)}
-                >
-                  <ExternalLink size={14} /> Open Link
+                  <ExternalLink size={13} /> Open Link
                 </a>
               </div>
             </motion.div>
