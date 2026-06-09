@@ -85,7 +85,7 @@ Email: [your-email@example.com](mailto:katwalmanoj67@gmail.com)
 
 LinkedIn: https://www.linkedin.com/in/manoj-katuwal-2636a239a/
 
-GitHub: 
+GitHub: https://github.com/manojctrl
 
 ## 🎯 Future Improvements
 
