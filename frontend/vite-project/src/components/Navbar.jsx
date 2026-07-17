@@ -58,9 +58,12 @@ export default function Navbar({ theme, toggleTheme }) {
         transition={{ duration: 0.5, ease: 'easeOut' }}
       >
         <div className="container navbar-inner">
-          {/* Logo */}
           <a href="#" className="logo" onClick={() => handleLinkClick('')}>
             MANOJ<span className="logo-dot" />
+            <span className="dev-badge">
+              <span className="dev-loader" />
+              Under Construction
+            </span>
           </a>
 
           {/* Desktop links */}
