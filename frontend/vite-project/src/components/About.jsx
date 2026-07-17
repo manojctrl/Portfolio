@@ -28,13 +28,13 @@ function About() {
             transition={{ duration: 0.6 }}
           >
             <p>
-              I am a passionate software engineer focused on building robust backends and clean, intuitive frontends. Currently building digital systems, my skill set covers server administration, database modeling, and interactive client applications.
+              I am a passionate software engineer specializing in JavaScript full-stack development, with a deep focus on the MERN stack (MongoDB, Express, React, and Node.js). Currently constructing responsive web applications, my skillset covers API architecture, state management, and server routing.
             </p>
             <p>
-              My approach prioritizes writing clean, readable, and highly maintainable code. Whether designing normalized database tables, setting up RESTful API pipelines, or polishing micro-interactions, I aim for maximum performance and premium UX.
+              My approach prioritizes writing clean, readable, and highly maintainable code. Whether setting up Express routers, designing MongoDB collections, managing React state telemetry, or styling responsive grids, I strive for efficiency and high-fidelity UX.
             </p>
             <p>
-              When away from the console, I explore system level concepts, contribute to local software workshops, or draft my next project from my base in Dharan, Nepal.
+              When away from the editor, I research client-side optimization techniques, contribute to local software workshops, or brainstorm new side-projects from my base in Dharan, Nepal.
             </p>
           </motion.div>
 

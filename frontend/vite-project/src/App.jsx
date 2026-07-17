@@ -10,8 +10,9 @@ import Footer from './components/Footer';
 function App() {
   return (
     <div className="app">
-      {/* Premium ambient glows */}
+      {/* Premium ambient glows & grid */}
       <div className="bg-glow-container">
+        <div className="bg-grid-pattern" />
         <div className="bg-glow-1" />
         <div className="bg-glow-2" />
       </div>

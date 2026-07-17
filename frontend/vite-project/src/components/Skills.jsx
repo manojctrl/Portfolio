@@ -5,22 +5,22 @@ const skillCategories = [
   {
     title: 'Frontend Development',
     icon: Monitor,
-    skills: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Bootstrap', 'Responsive Design'],
+    skills: ['React.js', 'JavaScript (ES6+)', 'HTML5', 'CSS3', 'Bootstrap', 'Responsive Design'],
   },
   {
     title: 'Backend Engineering',
     icon: Server,
-    skills: ['Java', 'Spring Boot', 'Node.js', 'REST APIs', 'Hibernate', 'Servlets & JSP'],
+    skills: ['Node.js', 'Express.js', 'REST APIs', 'JWT Auth', 'Hibernate', 'Servlets & JSP'],
   },
   {
     title: 'Database Management',
     icon: Database,
-    skills: ['MySQL', 'MongoDB', 'PostgreSQL', 'Firebase'],
+    skills: ['MongoDB', 'Mongoose ORM', 'MySQL', 'PostgreSQL'],
   },
   {
     title: 'Tools & Utilities',
     icon: Wrench,
-    skills: ['Git', 'GitHub', 'VS Code', 'IntelliJ IDEA', 'Postman', 'Docker', 'npm'],
+    skills: ['Git', 'GitHub', 'VS Code', 'Postman', 'Docker', 'npm'],
   },
 ];
 
