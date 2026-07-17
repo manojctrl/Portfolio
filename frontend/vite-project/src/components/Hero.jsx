@@ -1,71 +1,160 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Download } from 'lucide-react';
 
-function Hero() {
+const ROLES = [
+  'MERN Stack Developer',
+  'React Frontend Engineer',
+  'Node.js Backend Dev',
+  'Full Stack Builder',
+];
+
+function useTypewriter(words, speed = 80, pauseMs = 2000) {
+  const [text, setText] = useState('');
+  const [wordIdx, setWordIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentWord = words[wordIdx];
+    let timeout;
+
+    if (!deleting && charIdx <= currentWord.length) {
+      timeout = setTimeout(() => {
+        setText(currentWord.slice(0, charIdx));
+        setCharIdx((c) => c + 1);
+      }, speed);
+    } else if (!deleting && charIdx > currentWord.length) {
+      timeout = setTimeout(() => setDeleting(true), pauseMs);
+    } else if (deleting && charIdx > 0) {
+      timeout = setTimeout(() => {
+        setText(currentWord.slice(0, charIdx - 1));
+        setCharIdx((c) => c - 1);
+      }, speed / 2);
+    } else {
+      setDeleting(false);
+      setWordIdx((w) => (w + 1) % words.length);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [charIdx, deleting, wordIdx, words, speed, pauseMs]);
+
+  return text;
+}
+
+export default function Hero() {
+  const roleName = useTypewriter(ROLES);
+
   return (
     <section id="hero" className="hero">
       <div className="container hero-grid">
-        {/* Copy Section */}
+        {/* ── Left copy ── */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
+          initial={{ opacity: 0, x: -32 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          transition={{ duration: 0.75, ease: 'easeOut' }}
         >
           <div className="hero-badge">
-            <span className="hero-badge-pulse" />
-            MERN Stack Developer
+            <span className="hero-badge-dot" />
+            Available for hire
           </div>
-          
+
           <h1 className="hero-title">
-            Crafting Interactive <span className="gradient-text">UIs</span> &amp; Scalable <span className="gradient-text">APIs</span>
+            Hi, I&apos;m{' '}
+            <span className="gradient-text">Manoj Katwal</span>
+            <br />
+            <span className="hero-typewriter-wrap">
+              <span className="hero-typewriter">{roleName}</span>
+              <span className="hero-cursor" aria-hidden="true" />
+            </span>
           </h1>
-          
-          <p className="hero-description">
-            Hi, I'm Manoj Katwal. I design responsive frontend clients using React, integrated with high-performance servers built on Node.js, Express, and MongoDB.
+
+          <p className="hero-desc">
+            I design responsive frontends with React and build scalable APIs using
+            Node.js, Express, and MongoDB — crafting full-stack web experiences
+            from database to UI.
           </p>
-          
+
           <div className="hero-actions">
             <a href="#projects" className="btn btn-primary">
-              View Work
-              <ArrowRight size={18} />
+              View My Work <ArrowRight size={18} />
             </a>
             <a href="/cv/Manoj_Katuwal_CV.pdf" download className="btn btn-secondary">
-              Resume
-              <Download size={18} />
+              Download CV <Download size={18} />
             </a>
           </div>
         </motion.div>
 
-        {/* Ambient Graphics/Console Section */}
+        {/* ── Right: Terminal mockup ── */}
         <motion.div
-          className="hero-art-container"
-          initial={{ opacity: 0, x: 30 }}
+          initial={{ opacity: 0, x: 32 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+          transition={{ duration: 0.75, delay: 0.2, ease: 'easeOut' }}
         >
-          <div className="hero-glow-sphere" />
-          
-          <div className="glass-card hero-graphic-card">
-            <div className="hero-graphic-code">
-              <span style={{ color: '#E879F9' }}>const</span> developer = &#123;
-              <br />
-              &nbsp;&nbsp;name: <span style={{ color: '#38BDF8' }}>'Manoj Katwal'</span>,
-              <br />
-              &nbsp;&nbsp;role: <span style={{ color: '#38BDF8' }}>'MERN Stack Developer'</span>,
-              <br />
-              &nbsp;&nbsp;stack: [<span style={{ color: '#34D399' }}>'Mongo'</span>, <span style={{ color: '#34D399' }}>'Express'</span>, <span style={{ color: '#34D399' }}>'React'</span>, <span style={{ color: '#34D399' }}>'Node'</span>],
-              <br />
-              &nbsp;&nbsp;location: <span style={{ color: '#38BDF8' }}>'Dharan, NP'</span>,
-              <br />
-              &nbsp;&nbsp;focus: <span style={{ color: '#FB7185' }}>'REST APIs &amp; Client UI'</span>
-              <br />
-              &#125;;
+          <div className="hero-terminal">
+            {/* Window chrome */}
+            <div className="terminal-topbar">
+              <span className="terminal-dot terminal-dot-r" />
+              <span className="terminal-dot terminal-dot-y" />
+              <span className="terminal-dot terminal-dot-g" />
+              <span className="terminal-title">portfolio.js</span>
             </div>
-            
-            <div className="hero-graphic-lines">
-              <div className="hero-graphic-line" style={{ width: '100%', background: 'linear-gradient(to right, var(--primary) 0%, transparent 100%)' }} />
-              <div className="hero-graphic-line" style={{ width: '70%', background: 'linear-gradient(to right, var(--secondary) 0%, transparent 100%)' }} />
-              <div className="hero-graphic-line" style={{ width: '40%', background: 'linear-gradient(to right, var(--accent) 0%, transparent 100%)' }} />
+
+            {/* Code body */}
+            <div className="terminal-body" aria-label="Code snippet">
+              <div>
+                <span className="t-comment">// Manoj's stack</span>
+              </div>
+              <div>
+                <span className="t-keyword">const </span>
+                <span className="t-var">developer</span>
+                <span className="t-arr"> = {'{'}</span>
+              </div>
+              <div>
+                &nbsp;&nbsp;<span className="t-key">name</span>
+                <span className="t-arr">: </span>
+                <span className="t-string">'Manoj Katwal'</span>,
+              </div>
+              <div>
+                &nbsp;&nbsp;<span className="t-key">role</span>
+                <span className="t-arr">: </span>
+                <span className="t-string">'MERN Stack Developer'</span>,
+              </div>
+              <div>
+                &nbsp;&nbsp;<span className="t-key">stack</span>
+                <span className="t-arr">: [</span>
+                <span className="t-string">'MongoDB'</span>,{' '}
+                <span className="t-string">'Express'</span>,{' '}
+                <span className="t-string">'React'</span>,{' '}
+                <span className="t-string">'Node'</span>
+                <span className="t-arr">]</span>,
+              </div>
+              <div>
+                &nbsp;&nbsp;<span className="t-key">location</span>
+                <span className="t-arr">: </span>
+                <span className="t-string">'Dharan, Nepal'</span>,
+              </div>
+              <div>
+                &nbsp;&nbsp;<span className="t-key">available</span>
+                <span className="t-arr">: </span>
+                <span className="t-bool">true</span>,
+              </div>
+              <div>
+                &nbsp;&nbsp;<span className="t-fn">hire</span>
+                <span className="t-arr">: () =&gt; </span>
+                <span className="t-string">'katwalmanoj67@gmail.com'</span>,
+              </div>
+              <div><span className="t-arr">{'}'}</span>;</div>
+              <br />
+              <div>
+                <span className="t-var">console</span>
+                <span className="t-arr">.</span>
+                <span className="t-fn">log</span>
+                <span className="t-arr">(developer.</span>
+                <span className="t-key">hire</span>
+                <span className="t-arr">()); </span>
+                <span className="t-comment">// Ready!</span>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -73,5 +162,3 @@ function Hero() {
     </section>
   );
 }
-
-export default Hero;

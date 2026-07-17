@@ -1,80 +1,72 @@
 import { motion } from 'framer-motion';
 import { Monitor, Server, Database, Wrench } from 'lucide-react';
 
-const skillCategories = [
+const CATEGORIES = [
   {
-    title: 'Frontend Development',
+    title: 'Frontend',
     icon: Monitor,
-    skills: ['React.js', 'JavaScript (ES6+)', 'HTML5', 'CSS3', 'Bootstrap', 'Responsive Design'],
+    pills: ['React.js', 'JavaScript (ES6+)', 'HTML5', 'CSS3', 'Bootstrap', 'Responsive Design'],
   },
   {
-    title: 'Backend Engineering',
+    title: 'Backend',
     icon: Server,
-    skills: ['Node.js', 'Express.js', 'REST APIs', 'JWT Auth', 'Hibernate', 'Servlets & JSP'],
+    pills: ['Node.js', 'Express.js', 'REST APIs', 'JWT Auth', 'Servlets & JSP'],
   },
   {
-    title: 'Database Management',
+    title: 'Database',
     icon: Database,
-    skills: ['MongoDB', 'Mongoose ORM', 'MySQL', 'PostgreSQL'],
+    pills: ['MongoDB', 'Mongoose', 'MySQL', 'PostgreSQL'],
   },
   {
-    title: 'Tools & Utilities',
+    title: 'Tools & DevOps',
     icon: Wrench,
-    skills: ['Git', 'GitHub', 'VS Code', 'Postman', 'Docker', 'npm'],
+    pills: ['Git', 'GitHub', 'VS Code', 'Postman', 'Docker', 'npm'],
   },
 ];
 
-function Skills() {
+const cardVariants = {
+  hidden:  { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } },
+};
+
+export default function Skills() {
   return (
-    <section id="skills" className="skills">
+    <section id="skills">
       <div className="container">
         <div className="section-header">
           <span className="section-tag">Expertise</span>
-          <h2 className="section-title">Skills &amp; <span className="gradient-text">Technologies</span></h2>
-          <p className="section-subtitle">My architectural tools for software development</p>
+          <h2 className="section-title">
+            Skills &amp; <span className="gradient-text">Technologies</span>
+          </h2>
+          <p className="section-subtitle">
+            My toolbox for building modern, full-stack JavaScript applications
+          </p>
         </div>
 
-        <motion.div 
+        <motion.div
           className="skills-grid"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-50px' }}
-          variants={{
-            visible: { transition: { staggerChildren: 0.1 } }
-          }}
+          variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
         >
-          {skillCategories.map((category, index) => {
-            const Icon = category.icon;
-            return (
-              <motion.div
-                key={index}
-                className="glass-card skills-card"
-                variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
-                }}
-              >
-                <div className="skills-card-header">
-                  <div className="skills-icon-wrapper">
-                    <Icon size={22} strokeWidth={1.8} />
-                  </div>
-                  <h3 className="skills-card-title">{category.title}</h3>
+          {CATEGORIES.map(({ title, icon: Icon, pills }, i) => (
+            <motion.div key={i} className="skills-card" variants={cardVariants}>
+              <div className="skills-card-header">
+                <div className="skills-icon">
+                  <Icon size={22} strokeWidth={1.8} />
                 </div>
-
-                <div className="skills-list">
-                  {category.skills.map((skill, sIdx) => (
-                    <span key={sIdx} className="skill-tag">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            );
-          })}
+                <h3 className="skills-card-title">{title}</h3>
+              </div>
+              <div className="pill-grid">
+                {pills.map((p, j) => (
+                  <span key={j} className="skill-pill">{p}</span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>
   );
 }
-
-export default Skills;
