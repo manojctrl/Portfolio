@@ -1,417 +1,119 @@
-/* ============================================================
-   HERO SECTION — PREMIUM CENTERED LAYOUT
-   Particle canvas, glow orbs, floating tech pills, scroll indicator
-   ============================================================ */
-
-/* ===== Main Hero Container ===== */
 .hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  padding: 100px 24px 80px;
-}
-
-/* ===== Particle Canvas Background ===== */
-.hero-particles {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.hero-particles canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-/* ===== Ambient Glow Orbs ===== */
-.hero-orb {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(100px);
-}
-
-.hero-orb--primary {
-  width: 500px;
-  height: 500px;
-  background: var(--color-primary);
-  opacity: 0.07;
-  top: -10%;
-  left: -8%;
-  animation: orbDrift1 18s ease-in-out infinite;
-}
-
-.hero-orb--secondary {
-  width: 420px;
-  height: 420px;
-  background: var(--color-secondary);
-  opacity: 0.06;
-  bottom: -12%;
-  right: -6%;
-  animation: orbDrift2 22s ease-in-out infinite;
-}
-
-.hero-orb--accent {
-  width: 300px;
-  height: 300px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  opacity: 0.04;
-  top: 40%;
-  right: 20%;
-  animation: orbDrift3 15s ease-in-out infinite;
-}
-
-@keyframes orbDrift1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(40px, 30px) scale(1.05); }
-  50% { transform: translate(-20px, 60px) scale(0.95); }
-  75% { transform: translate(30px, -20px) scale(1.02); }
-}
-
-@keyframes orbDrift2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(-40px, -30px) scale(1.08); }
-  66% { transform: translate(30px, -50px) scale(0.94); }
-}
-
-@keyframes orbDrift3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-50px, 30px) scale(1.1); }
-}
-
-/* ===== Hero Content ===== */
-.hero-content {
-  max-width: 800px;
-  z-index: 2;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  position: relative;
+  text-align: center;
+  padding: clamp(80px, 12vw, 120px) 0 60px;
+  background: linear-gradient(180deg, #08101b 0%, #050913 100%);
 }
 
-/* ===== Badge ===== */
+.hero-shell {
+  width: min(100%, 820px);
+  padding: 0 18px;
+}
+
 .hero-badge {
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 20px;
-  border-radius: var(--radius-full);
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border);
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.14);
+  color: var(--color-primary);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--color-primary-light);
-  letter-spacing: 0.02em;
-  margin-bottom: 32px;
-  cursor: default;
-  transition: var(--transition-smooth);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
 }
 
-.hero-badge:hover {
-  border-color: rgba(59, 130, 246, 0.25);
-  box-shadow: var(--glow-primary);
-}
-
-.hero-badge-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--color-secondary);
-  box-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
-  animation: badgePulse 2s ease-in-out infinite;
-}
-
-@keyframes badgePulse {
-  0%, 100% { opacity: 0.6; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.2); }
-}
-
-/* ===== Heading ===== */
-.hero-heading {
+.hero-title {
+  margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: var(--color-text-primary);
-  margin-bottom: 8px;
+  font-size: clamp(2.8rem, 6vw, 4.2rem);
+  color: #ffffff;
+  line-height: 1.05;
 }
 
-.hero-heading-light {
-  font-weight: 400;
-  color: var(--color-text-secondary);
-  display: block;
-  font-size: 0.5em;
-  letter-spacing: 0;
-  margin-bottom: 4px;
-}
-
-.hero-heading-name {
-  background: var(--color-accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-size: 200% 200%;
-  animation: gradient-shift 6s ease-in-out infinite;
-}
-
-/* ===== Role / Subtitle ===== */
-.hero-role {
-  font-family: var(--font-display);
-  font-size: clamp(1.2rem, 3vw, 1.8rem);
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  margin: 16px 0;
-  letter-spacing: -0.01em;
-}
-
-/* ===== Description ===== */
 .hero-description {
-  max-width: 540px;
+  margin: 24px auto 34px;
+  max-width: 640px;
   color: var(--color-text-secondary);
   font-size: 1.05rem;
-  line-height: 1.7;
-  margin-bottom: 32px;
+  line-height: 1.8;
 }
 
-/* ===== CTA Buttons ===== */
-.hero-buttons {
+.hero-actions {
   display: flex;
-  gap: 16px;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 16px;
 }
 
-.hero-buttons .btn svg {
-  transition: transform 0.3s ease;
-}
-
-.hero-buttons .btn-primary:hover svg {
-  transform: translateX(3px);
-}
-
-.hero-buttons .btn-secondary:hover svg {
-  transform: translateY(2px);
-}
-
-/* ===== Floating Tech Icons ===== */
-.floating-icons {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.floating-pill {
-  position: absolute;
+.btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  border-radius: var(--radius-full);
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  opacity: 0.5;
-  white-space: nowrap;
-  user-select: none;
-  transition: opacity 0.4s ease;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  text-decoration: none;
 }
 
-.floating-pill:hover {
-  opacity: 0.85;
+.btn-primary {
+  background: var(--color-primary);
+  color: #ffffff;
 }
 
-.floating-pill-icon {
-  font-size: 0.85rem;
-  line-height: 1;
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 28px rgba(59, 130, 246, 0.24);
 }
 
-/* Individual floating pill positions */
-.floating-pill--java {
-  top: 18%;
-  left: 6%;
-  animation: floatPill1 8s ease-in-out infinite;
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.floating-pill--react {
-  top: 12%;
-  right: 8%;
-  animation: floatPill2 10s ease-in-out infinite;
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
 
-.floating-pill--spring {
-  bottom: 28%;
-  left: 4%;
-  animation: floatPill3 9s ease-in-out infinite;
-}
-
-.floating-pill--node {
-  bottom: 22%;
-  right: 6%;
-  animation: floatPill4 11s ease-in-out infinite;
-}
-
-.floating-pill--mysql {
-  top: 50%;
-  right: 3%;
-  animation: floatPill5 7s ease-in-out infinite;
-}
-
-@keyframes floatPill1 {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(8px, -14px) rotate(1deg); }
-  50% { transform: translate(-6px, -24px) rotate(-1deg); }
-  75% { transform: translate(10px, -10px) rotate(0.5deg); }
-}
-
-@keyframes floatPill2 {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  33% { transform: translate(-12px, 16px) rotate(-1deg); }
-  66% { transform: translate(8px, 8px) rotate(1deg); }
-}
-
-@keyframes floatPill3 {
-  0%, 100% { transform: translate(0, 0); }
-  25% { transform: translate(14px, -8px); }
-  50% { transform: translate(6px, -20px); }
-  75% { transform: translate(-8px, -12px); }
-}
-
-@keyframes floatPill4 {
-  0%, 100% { transform: translate(0, 0); }
-  33% { transform: translate(-10px, -18px); }
-  66% { transform: translate(6px, -8px); }
-}
-
-@keyframes floatPill5 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-8px, -16px); }
-}
-
-/* ===== Scroll Indicator ===== */
-.scroll-indicator {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  display: flex;
+.hero-scroll {
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  color: var(--color-text-muted);
-  transition: color 0.3s ease;
+  gap: 10px;
+  margin-top: 40px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
 }
 
-.scroll-indicator:hover {
-  color: var(--color-primary-light);
+.hero-scroll svg {
+  animation: floatDown 1.6s ease-in-out infinite;
 }
 
-.scroll-indicator-text {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+@keyframes floatDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
 }
 
-.scroll-indicator-chevron {
-  animation: bounceChevron 2s ease-in-out infinite;
-}
-
-@keyframes bounceChevron {
-  0%, 100% { transform: translateY(0); opacity: 0.5; }
-  50% { transform: translateY(8px); opacity: 1; }
-}
-
-/* ===== Responsive ===== */
 @media (max-width: 768px) {
   .hero {
-    padding: 80px 20px 100px;
-    min-height: 100svh;
+    padding-top: 90px;
+    padding-bottom: 50px;
   }
 
-  .hero-heading {
-    font-size: clamp(2rem, 10vw, 3rem);
-  }
-
-  .hero-role {
-    font-size: clamp(1rem, 4vw, 1.4rem);
+  .hero-title {
+    font-size: clamp(2.4rem, 10vw, 3.4rem);
   }
 
   .hero-description {
-    font-size: 0.95rem;
-    padding: 0 8px;
-  }
-
-  .hero-badge {
-    font-size: 0.7rem;
-    padding: 6px 16px;
-    margin-bottom: 24px;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-    width: 100%;
-    max-width: 280px;
-  }
-
-  .hero-buttons .btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  /* Hide floating pills on small screens for cleanliness */
-  .floating-icons {
-    display: none;
-  }
-
-  .scroll-indicator {
-    bottom: 24px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero {
-    padding: 70px 16px 90px;
-  }
-
-  .hero-heading {
-    font-size: clamp(1.8rem, 12vw, 2.5rem);
-  }
-
-  .hero-description {
-    font-size: 0.9rem;
-    margin-bottom: 24px;
-  }
-
-  .hero-orb--primary {
-    width: 280px;
-    height: 280px;
-  }
-
-  .hero-orb--secondary {
-    width: 220px;
-    height: 220px;
-  }
-
-  .hero-orb--accent {
-    display: none;
+    font-size: 1rem;
   }
 }
