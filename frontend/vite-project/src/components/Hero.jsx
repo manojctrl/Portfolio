@@ -1,55 +1,75 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Download, ChevronDown } from 'lucide-react';
-import './Hero.css';
-
-const container = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { staggerChildren: 0.16, delayChildren: 0.2 },
-  },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 16 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.4, 0, 0.2, 1] },
-  },
-};
+import { ArrowRight, Download } from 'lucide-react';
 
 function Hero() {
   return (
     <section id="hero" className="hero">
-      <div className="hero-shell container">
-        <motion.div className="hero-copy" variants={container} initial="hidden" animate="visible">
-          <motion.span className="hero-badge" variants={item}>
-            MERN Stack Developer
-          </motion.span>
-          <motion.h1 className="hero-title" variants={item}>
-            I build clean, user-friendly web applications.
-          </motion.h1>
-          <motion.p className="hero-description" variants={item}>
-            Modern apps with React, Node, Express, and MongoDB designed for clarity, speed, and a strong user experience.
-          </motion.p>
-          <motion.div className="hero-actions" variants={item}>
+      <div className="container hero-grid">
+        {/* Copy Section */}
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+        >
+          <div className="hero-badge">
+            <span className="hero-badge-pulse" />
+            Java Full Stack Developer
+          </div>
+          
+          <h1 className="hero-title">
+            Crafting Scalable <span className="gradient-text">Backends</span> & Elegant <span className="gradient-text">Frontends</span>
+          </h1>
+          
+          <p className="hero-description">
+            Hi, I'm Manoj Katwal. I engineer high-performance systems with Java, Spring Boot, and create clean, fluid client experiences with React.
+          </p>
+          
+          <div className="hero-actions">
             <a href="#projects" className="btn btn-primary">
-              View Projects
-              <ArrowRight size={16} />
+              View Work
+              <ArrowRight size={18} />
             </a>
             <a href="/cv/Manoj_Katuwal_CV.pdf" download className="btn btn-secondary">
-              Download CV
-              <Download size={16} />
+              Resume
+              <Download size={18} />
             </a>
-          </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Ambient Graphics/Console Section */}
+        <motion.div
+          className="hero-art-container"
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+        >
+          <div className="hero-glow-sphere" />
+          
+          <div className="glass-card hero-graphic-card">
+            <div className="hero-graphic-code">
+              <span style={{ color: '#E879F9' }}>const</span> developer = &#123;
+              <br />
+              &nbsp;&nbsp;name: <span style={{ color: '#38BDF8' }}>'Manoj Katwal'</span>,
+              <br />
+              &nbsp;&nbsp;role: <span style={{ color: '#38BDF8' }}>'Full Stack Engineer'</span>,
+              <br />
+              &nbsp;&nbsp;stack: [<span style={{ color: '#34D399' }}>'Java'</span>, <span style={{ color: '#34D399' }}>'Spring Boot'</span>, <span style={{ color: '#34D399' }}>'React'</span>],
+              <br />
+              &nbsp;&nbsp;location: <span style={{ color: '#38BDF8' }}>'Dharan, NP'</span>,
+              <br />
+              &nbsp;&nbsp;passion: <span style={{ color: '#FB7185' }}>'Clean Architecture'</span>
+              <br />
+              &#125;;
+            </div>
+            
+            <div className="hero-graphic-lines">
+              <div className="hero-graphic-line" style={{ width: '100%', background: 'linear-gradient(to right, var(--primary) 0%, transparent 100%)' }} />
+              <div className="hero-graphic-line" style={{ width: '70%', background: 'linear-gradient(to right, var(--secondary) 0%, transparent 100%)' }} />
+              <div className="hero-graphic-line" style={{ width: '40%', background: 'linear-gradient(to right, var(--accent) 0%, transparent 100%)' }} />
+            </div>
+          </div>
         </motion.div>
       </div>
-      <motion.a href="#about" className="hero-scroll" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.55 }}>
-        <span>Scroll to learn more</span>
-        <ChevronDown size={18} />
-      </motion.a>
     </section>
   );
 }

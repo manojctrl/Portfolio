@@ -1,180 +1,87 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Award, Code, Cpu, Rocket } from 'lucide-react';
-import './Journey.css';
 
 const milestones = [
   {
-    id: 1,
     year: '2026',
-    title: 'Advanced Core Systems & Aesthetics',
-    subtitle: 'Pursuing Premium Development',
-    icon: Cpu,
-    colorClass: 'cyan',
-    desc: 'Designing state-of-the-art interactive user interfaces and high-performance Web App architectures. Specialize in bespoke glassmorphism models, Framer Motion telemetry animations, and high-contrast styling frameworks.',
-    metrics: { COMPLETED: '10+ Projects', RATING: 'Premium Spec' },
+    title: 'Advanced Systems & Aesthetics',
+    subtitle: 'Full-Stack Telemetry Phase',
+    desc: 'Designing state-of-the-art interactive user interfaces and high-performance Web App architectures. Specialized in custom glassmorphic panels, telemetry micro-interactions, and layout structures.',
     tags: ['React 19', 'Framer Motion', 'Vanilla CSS', 'UX/UI Engineering'],
   },
   {
-    id: 2,
     year: '2025',
     title: 'Rojgar Setu & Core Applications',
-    subtitle: 'Full-Stack Deployment Phase',
-    icon: Award,
-    colorClass: 'pink',
-    desc: 'Developed and launched "Rojgar Setu" – a full-fledged employment matching engine. Engineered a robust local Gym Management desktop interface handling secure memberships, transactions, and logs.',
-    metrics: { BACKEND: 'Java MVC', DATABASE: 'MySQL' },
-    tags: ['JSP / Servlets', 'Java Swing', 'JDBC', 'Relational DB'],
+    subtitle: 'Deployment & Launching',
+    desc: 'Engineered and launched "Rojgar Setu" – a job discovery portal connecting seekers and employers across Nepal. Built a robust desktop Gym Management controller with secure billing.',
+    tags: ['JSP / Servlets', 'Java Swing', 'JDBC', 'MySQL'],
   },
   {
-    id: 3,
     year: '2024',
-    title: 'Relational Database & Core Architecture',
-    subtitle: 'System Logic Foundations',
-    icon: Code,
-    colorClass: 'purple',
-    desc: 'Deeply integrated object-oriented paradigms, thread optimization, data schema normalization, and developed modern directory systems like Employee Management Dashboard.',
-    metrics: { SCHEMA: 'Normalized', OOP: 'Strict Standard' },
+    title: 'Relational Database & Core Logic',
+    subtitle: 'Logic & Architecture Foundations',
+    desc: 'Deeply integrated object-oriented paradigms, thread optimization, data schema normalization, and built client tracking applications like Employee Management Dashboard.',
     tags: ['Core Java', 'Data Structures', 'SQL Engines', 'Local Storage'],
   },
   {
-    id: 4,
     year: '2023',
     title: 'The Coding Catalyst',
     subtitle: 'First Compilation & Discovery',
-    icon: Rocket,
-    colorClass: 'green',
-    desc: 'Began software exploration in Dharan, Nepal. Mastered foundational semantics of the modern web, layout rendering engines, and modular terminal scripts.',
-    metrics: { GATEWAY: 'Dharan Node', COGNITIVE: 'Active' },
-    tags: ['HTML5 Syntax', 'CSS Variables', 'JS Logic', 'Shell Scripts'],
+    desc: 'Began software engineering exploration in Dharan, Nepal. Mastered foundational semantics of the modern web, layout rendering engines, and modular shell scripts.',
+    tags: ['HTML5', 'CSS Variables', 'JS Logic', 'Shell Scripts'],
   },
 ];
 
-export default function Journey() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const activeMilestone = milestones[activeIdx];
-  const ActiveIcon = activeMilestone.icon;
-
+function Journey() {
   return (
-    <section id="journey" className="journey-hud-section">
+    <section id="journey" className="journey">
       <div className="container">
-        <span className="section-label">// DEVELOPMENT_MILESTONES</span>
-        <h2 className="section-title">The Career Timeline</h2>
-        
-        {/* Desktop Interactive Layout */}
-        <div className="journey-interactive-layout">
-          {/* Left Menu Panel */}
-          <div className="journey-hud-menu">
-            {milestones.map((m, idx) => {
-              const Icon = m.icon;
-              const isActive = idx === activeIdx;
+        <div className="section-header">
+          <span className="section-tag">Timeline</span>
+          <h2 className="section-title">My Professional <span className="gradient-text">Journey</span></h2>
+          <p className="section-subtitle">Chronological record of key milestones and acquisitions</p>
+        </div>
 
-              return (
-                <button
-                  key={m.id}
-                  onClick={() => setActiveIdx(idx)}
-                  className={`year-hud-btn ${isActive ? 'active' : ''} color-${m.colorClass}`}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeLine"
-                      className="btn-active-line"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                  <span className="btn-year-text">{m.year}</span>
-                  <div className="btn-icon-wrapper">
-                    <Icon size={16} />
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Right Telemetry Detail Panel */}
-          <div className="telemetry-milestone-panel">
+        <div className="journey-timeline">
+          {milestones.map((milestone, index) => (
             <motion.div
-              key={activeMilestone.id}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-              className="telemetry-card"
+              key={index}
+              className="journey-item"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.6, delay: index * 0.1, ease: 'easeOut' }}
             >
-              <div className="telemetry-card-body">
-                <div className="milestone-detail-header">
-                  <div className={`milestone-badge-glow bg-${activeMilestone.colorClass} color-${activeMilestone.colorClass}`}>
-                    <ActiveIcon size={24} />
+              {/* Vertical timeline connector bullet */}
+              <div className="journey-dot">
+                <div className="journey-dot-inner" />
+              </div>
+
+              {/* Information Card */}
+              <div className="glass-card journey-card">
+                <div className="journey-header-row">
+                  <div className="journey-title-block">
+                    <h3>{milestone.title}</h3>
+                    <span className="journey-subtitle">{milestone.subtitle}</span>
                   </div>
-                  <div className="milestone-title-block">
-                    <span className="milestone-year-subtitle">YEAR_{activeMilestone.year}</span>
-                    <h3>{activeMilestone.title}</h3>
-                    <h4>{activeMilestone.subtitle}</h4>
-                  </div>
+                  <span className="journey-year">{milestone.year}</span>
                 </div>
-
-                <p className="milestone-desc-content">{activeMilestone.desc}</p>
-
-                <div className="milestone-metrics-grid">
-                  {Object.entries(activeMilestone.metrics).map(([key, val]) => (
-                    <div key={key} className="metric-row">
-                      <span className="metric-key">{key}</span>
-                      <span className={`metric-val color-${activeMilestone.colorClass}`}>{val}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="milestone-tech-pillbox">
-                  {activeMilestone.tags.map((tag) => (
-                    <span key={tag} className="milestone-tag">
+                
+                <p className="journey-desc">{milestone.desc}</p>
+                
+                <div className="journey-tags">
+                  {milestone.tags.map((tag, tIdx) => (
+                    <span key={tIdx} className="journey-tag">
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
             </motion.div>
-          </div>
+          ))}
         </div>
-
-        {/* Mobile Scroll Timeline View */}
-        <div className="journey-scroll-timeline-view">
-          <div className="vertical-timeline-grid">
-            <div className="timeline-center-glow-track"></div>
-            
-            {milestones.map((m) => {
-              const Icon = m.icon;
-              return (
-                <div key={m.id} className="timeline-item-node">
-                  <div className={`timeline-connector-dot color-${m.colorClass}`} style={{ borderColor: `var(--neon-${m.colorClass})` }}>
-                    <Icon className="node-icon" />
-                    <div className="pulse-ring" style={{ borderColor: `var(--neon-${m.colorClass})` }}></div>
-                  </div>
-                  
-                  <div className="timeline-card-wrapper">
-                    <div className="timeline-date-label">{m.year}</div>
-                    <div className="timeline-vertical-card glass-panel">
-                      <div className="timeline-vertical-card-body">
-                        <h3 className={`milestone-title-text color-${m.colorClass}`}>{m.title}</h3>
-                        <span className="milestone-sub-text">{m.subtitle}</span>
-                        <p className="milestone-main-paragraph">{m.desc}</p>
-                        
-                        <div className="timeline-tech-tags-list">
-                          {m.tags.map((tag) => (
-                            <span key={tag} className="milestone-tag">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
       </div>
     </section>
   );
 }
+
+export default Journey;
